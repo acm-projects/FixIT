@@ -8,14 +8,12 @@ Have you ever struggled to connect to CometNet or the UTD VPN?Are you having dif
 Introducing FixIT, an AI-driven app designed to provide instant IT support to students and faculty. Leveraging advanced AI technology, FixIT offers personalized support and solutions for all your technological needs. With FixIT, you no longer need to wait in line at the IT Help Desk; you can resolve your issues swiftly and independently. Experience hassle-free IT support with FixIT, your one-stop solution for all tech-related problems.
 
 ## MVP
-o User account with user authentication. 
+           o User account with user authentication. 
            o Self-Service Portal: 
                   - Interactive chatbot for real-time assistance. 
                   - FAQ section with search functionality. 
                   - Step-by-step guides for common issues. 
-                  - Add speech to text capabilities for better communication.
-
-         
+                  - Add speech to text capabilities for better communication.    
          o Web Scraping: 
                   - Automate the extraction of articles from the OIT knowledge  base using BeautifulSoup or Scrapy. 
                   - Use Selenium for dynamic content scraping, if necessary.
