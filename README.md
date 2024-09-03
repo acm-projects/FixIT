@@ -9,33 +9,34 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
 
 ## MVP
 o User account with user authentication. 
-o Self-Service Portal: 
-- Interactive chatbot for real-time assistance. 
-- FAQ section with search functionality. 
-- Step-by-step guides for common issues. 
-- Add speech to text capabilities for better communication.
+           o Self-Service Portal: 
+                  - Interactive chatbot for real-time assistance. 
+                  - FAQ section with search functionality. 
+                  - Step-by-step guides for common issues. 
+                  - Add speech to text capabilities for better communication.
 
          
-o Web Scraping: 
-- Automate the extraction of articles from the OIT knowledge  base using BeautifulSoup or Scrapy. 
-- Use Selenium for dynamic content scraping, if necessary.
- - Regularly update the content to reflect the latest information. o Knowledge Base (Backend): 
-- Central repository of articles and guides stored in MongoDB. 
-- Regular updates with new solutions via automated web scraping  and manual input. 
-o AI-driven Troubleshooting: 
-- Utilize Amazon Kendra to provide personalized support based on existing  OIT articles. 
-- Incorporate Amazon Transcribe to understand  and respond to user queries. 
+         o Web Scraping: 
+                  - Automate the extraction of articles from the OIT knowledge  base using BeautifulSoup or Scrapy. 
+                  - Use Selenium for dynamic content scraping, if necessary.
+                   - Regularly update the content to reflect the latest information. o Knowledge Base (Backend): 
+                  - Central repository of articles and guides stored in MongoDB. 
+                  - Regular updates with new solutions via automated web scraping  and manual input. 
+         o AI-driven Troubleshooting: 
+                  - Utilize Amazon Kendra to provide personalized support based on existing  OIT articles. 
+                  - Incorporate Amazon Transcribe to understand  and respond to user queries. 
 
 
 ## Stretch Goals
 o Personalized Assistance: 
- - User-specific recommendations based on past interactions.  - Integration with user accounts for personalized help. 
-         - Ability to upload error page images for real-time      assistance.
+          - User-specific recommendations based on past interactions.
+          - Integration with user accounts for personalized help. 
+          - Ability to upload error page images for real-time assistance.
 o Feedback Mechanism: 
- - Option for users to rate the solutions.
-- Collect feedback to improve AI accuracy and content relevance. 
+          - Option for users to rate the solutions.
+          - Collect feedback to improve AI accuracy and content relevance. 
 o Deploy app for use to UTD students/faculty. 
-- Ensure the app is accessible and easy to use for the entire  UTD community. 
+         - Ensure the app is accessible and easy to use for the entire  UTD community. 
 
 ## Milestones
 
