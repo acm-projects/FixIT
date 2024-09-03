@@ -276,12 +276,6 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
   - [React documentation](https://react.dev/)
   - [Auth0 Guides](https://auth0.com/docs)
 
-## Back-End
-
-### Resources
-
-### APIs
-
 ## Software to Install
 
 - [Visual Studio Code](https://code.visualstudio.com/) or [Android Studio](https://developer.android.com/studio)
