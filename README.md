@@ -241,10 +241,24 @@ development environment, finalize tech stack.
 
 # Tech Stack
 
-## Front-End: [Flutter](https://www.youtube.com/watch?v=8saLa5fh0ZI)
+o Frontend: 
+ - React for a cross-platform mobile app. 
+ - Bootstrap or Material-UI for styling. 
+o Backend: 
+ - Node.js with Express for server-side development. 
+ 
+o Database: 
+ - MongoDB for storing data. 
+ - Auth0 for user authentication and easier UTD SSO integration. 
+o Web Scraping: 
+ - BeautifulSoup or Scrapy for web scraping.
+ - Selenium for dynamic content scraping (if necessary). 
+o AI and Machine Learning: 
+- Amazon Comprehend for NLP tasks. 
+- Amazon Transcribe for speech to text capabilities.
+- Amazon Kendra for an intelligent search service.
+- Open Source LLMs
 
-### Flutter Installation
-Easy to learn, works on both macs and windows, good for mobile applications, contains helpful libraries as well
 
 ### Resources:
 - [Flutter Basics](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ)
