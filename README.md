@@ -1,5 +1,7 @@
 # FixIT
-![FixIT Demo](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2hpZm5jNGF4eGRjdHY2dXpjMWd4ZWt6OTVucHAwMHhndjdkbDkwaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2zoFg7OGkcS82CPK44/giphy.gif)
+<p align="center">
+  <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2hpZm5jNGF4eGRjdHY2dXpjMWd4ZWt6OTVucHAwMHhndjdkbDkwaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2zoFg7OGkcS82CPK44/giphy.gif" alt="FixIT Demo">
+</p>
 
 ## Summary
 
