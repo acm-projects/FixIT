@@ -1,3 +1,6 @@
+# FixIT
+![FixIT Demo](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2hpZm5jNGF4eGRjdHY2dXpjMWd4ZWt6OTVucHAwMHhndjdkbDkwaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2zoFg7OGkcS82CPK44/giphy.gif)
+
 ## Summary
 
 Have you ever struggled to connect to CometNet or the UTD VPN? Are you having difficulty downloading software on your computer? Do you wish there was an easier way to resolve your technical issues quickly and effortlessly?
