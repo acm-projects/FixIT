@@ -27,6 +27,7 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
 - **AI-driven Troubleshooting:**
   - Utilize Amazon Kendra to provide personalized support based on existing OIT articles.
   - Incorporate Amazon Transcribe to understand and respond to user queries.
+  - Incorporate Open Source LLMs.
 
 ## Stretch Goals
 
@@ -69,14 +70,14 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
     - Create low fidelity wireframes (Figma if familiar)
     - Learn React (tutorials)
   - **Backend:**
-    - Learn MongoDB
+    - Design/Specify database requirements 
     - Set up the server and database.
     - Learn basics of Auth0 and Web scraping Set-up
     - Research open source LLMs
 
   **Dev Night 1:**
 
-  - Troubleshoot github/react/mongoDB setup issues if any.
+  - Troubleshoot github/react/database setup issues if any.
 
 </details>
 
@@ -97,9 +98,9 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
   **Backend:**
 
   - Develop web scraping scripts using BeautifulSoup or Scrapy to extract articles.
-  - Set up a database to store web-scraped data information.
+  - start collection of web-scraped date and analyse the information collected (from various sources).
   - Set up user authentication.
-  - Research Amazon Transcribe.
+  - Research LLMs/fine-tuning existing LLMs.
 
   **Build Night 2:**
 
@@ -110,10 +111,10 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
 
   **Back-end:**
 
-  - User Authentication complete
-  - Able to store user information in the database (user models created)
-  - Able to store web-scraped information in the database (primary testing of accuracy of data collected)
-  - Show initial database design
+  - User Authentication complete.
+  - Able to store user information in the database (user models created).
+  - Able to store web-scraped information in the database after clean-up of data(primary testing of accuracy of data collected).
+  - Show initial database design.
 
 </details>
 
@@ -128,13 +129,14 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
 
   **Frontend:**
 
-  - Finalize UI Design for all pages
+  - Finalize UI Design for all pages.
   - Start coding “Self-Service Portal” screens by breaking it down into different sections.
 
   **Back-end:**
-
-  - Set up a database to store web-scraped data accurately
-  - Research Amazon transcribe
+  
+  - Set up a database to store web-scraped data information.
+  - Regularly update the content to reflect the latest information.
+  - Start incorporating LLM/testing outputs
 
   **Dev Night 2:**
 
@@ -151,23 +153,27 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
   **Frontend:**
 
   - Finish Self-Service Portal
-  - Start on other pages (based on priority level)
+  - Start on other pages (based on priority level) e.g "Interactive chatbot" page layout.
 
   **Back-end:**
 
-  - Start fine-tuning LLMs
-  - Implement ability to convert speech to text capabilities.
+  - Start fine-tuning LLMs for complete accuracy.
+  - Research Amazon Transcribe.
+
 
   **Build Night 3:**
 
   **Front end:**
 
-  - Self-Service Portal (complete)
+  - Self-Service Portal (complete).
+  - Chatbot page (complete).
 
   **Backend:**
 
-  - Database storage set up (complete)
-  - Discuss potential roadblocks/delays
+  - Database storage set up (complete).
+  - Implement ability to convert speech to text capabilities.
+  - Discuss potential roadblocks/delays.
+  - 
 </details>
 
 <details>
@@ -196,7 +202,8 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
 
   **Full-stack:**
 
-  - Research integration of Open AI for personalized recommendations
+  - Implement ability to convert speech to text capabilities.
+  - Research integration of Open AI for personalized recommendations.
 
   **Dev Night 3:**
 
@@ -263,6 +270,7 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
   - [Amazon Transcribe documentation](https://docs.aws.amazon.com/transcribe/)
   - [Amazon Comprehend documentation](https://docs.aws.amazon.com/comprehend/)
   - [Amazon Kendra Documentation](https://docs.aws.amazon.com/kendra/)
+  - [OpenAI Fine-tuning](https://platform.openai.com/docs/guides/fine-tuning)
 - **Development:**
   - [MERN stack tutorials playlist](https://www.youtube.com/watch?v=98BzS5Oz5E4&list=PL4cUxeGkcC9iJ_KkrkBZWZRHVwnzLIoUE)
   - [React documentation](https://react.dev/)
@@ -285,6 +293,7 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
 - **AI and Machine Learning:**
   - Amazon Kendra
   - Amazon Transcribe for speech to text
+  - OpenAI for LLM
 - **Frontend and Backend Development:**
   - Node.js, Express
   - React
