@@ -26,15 +26,16 @@ Introducing FixIT, an AI-driven app designed to provide instant IT support to st
 
 
 ## Stretch Goals
-o Personalized Assistance: 
-          - User-specific recommendations based on past interactions.
-          - Integration with user accounts for personalized help. 
-          - Ability to upload error page images for real-time assistance.
-o Feedback Mechanism: 
-          - Option for users to rate the solutions.
-          - Collect feedback to improve AI accuracy and content relevance. 
-o Deploy app for use to UTD students/faculty. 
-         - Ensure the app is accessible and easy to use for the entire  UTD community. 
+
+           o Personalized Assistance: 
+                     - User-specific recommendations based on past interactions.
+                     - Integration with user accounts for personalized help. 
+                     - Ability to upload error page images for real-time assistance.
+           o Feedback Mechanism: 
+                     - Option for users to rate the solutions.
+                     - Collect feedback to improve AI accuracy and content relevance. 
+           o Deploy app for use to UTD students/faculty. 
+                    - Ensure the app is accessible and easy to use for the entire  UTD community. 
 
 ## Milestones
 
@@ -57,9 +58,9 @@ development environment, finalize tech stack.
     - Create react app
     - Create MongoDB project.
     - Github repo
-   -Flesh out collective vision for the app 
-   -Identify common IT issues and solutions 
-   -Learn basics of MERN Stack 
+    -Flesh out collective vision for the app 
+    -Identify common IT issues and solutions 
+    -Learn basics of MERN Stack 
 
 
   **Tasks:**
@@ -153,6 +154,7 @@ development environment, finalize tech stack.
 
   - Finish Self-Service Portal
   - Start on other pages (based on priority level)
+    
   **Back-end:**
 
   - Start fine tuning LLMs
@@ -188,12 +190,12 @@ development environment, finalize tech stack.
 
   **Back-end:**
 
-  1. Content Integration: 
- - Import scraped content into the knowledge base. 
- - Ensure proper formatting and categorization of articles.
- 2. AI Integration: 
- - Integrate NLP models for the chatbot to understand and  respond to user queries. 
- - Integrate Amazon Kendra for search capabilities.
+ 1. Content Integration: 
+    - Import scraped content into the knowledge base. 
+    - Ensure proper formatting and categorization of articles.
+    2. AI Integration: 
+       - Integrate NLP models for the chatbot to understand and  respond to user queries. 
+       - Integrate Amazon Kendra for search capabilities.
 
 
   **Full-stack:**
@@ -260,27 +262,20 @@ o AI and Machine Learning:
 
 
 ### Resources:
-- [Flutter Basics](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ)
-- [Using Flutter w/ Firebase](https://firebase.google.com/docs/flutter/setup?platform=ios)
-- [Taking Picture with Flutter](https://docs.flutter.dev/cookbook/plugins/picture-using-camera)
-- [Flutter Docs](https://docs.flutter.dev/)
-- [Implement OCR with Firebase Cloud Functions and Google Cloud Vision](https://www.youtube.com/watch?v=bTEU10c3gds)
-
-- o Web Scraping: 
-• [BeautifulSoup Documentation](https://pypi.org/project/beautifulsoup4/)
-• [Scrapy Documentation](https://docs.scrapy.org/en/latest/)
+o Web Scraping: 
+           • [BeautifulSoup Documentation](https://pypi.org/project/beautifulsoup4/)
+           • [Scrapy Documentation](https://docs.scrapy.org/en/latest/)
 o AI Training: 
-• [Amazon Transcribe documentation](https://docs.aws.amazon.com/transcribe/) 
-• [Amazon Comprehend documentation](https://docs.aws.amazon.com/comprehend/)
-•  [Amazon Kendra Documentation](https://docs.aws.amazon.com/kendra/)
+           • [Amazon Transcribe documentation](https://docs.aws.amazon.com/transcribe/) 
+           • [Amazon Comprehend documentation](https://docs.aws.amazon.com/comprehend/)
+           •  [Amazon Kendra Documentation](https://docs.aws.amazon.com/kendra/)
 o Development: 
-• [MERN stack tutorials playlist](https://www.youtube.com/watch?v=98BzS5Oz5E4&list=PL4cUxeGkcC9iJ_KkrkBZWZRHVwnzLIoUE)
-• [React documentation](https://react.dev/)
-• [Auth0 Guides](https://auth0.com/docs)
+           • [MERN stack tutorials playlist](https://www.youtube.com/watch?v=98BzS5Oz5E4&list=PL4cUxeGkcC9iJ_KkrkBZWZRHVwnzLIoUE)
+           • [React documentation](https://react.dev/)
+           • [Auth0 Guides](https://auth0.com/docs)
 
 
-## Back-End: Firebase
-Easily compatible with Flutter, works well with Google Cloud OCR
+## Back-End:
 
 ### Resources: 
 
@@ -291,43 +286,43 @@ Easily compatible with Flutter, works well with Google Cloud OCR
 
 - [Visual Studio Code](https://code.visualstudio.com/) or [Android Studio](https://developer.android.com/studio)
 - [Git](https://git-scm.com/downloads) (version control)
-o Web Scraping: 
-• BeautifulSoup, Scrapy, Selenium 
-• MongoDB for data storage 
-• Python for scripting 
-o AI and Machine Learning: 
-• Amazon Kendra
-• Amazon Transcribe for speech to text
-o Frontend and Backend Development: 
-• Node.js, Express 
-• React 
+- Web Scraping: 
+            • BeautifulSoup, Scrapy, Selenium 
+            • MongoDB for data storage 
+            • Python for scripting 
+- AI and Machine Learning: 
+             • Amazon Kendra
+             • Amazon Transcribe for speech to text
+- Frontend and Backend Development: 
+             • Node.js, Express 
+             • React 
 
 ## Roadblocks and Possible Solutions
 
-o Collecting relevant data from OIT websites 
-- Possible through web scraping/APIs(if available), Search  APIs 
-- Manual collection of data (for testing phase at least) 
-- Collect data from other online resources as well as OIT web articles.
-o AI/Web scraping concepts new to participants 
-- Enough time allocated for learning phase
-- Keeping the app simple but functional
+ Collecting relevant data from OIT websites 
+  - Possible through web scraping/APIs(if available), Search  APIs. 
+  - Manual collection of data (for testing phase at least). 
+  - Collect data from other online resources as well as OIT web articles.
+  AI/Web scraping concepts new to participants 
+  - Enough time allocated for learning phase.
+  - Keeping the app simple but functional.
 
 ## Competition
 
 Existing IT Support Solutions: 
-• existing university IT support systems: OIT Help Desk (slow  process) 
-• online articles (have to know as a user where to look)
+ - existing university IT support systems: OIT Help Desk (slow  process) 
+ - online articles (have to know as a user where to look)
 
 ## Other Resources
 
-- [Git cheat sheet](https://education.github.com/git-cheat-sheet-education.pdf)
-- [Git in-depth tutorial](https://youtu.be/RGOj5yH7evk)
-- [Postman set up tutorial](https://youtu.be/3eHJkcA8mTs)
-- [Sharing any graphics using Box](https://utdallas.account.box.com/login)
-- [Sign up for Figma](https://www.figma.com/signup)
-- [Wireframe design inspiration](https://dribbble.com/shots/popular/web-design)
-- Resources to make presentations:
-  - [Pitch (more “professional” templates)](https://pitch.com/)
+ - [Git cheat sheet](https://education.github.com/git-cheat-sheet-education.pdf)
+ - [Git in-depth tutorial](https://youtu.be/RGOj5yH7evk)
+ - [Postman set up tutorial](https://youtu.be/3eHJkcA8mTs)
+ - [Sharing any graphics using Box](https://utdallas.account.box.com/login)
+ - [Sign up for Figma](https://www.figma.com/signup)
+ - [Wireframe design inspiration](https://dribbble.com/shots/popular/web-design)
+ - Resources to make presentations:
+ - [Pitch (more “professional” templates)](https://pitch.com/)
  
 ## Developers 👥
 - Bhaumik Tiwari
