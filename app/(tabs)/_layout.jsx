@@ -1,93 +1,111 @@
 import { View, Text, Image } from 'react-native'
-import {Tabs, Redirect} from 'expo-router';
-import {icons} from '../../constantsForFixit';
-const TabIcon =({icon,color,name,focused}) => {
-  return (
-    <View className="items-center justify-center gap-2"> 
-      <Image
+import React from 'react'
+import {Tabs, Redirect} from 'expo-router'
 
+import {icons} from '../../constants';
+
+function TabIcon({color, name, focused, icon, imgStyle, viewStyle}){
+  return (
+    <View className={`transition ease-in-out ${!focused ? 'pt-5 scale-90' : 'pt-0'} ${viewStyle===undefined ? '' : viewStyle} duration-10000 items-center justify-center`}>
+      <Image
         source={icon}
         resizeMode="contain"
-        tintColor="purple"
-        className="w-6 h-6"
-
-      />
-      <Text className={`${focused ? 'font-psemibold' :'font-pregular'} text-xs`}>
+        tintColor={color}
+        className={`w-6 h-6 ${imgStyle===undefined ? '': imgStyle}`}
+        />
+      <Text className={`${focused ? 'font-psemibold' : 'font-pregular'}`}>
         {name}
-      </Text>
-
+        </Text>      
     </View>
   )
 }
-const Tabslayout = () => {
+
+const TabsLayout = () => {
   return (
     <>
-      <Tabs screenOptions={{tabsBarShowLabel: false, tabBarActiveTintColor: '#FFA001', tabBarStyle:{
-        backgroundColor: 'gray'
-      }}}>
-      <Tabs.Screen
-            name="home"
-            options={{
-              title:"Home",
-              headerShown:false, 
-              tabBarIcon:({color, focused}) => (
-                <TabIcon
-                icon={icons.home}
-                color={color}
-                name="Home"
-                focused={focused}
-                />
-              )
-            }}
-          />
-      <Tabs.Screen
-            name="create"
-            options={{
-              title:"Create",
-              headerShown:false,
-              tabBarIcon:({color, focused}) => (
-                <TabIcon
-                icon={icons.upload}
-                color={color}
-                name="Home"
-                focused={focused}
-                />
-              ) 
-            }}
+      <Tabs
+      screenOptions={{
+        tabBarShowLabel:false
+        }}>
+        <Tabs.Screen
+          name="home"
+          options={{
+            title:"Home",
+            headerShown:false, 
+            tabBarIcon: ({color,focused}) => (
+              <TabIcon
+              color={color}
+              name={"Home"}
+              focused={focused}
+              icon={icons.home}
+              />
+            )
+          }}
+        />
+        <Tabs.Screen
+          name="chat"
+          options={{
+            title:"Chat",
+            headerShown:false, 
+            tabBarIcon: ({color,focused}) => (
+              <TabIcon
+              color={color}
+              name={"Chat"}
+              focused={focused}
+              icon={icons.chat}
+              />
+            )
+          }}
+        />
+        <Tabs.Screen
+        name="post"
+        options={{
+          title:"Post",
+          headerShown:false, 
+          tabBarIcon: ({color,focused}) => (
+            <TabIcon
+            color={color}
+            focused={focused}
+            icon={icons.plus}
+            imgStyle={'w-10 h-10'}
+            viewStyle={'pt-5'}
+            />
+          )
+        }}
       />
       <Tabs.Screen
-            name="community"
-            options={{
-              title:"Community",
-              headerShown:false,
-              tabBarIcon:({color, focused}) => (
-                <TabIcon
-                icon={icons.menu}
-                color={color}
-                name="Community"
-                focused={focused}
-                />
-              ) 
-            }}
-          /> 
-      <Tabs.Screen
-            name="Chat"
-            options={{
-              title:"chat",
-              headerShown:false, 
-              tabBarIcon:({color, focused}) => (
-                <TabIcon
-                icon={icons.menu}
-                color={color}
-                name="chat"
-                focused={focused}
-                />
-              )
-            }}
-          /> 
+      name="trending"
+      options={{
+        title:"Trending",
+        headerShown:false, 
+        tabBarIcon: ({color,focused}) => (
+          <TabIcon
+          color={color}
+          name={"Trending"}
+          focused={focused}
+          icon={icons.trending}
+          />
+        )
+      }}
+    />
+    <Tabs.Screen
+      name="contact"
+      options={{
+        title:"Contact",
+        headerShown:false, 
+        tabBarIcon: ({color,focused}) => (
+          <TabIcon
+          color={color}
+          name={"Contact"}
+          focused={focused}
+          icon={icons.phone}
+          />
+        )
+      }}
+    />
       </Tabs>
     </>
   )
 }
 
-export default Tabslayout
+export default TabsLayout

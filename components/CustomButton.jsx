@@ -1,11 +1,13 @@
-import { View, Text } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import React from 'react'
 
-const CustomButton = () => {
+const CustomButton = ({textStyles, ContainerStyles, name, handlePress}) => {
   return (
-    <View>
-      <Text>CustomButton</Text>
-    </View>
+    <Pressable className={`w-1/2 h-10 border-2 border-black bg-amber-500 rounded-lg ${ContainerStyles}`} onPressOut={handlePress}>
+        <View className="flex justify-center items-center h-full">
+            <Text className={`text-lg ${textStyles}`}>{name}</Text>
+        </View>
+    </Pressable>
   )
 }
 
