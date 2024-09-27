@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "FixIT",
+    "scheme": "FixIT",
     "slug": "FixIT",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,8 +21,13 @@
         "backgroundColor": "#ffffff"
       }
     },
+    
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
