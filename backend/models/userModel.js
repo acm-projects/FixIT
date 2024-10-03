@@ -3,8 +3,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    userID: {
-        type: Number,
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
         required: true
     },
     firstName: {
@@ -12,10 +22,6 @@ const userSchema = new Schema({
         required: true
     },
     lastName: {
-        type: String,
-        required: true
-    },
-    email: {
         type: String,
         required: true
     },
@@ -27,10 +33,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    }
+    posts: [{ // array of post documents by post IDs set up in userSchema
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }]
 }, { timestamps: true }); // including this automatically adds the createdAt and updatedAt fields
 
 module.exports = mongoose.model('User', userSchema);

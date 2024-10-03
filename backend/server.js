@@ -1,11 +1,14 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models/userModel');
+const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
+
 
 const app = express();
 
-// middleware - middle man between getting a request (e.g. GET request) and sending data
+// middleware
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -14,19 +17,8 @@ app.use((req, res, next) => {
 });
 
 // route handling
-app.get('/', (req, res) => {
-    res.json({mssg: "What's up"});
-});
-
-app.post('/', async (req, res) => { //async function - when the function is called, the program is allowed to do other stuff until the function w/ await keyword is done processing
-    const {userID, firstName, lastName, email, yearClassification, major, password} = req.body;
-    try {
-        const user = await User.create({userID, firstName, lastName, email, yearClassification, major, password});
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(400).json({error: error.message});
-    };
-});
+app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
 
 // connect to DB
 mongoose.connect(process.env.MONGO_URI)

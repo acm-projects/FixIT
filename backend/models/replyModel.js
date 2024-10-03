@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema({
-    replyID: {
-        type: Number,
-        required: true
-    },
+const replySchema = new Schema({
     commentID: {
         type: Number,
         required: true
@@ -26,7 +22,7 @@ const postSchema = new Schema({
     upvotes: {
         type: Number,
         required: true
-    },
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Reply', replySchema);
