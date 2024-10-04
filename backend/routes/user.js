@@ -9,10 +9,10 @@ const {
 
 router.post('/', createNewUser);
 
-router.get('/:userId', getUser);
+router.get('/:username', getUser);
 
-router.delete('/:userId', deleteUser);
+router.delete('/:username', deleteUser);
 
-router.patch('/:userId', updateUser);
+router.patch('/:username', updateUser);
 
 module.exports = router;
