@@ -45,8 +45,7 @@ const createNewPost = async (req, res) => {
 }
 
 const deletePost = async (req, res) => {
-    const {postId} = req.params;
-    console.log(`post ID: ${postId}`);
+    const {postId, userId} = req.params;
     
     if (!mongoose.Types.ObjectId.isValid(postId))
         return res.status(404).json({error: 'No such post'});
@@ -56,8 +55,13 @@ const deletePost = async (req, res) => {
     if (!post)
         return res.status(404).json({error: 'No such post'});
 
+    const user = await User.findByIdAndUpdate( // delete the post's post ID associated with the user's posts array
+            userId,
+            {$pull: {posts: postId}},
+        );
+
     res.status(200).json({mssg: 'Post deleted', user: post});
-    console.log(`Post entitled ${post.title} was deleted.`);
+    console.log(`Post titled "${post.title}" was deleted.`);
 }
 
 const updatePost = async (req, res) => {
