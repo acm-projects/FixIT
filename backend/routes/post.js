@@ -9,9 +9,9 @@ const {
 
 router.get('/:postId', getPost);
 
-router.post('/:userId', createNewPost);
+router.post('/:username', createNewPost);
 
-router.delete('/:userId/:postId', deletePost);
+router.delete('/:username/:postId', deletePost);
 
 router.patch('/:postId', updatePost);
 

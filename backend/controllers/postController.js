@@ -17,35 +17,32 @@ const getPost = async (req, res) => {
 }
 
 const createNewPost = async (req, res) => {
-    const {userId} = req.params;
+    const {username} = req.params;
     const {title, authorFirstName, authorLastName, content, upvotes = 0, comments} = req.body;
 
     try {
-        const userExists = await User.findById(userId);
+        const user = await User.findOne({username});
 
-        if (!userExists) {
-            console.log('Request parameters:', req.params);
-            console.log('User ID from request:', userId);
+        if (!user)
             return res.status(404).json({error: 'No such user'});
-        }
         
-        const newPost = await Post.create({title, authorFirstName, authorLastName, content, upvotes, comments});
+        const newPost = await Post.create({title, authorFirstName: user.firstName , authorLastName: user.lastName, content, upvotes, comments});
         
-        const user = await User.findByIdAndUpdate( // add the post ID to the user's posts array
-            userId,
+        User.findOneAndUpdate( // add the post ID to the user's posts array
+            {username},
             {$push: {posts: newPost._id}},
             {new: true}
         );
         
         res.status(200).json({mssg: 'Post created', post: newPost});
-        console.log(`Post was created for user ID ${userId}.`);
+        console.log(`Post was created for ${username}.`);
     } catch (error) {
         res.status(400).json({error: error.message});
     };
 }
 
 const deletePost = async (req, res) => {
-    const {postId, userId} = req.params;
+    const {postId, username} = req.params;
     
     if (!mongoose.Types.ObjectId.isValid(postId))
         return res.status(404).json({error: 'No such post'});
@@ -55,8 +52,8 @@ const deletePost = async (req, res) => {
     if (!post)
         return res.status(404).json({error: 'No such post'});
 
-    const user = await User.findByIdAndUpdate( // delete the post's post ID associated with the user's posts array
-            userId,
+    await User.findOneAndUpdate( // delete the post's post ID associated with the user's posts array
+            {username},
             {$pull: {posts: postId}},
         );
 
