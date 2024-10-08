@@ -1,5 +1,4 @@
 const User = require('../models/userModel');
-const mongoose = require('mongoose');
 
 const getUser = async (req, res) => {
     const {username} = req.params;
@@ -47,9 +46,24 @@ const updateUser = async (req, res) => {
     console.log(`${user.username}'s information was updated.`);
 }
 
+const getAllPostsByUser = async (req, res) => {
+    const {username} = req.params;
+
+    const posts = await User.findOne({username}).select('posts -_id').populate({
+        path: 'posts',
+        select: '-_id'
+    });
+
+    if (!username)
+        return res.status(404).json({error: 'No such user'});
+
+    res.status(200).json(posts);
+}
+
 module.exports = {
     getUser,
     createNewUser,
     deleteUser,
-    updateUser
+    updateUser,
+    getAllPostsByUser
 }

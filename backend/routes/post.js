@@ -7,7 +7,6 @@ const {
     updatePost
 } = require('../controllers/postController')
 
-
 router.get('/:postId', getPost);
 
 router.post('/:userId', createNewPost);
