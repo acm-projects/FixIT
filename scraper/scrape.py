@@ -21,25 +21,35 @@ def scrape_article(url):
     for header in content.find_all(['h2', 'h3']):
         section = {
             'section title': header.text.strip(),
-            'section text': ''
+            'section text': '',
+            'images': []  # To store images in each section
         }
         for sibling in header.next_siblings:
             if sibling.name in ['h2', 'h3']:
                 break
             if sibling.name:
                 section['section text'] += sibling.text.strip() + '\n'
+
+            # Check for images inside paragraphs, list items, etc.
+            if sibling.name in ['p', 'ul', 'li', 'div']:  # Add blocks like <ul>, <li>, <p>, and <div>
+                # Look for images in these blocks
+                images = sibling.find_all('img')
+                for img in images:
+                    img_url = img.get('src')
+                    if img_url:  # Ensure there is an image source
+                        section['images'].append(img_url)
+
         sections.append(section)
 
     article['sections'] = sections
 
     return article
 
-# Example usage
-article_url = "https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=399"
+article_url = "https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=152"
 scraped_article = scrape_article(article_url)
 
 # Save to JSON file
-with open('utdallas_article.json', 'w', encoding='utf-8') as f:
+with open("scraped_article.json", 'w', encoding='utf-8') as f:
     json.dump(scraped_article, f, ensure_ascii=False, indent=2)
 
 print("Scraping completed. Data saved to utdallas_article.json")
