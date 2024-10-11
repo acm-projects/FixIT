@@ -45,11 +45,18 @@ def scrape_article(url):
 
     return article
 
-article_url = "https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=152"
-scraped_article = scrape_article(article_url)
+article_urls = ["https://atlas.utdallas.edu/TDClient/30/Portal/Requests/ServiceDet?ID=177",
+                "https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=850",
+                "https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=152",
+                "https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=279",
+                "https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=4",]
 
 # Save to JSON file
-with open("scraped_article.json", 'w', encoding='utf-8') as f:
-    json.dump(scraped_article, f, ensure_ascii=False, indent=2)
+i = 0
+for article_url in article_urls:
+    scraped_article = scrape_article(article_url)
+    with open("scraped_article_" + str(i) + ".json", 'w', encoding='utf-8') as f:
+        json.dump(scraped_article, f, ensure_ascii=False, indent=2)
+    i += 1
 
-print("Scraping completed. Data saved to utdallas_article.json")
+print("Scraping completed. Data saved to scraped_article.json")
