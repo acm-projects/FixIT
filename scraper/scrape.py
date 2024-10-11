@@ -74,7 +74,7 @@ article_urls = ["https://atlas.utdallas.edu/TDClient/30/Portal/Requests/ServiceD
 i = 0
 for article_url in article_urls:
     scraped_article = scrape_article(article_url)
-    with open("scraped_article_" + str(i) + ".json", 'w', encoding='utf-8') as f:
+    with open("data/scraped_article_" + str(i) + ".json", 'w', encoding='utf-8') as f:
         json.dump(scraped_article, f, ensure_ascii=False, indent=2)
     i += 1
 
