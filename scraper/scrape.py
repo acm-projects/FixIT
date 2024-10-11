@@ -9,39 +9,58 @@ def scrape_article(url):
     article = {}
 
     # Extract article title
-    article['article title'] = soup.find('h1', class_='gutter-top').text.strip()
+    try:
+        article['article title'] = soup.find('h1', class_='gutter-top').text.strip()
+    except Exception as e:
+        print(f"Error extracting title: {str(e)}")
 
     # Extract tags
-    tags = soup.find('div', id='ctl00_ctl00_cpContent_cpContent_divTags')
-    article['tags'] = [tag.text.strip() for tag in tags.find_all('a')] if tags else []
+    try:
+        tags = soup.find('div', id='ctl00_ctl00_cpContent_cpContent_divTags')
+        article['tags'] = [tag.text.strip() for tag in tags.find_all('a')] if tags else []
+    except Exception as e:
+        print(f"Error extracting tags: {str(e)}")
 
-    # Extract sections
-    sections = []
-    content = soup.find('div', class_='col-md-8')
-    for header in content.find_all(['h2', 'h3']):
-        section = {
-            'section title': header.text.strip(),
-            'section text': '',
-            'images': []  # To store images in each section
-        }
-        for sibling in header.next_siblings:
-            if sibling.name in ['h2', 'h3']:
-                break
-            if sibling.name:
-                section['section text'] += sibling.text.strip() + '\n'
+    # Extract content
+    try:
+        content = soup.find('div', class_='col-md-8')
+        if content:
+            sections = []
+            current_section = None
 
-            # Check for images inside paragraphs, list items, etc.
-            if sibling.name in ['p', 'ul', 'li', 'div']:  # Add blocks like <ul>, <li>, <p>, and <div>
-                # Look for images in these blocks
-                images = sibling.find_all('img')
-                for img in images:
-                    img_url = img.get('src')
-                    if img_url:  # Ensure there is an image source
-                        section['images'].append(img_url)
+            for element in content.find_all(['h2', 'h3', 'p', 'ul', 'ol', 'img']):
+                if element.name in ['h2', 'h3']:
+                    if current_section:
+                        sections.append(current_section)
+                    current_section = {
+                        'section title': element.text.strip(),
+                        'section text': '',
+                        'images': []
+                    }
+                elif element.name == 'img':
+                    img_url = element.get('src')
+                    if img_url and current_section:
+                        current_section['images'].append(img_url)
+                    elif img_url:
+                        if 'images' not in article:
+                            article['images'] = []
+                        article['images'].append(img_url)
+                else:
+                    text = element.text.strip()
+                    if current_section:
+                        current_section['section text'] += text + '\n'
+                    else:
+                        if 'text' not in article:
+                            article['text'] = ''
+                        article['text'] += text + '\n'
 
-        sections.append(section)
+            if current_section:
+                sections.append(current_section)
 
-    article['sections'] = sections
+            if sections:
+                article['sections'] = sections
+    except Exception as e:
+        print(f"Error extracting content: {str(e)}")
 
     return article
 

@@ -1,0 +1,48 @@
+{
+  "article title": "Install and Connect to GlobalProtect VPN (macOS)",
+  "tags": [
+    "macos",
+    "mac",
+    "vpn",
+    "GlobalProtect",
+    "mac-os"
+  ],
+  "sections": [
+    {
+      "section title": "Table of Contents",
+      "section text": "Installing GlobalProtect\nAfter Installing GlobalProtect\nConnecting to GlobalProtect\n",
+      "images": []
+    },
+    {
+      "section title": "Installing GlobalProtect",
+      "section text": "Open your preferred web browser, click here to start your download.\nEnter your UT Dallas credentials to sign in.\n\t\nIf you are not already authenticated through DUO, you will be asked to do so via a push notification, text message, or phone call.\nIf you are not already authenticated through DUO, you will be asked to do so via a push notification, text message, or phone call.\n\nSelect Download Mac 32/64 bit GlobalProtect Agent.\n\nAfter downloading, go to your Downloads and double click to open GlobalProtect.pkg.\n\n\t\nYou can save it to your “Downloads” folder or in another preferred location.\nYou can save it to your “Downloads” folder or in another preferred location.\n\nAn \"Install GlobalProtect\" window will open, select Continue.\n\nIn Custom Install, leave GlobalProtect checked and deselect all of the other features. Click Continue.\n\nSelect Install, and select Install Software.\nYou will have to authenticate with your local user credentials to move forward with the installation process.\n\nSelect Close.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=3956ab63-e00d-4563-8807-40c5756ddb5b.png&beidInt=2",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=b14d6007-b3b2-4101-ab19-45824bc467a8.png&beidInt=2",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=088cc4b4-06a5-42d9-9bcc-d2c72720521c.png&beidInt=2",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=320078a2-3162-4f3a-8b7f-3bfd233d05de.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=4986979b-5a74-44fe-8b1e-0c37a3df6da7.png&beidInt=2",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=3d8c61d7-df9d-4e95-ad2f-5e27dfdec7ad.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=90e62ad0-d33f-4305-8e4a-5e8da1cd4fd9.png"
+      ]
+    },
+    {
+      "section title": "After Installing GlobalProtect",
+      "section text": "After installing the application, enable Palo Alto Networks as a trusted developer.\nLaunch System Settings from your Mac.\nSelect General > Login Items.\nFind \"Palo Alto Networks\" in the list of items available. Move the tongle to allow PaloAlto to make changes and modify preferences.\n\t\nIf prompted, enter your Mac User Name and Password, and then Unlock the preferences.\n\n\nNow you can connect to the VPN.\nIf prompted, enter your Mac User Name and Password, and then Unlock the preferences.\n\nOn macOS Catalina and higher, the popup below will ask for permissions to access the local folders ~/Downloads, ~/Desktop, and ~/Documents. You can either select Don’t Allow or OK for each of the three depending on whether you want to allow or block the access.\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=95573d6f-1140-43c5-917a-fb60457223d5.png&beidInt=2"
+      ]
+    },
+    {
+      "section title": "Connecting to GlobalProtect",
+      "section text": "Open the GlobalProtect VPN client on your machine, enter the Portal Address as utdvpn.utdallas.edu > Connect.\n\nGlobalProtect will take a few seconds to reach the connection.\n\nSign in with your UTD credentials and authenticate through DUO via a push notification, text message, or phone call.\n\nOnce connected, the client will display a pop-up message asking you to allow the page to open GlobalProtect.\nClick on Allow.\n\nAfter clicking on Allow, the client displays \"Authentication Complete\", informing you that you are actively connected to the UT Dallas VPN.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=0dc6270e-730f-4140-9860-2a613542ec17.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=fb88b8cb-dd55-48f8-a2a4-f44e481b1228.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=50db7790-42c6-4f3f-876b-d91c0547c226.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=81ec8b76-e200-4f95-8824-75961be0b0f2.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=d99d0a00-e7eb-4d25-b129-31b2838aeebd.png"
+      ]
+    }
+  ]
+}
