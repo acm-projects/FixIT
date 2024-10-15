@@ -6,12 +6,15 @@ import CustomButton from '../../components/CustomButton'
 import { Link } from 'expo-router'
 import ThirdPartyButton from '../../components/ThirdPartyButton'
 import {icons} from "../../constants"
+import axios from 'axios'
+
 
 const SignIn = () => {
   const [form, setForm] = useState({
     username: '',
     password: ''
   })
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
@@ -85,4 +88,3 @@ const SignIn = () => {
 
 export default SignIn
 
-const styles = StyleSheet.create({})

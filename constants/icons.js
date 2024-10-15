@@ -16,8 +16,10 @@ import trending from "../assets/icons/trending.png";
 import phone from "../assets/icons/phone.png";
 import google_g_logo from "../assets/icons/google_g_logo.png";
 import outlook_logo from "../assets/icons/outlook_logo.png";
+import sort from "../assets/icons/sort.png";
 
 export default {
+  sort,
   outlook_logo,
   google_g_logo,
   phone,

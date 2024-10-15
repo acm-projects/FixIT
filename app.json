@@ -13,6 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "infoPlist": {
+        "NSCameraUsageDescription": "We need access to your camera to take pictures.",
+        "NSPhotoLibraryUsageDescription": "We need access to your photo library to upload images.",
+        "NSPhotoLibraryAddUsageDescription": "We need permission to save images to your photo library."
+      },
       "supportsTablet": true
     },
     "android": {
@@ -25,7 +30,13 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to describe your issue better. "
+        }
+      ]
     ]
   }
 }

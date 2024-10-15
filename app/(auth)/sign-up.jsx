@@ -6,13 +6,60 @@ import CustomButton from '../../components/CustomButton'
 import { Link } from 'expo-router'
 import ThirdPartyButton from '../../components/ThirdPartyButton'
 import {icons} from "../../constants"
-
+import axios from "axios"
 const SignUp = () => {
   const [form, setForm] = useState({
     username: '',
     password: '',
     email: '',
   })
+
+  const handleSubmit = async(
+    username,
+    email, 
+    password, 
+    firstName="Ugonna", 
+    lastName="Anyalemechi", 
+    yearClassification="sophmore", 
+    major="CS") => {
+    
+
+    try {
+      const resp = await axios.post("http://localhost:3000/api/users", {
+        username: username,
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        yearClassification: yearClassification,
+        major: major,
+      });
+    
+      // Handle success
+      console.log(resp);       // Full response object
+      console.log(resp.data);  // Data from the response
+    } catch (err) {
+      // Handle error
+      console.error(err);      // Full error object
+      if (err.response) {
+        // The server responded with a status code outside the 2xx range
+        console.log("Error response data:", err.response.data);
+        console.log("Error response status:", err.response.status);
+        console.log("Error response headers:", err.response.headers);
+      } else if (err.request) {
+        // No response was received (e.g., server is unreachable)
+        console.log("Error request:", err.request);
+      } else {
+        // Something else triggered the error
+        console.log("Error message:", err.message);
+      }
+    }
+
+    
+  
+  
+
+}
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
@@ -24,7 +71,7 @@ const SignUp = () => {
             title="Email"
             value={form.email}
             placeholder="example@gmail.com"
-            handleChangeText={(e) => setForm({...form,username:e})}
+            handleChangeText={(e) => setForm({...form,email:e})}
             otherStyles="mt-5"
             
           />
@@ -55,10 +102,7 @@ const SignUp = () => {
             <CustomButton
               name="Sign Up"
 
-              handlePress={() => {
-                console.log(form)
-                setForm({username:'', password:'', email:''})
-              }}
+              handlePress={() => {handleSubmit(form.username,form.email, form.password)}}
               ContainerStyles={"border-2 border-red-400 mt-4 mb-6 h-12 bg-amber-800 rounded-2xl text-white"}
               textStyles={"text-gray-300"}
               >
