@@ -1,0 +1,52 @@
+{
+  "article title": "Manage Duo Devices",
+  "tags": [
+    "duo",
+    "duo-mobile"
+  ],
+  "sections": [
+    {
+      "section title": "Table of Contents",
+      "section text": "Manage Devices Page\nDevice Options\n\nNew Phone\nNew Device\nAuthenticating with Different Device\nNew Phone\nNew Device\nAuthenticating with Different Device\n",
+      "images": []
+    },
+    {
+      "section title": "Manage Devices Page",
+      "section text": "In your web browser, navigate to a resource that is protected by Duo- Office.com or Box.\nOn the Duo authentication prompt, select Other options.\n\nClick on Manage Devices.\n\nYou will then be asked to verify your identity before moving forward.\n\t\nSelect your preferred authentication method to manage devices.\nSelect your preferred authentication method to manage devices.\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=bab8f09f-372e-415e-8131-ba6730982b94.png&beidInt=2",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=24223fe0-9361-48d6-8e0a-63410aa3d688.png&beidInt=2"
+      ]
+    },
+    {
+      "section title": "Device Options",
+      "section text": "Once logged in, you have a number of options to select in managing your devices.\nClicking Edit on the devices shown will allow you to Delete or Remane.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=60229674-437c-4dba-8ccb-982e323356a5.png&beidInt=2"
+      ]
+    },
+    {
+      "section title": "New Phone",
+      "section text": "If you have a new phone, select the I have a new phone link on the box with your current mobile device.\n\nIf you have the same phone number with a new mobile device, select Get started and follow the steps needed.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=6ca1b075-8ef2-4d6a-9363-ecba2cdbb9bc.png&beidInt=2",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=b7beb4d8-1048-42fe-be22-fd41ef7157b5.png&beidInt=2"
+      ]
+    },
+    {
+      "section title": "New Device",
+      "section text": "Select Add a device.\n\nYou will need to authenticate the new device using your preferred method.\nYou will need to authenticate the new device using your preferred method.\n\nFollow the steps provided and save your device.\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=7ad6f116-05e1-4418-8bf3-61b657f6dd05.png&beidInt=2"
+      ]
+    },
+    {
+      "section title": "Authenticating with Different Device",
+      "section text": "In your web browser, navigate to a resource that is protected by Duo- Office.com or Box.\nOn the Duo authentication prompt, select Other options.\n\nSelect your preferrred authentication method.\n\t\nYour new device will be listed in the \"Other options to log in\" menu.\nYour new device will be listed in the \"Other options to log in\" menu.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=bab8f09f-372e-415e-8131-ba6730982b94.png&beidInt=2",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=24223fe0-9361-48d6-8e0a-63410aa3d688.png&beidInt=2"
+      ]
+    }
+  ]
+}
