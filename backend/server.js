@@ -27,8 +27,24 @@ const config = {
 app.use(express.json());
 app.use(auth(config)); // this middleware will handle things like login, logout, and managing user sessions for the routes.
 
+const requestLimiter = (limitInMs) => {
+    let lastRequestTime = null;
+
+    return (req, res, next) => {
+        const currentTime = Date.now();
+
+        if (lastRequestTime && (currentTime - lastRequestTime < limitInMs))
+            return res.status(429).json({error: 'Multiple requests being made.'})
+
+        lastRequestTime = currentTime;
+        next();
+    }
+    lastRequestTime = currentTime;
+    next();
+}
+
 // route handling
-app.use('/api/users', userRoutes);
+app.use('/api/users', requestLimiter(5000), userRoutes);
 app.use('/api/posts', postRoutes);
 
 
@@ -48,4 +64,3 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error) => {
         console.log(error);
     });
-
