@@ -8,8 +8,7 @@ const { auth } = require('express-openid-connect') //imports authentication midd
 
 const app = express();
 
-
-//how the app works with auth0(clientID's, etc)
+//how the app works with auth0 (clientID's, etc)
 const config = {
     authRequired: false,
     auth0Logout: true,
@@ -19,21 +18,25 @@ const config = {
     issuerBaseURL: process.env.ISSUER
   };
 
-// middleware
-app.use(express.json());
-
-// this middleware will handle things like login, logout, and managing user sessions for the routes.
-// below middleware levearges the config info to run above tasks like login, etc
-app.use(auth(config))
-
-app.use((req, res, next) => {
+  app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();
 });
 
+// middleware
+app.use(express.json());
+app.use(auth(config)); // this middleware will handle things like login, logout, and managing user sessions for the routes.
+
 // route handling
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
+
+
+// route handling
+app.get('/', (req, res) => {
+    res.json({mssg: "What's up"})
+    console.log(req.oidc.isAuthenticated()) // checks if user is authenticated
+});
 
 // connect to DB
 mongoose.connect(process.env.MONGO_URI)
@@ -46,22 +49,3 @@ mongoose.connect(process.env.MONGO_URI)
         console.log(error);
     });
 
-// auth code
-
-// middleware - middle man between getting a request (e.g. GET request) and sending data
-
-// route handling
-app.get('/', (req, res) => {
-    res.json({mssg: "What's up"})
-    console.log(req.oidc.isAuthenticated()) // checks if user is authenticated
-})
-
-app.get('/', (req, res) => {
-    console.log(req.oidc.isAuthenticated()) 
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out') // above and this line check is user is logged in and replies accordingly
-    res.render("server", {title : "express demo"})
-  })
-
-// app.listen(process.env.PORT, () => {
-//     console.log(`Server running on port ${process.env.PORT}.`)
-// })
