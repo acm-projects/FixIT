@@ -5,7 +5,7 @@ const {
     createNewPost,
     deletePost,
     updatePost
-} = require('../controllers/postController')
+} = require('../controllers/postController');
 
 router.get('/:postId', getPost);
 

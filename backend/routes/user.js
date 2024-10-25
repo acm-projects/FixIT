@@ -5,8 +5,9 @@ const {
     createNewUser,
     deleteUser,
     updateUser,
-    getAllPostsByUser
-} = require('../controllers/userController')
+    getAllPostsByUser,
+    chatWithBot
+} = require('../controllers/userController');
 
 router.post('/', createNewUser);
 
@@ -17,5 +18,7 @@ router.get('/:username/posts', getAllPostsByUser);
 router.delete('/:username', deleteUser);
 
 router.patch('/:username', updateUser);
+
+router.post('/chat', chatWithBot);
 
 module.exports = router;

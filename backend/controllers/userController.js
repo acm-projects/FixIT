@@ -1,4 +1,10 @@
 const User = require('../models/userModel');
+const { OpenAI } = require('openai');
+const dotenv = require('dotenv');
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
 
 const getUser = async (req, res) => {
     const {username} = req.params;
@@ -60,10 +66,32 @@ const getAllPostsByUser = async (req, res) => {
     res.status(200).json(posts);
 }
 
+const chatWithBot = async (req, res) => {
+    const userMessage = req.body.message;
+    if (!userMessage)
+        return res.status(400).json({error: 'You must send a message!'})
+
+    try {
+        const completion = await openai.chat.completions.create({
+            messages: [
+                { role: "system", content: "You are a helpful assistant." }, // helps establish the role or behavior that the model should adopt during the conversation
+                { role: "user", content: userMessage }
+            ],
+        });
+
+        const botMessage = completion.choices[0].message.content;
+        res.status(200).json({ reply: botMessage });
+    
+    } catch (error) {
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+}
+
 module.exports = {
     getUser,
     createNewUser,
     deleteUser,
     updateUser,
-    getAllPostsByUser
+    getAllPostsByUser,
+    chatWithBot
 }
