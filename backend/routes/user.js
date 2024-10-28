@@ -7,7 +7,7 @@ const {
     updateUser,
     getAllPostsByUser,
     chatWithBot,
-    transcribeAudio
+    transcribeAudio,
 } = require('../controllers/userController');
 
 router.post('/', createNewUser);

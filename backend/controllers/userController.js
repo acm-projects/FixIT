@@ -1,13 +1,16 @@
 const User = require('../models/userModel');
 const mic = require('mic');
-// const { spawn } = require('child_process');
-// const soxPath = 'C:\Program Files (x86)\sox-14-4-2';
-// const soxProcess = spawn(soxPath, ['-b', '16', '--endian', 'little', '-c', '1', '-r', '16000', '-e', 'signed-integer', '-t', 'waveaudio', 'default', '-p']);
 const { OpenAI } = require('openai');
 const { TranscribeStreamingClient, StartStreamTranscriptionCommand } = require('@aws-sdk/client-transcribe-streaming');
-const dotenv = require('dotenv');
 
-const TranscribeStreamingClient = new TranscribeStreamingClient({ region: AWS_REGION });
+const transcribeStreamingClient = new TranscribeStreamingClient({ 
+    region: process.env.AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+});
+
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
@@ -103,36 +106,69 @@ const transcribeAudio = async (req, res) => {
 
     const micInputStream = micInstance.getAudioStream();
 
-     micInputStream.on('data', (data) => {
-        const params = {
-            LanguageCode: 'en-US',
-            MediaSampleRateHertz: 16000,
-            MediaEncoding: 'pcm', // or 'wav'
-            AudioStream: data
+    micInputStream.on('data', async (data) => {
+        console.log('Received audio data of length:', data.length);
+
+        if (data.length === 0) {
+            console.error('Received empty audio data.'); // Log if no data is received
+            return;
         }
 
-        transcribeService.startStreamTranscription(params, (err, data) => {
-            if (err) {
-                console.error('Error during transcription:', err);
-                return res.status(500).json({error: 'Error during transcription'});
+        if (!req.transcribing) { // Only create a new transcription session if the previous one is not done
+            req.transcribing = true; // transcription has started
+
+            const params = {
+                LanguageCode: 'en-US',
+                MediaSampleRateHertz: 16000,
+                MediaEncoding: 'pcm',
+                AudioStream: micInputStream,
+            };
+
+            try {
+                const response = await transcribeStreamingClient.send(new StartStreamTranscriptionCommand(params));
+                console.log('Transcription Response:', response);
+
+                const transcriptionStream = response.TranscriptResultStream;
+
+                for await (const transcriptionData of transcriptionStream) {
+                    if (transcriptionData.Transcript && transcriptionData.Transcript.Results.length > 0) {
+                        const results = transcriptionData.Transcript.Results.map(result => {
+                            if (result.Alternatives && result.Alternatives.length > 0) {
+                                return {
+                                    transcript: result.Alternatives[0].Transcript,
+                                    isPartial: result.IsPartial,
+                                };
+                            } else {
+                                console.warn('No alternatives found in result');
+                                return { transcript: '', isPartial: result.IsPartial };
+                            }
+                        });
+                        res.write(JSON.stringify(results));
+                    }
+                }
+            } catch (error) {
+                console.error('Error during transcription:', error);
+                res.status(500).json({ error: 'Error during transcription' });
+            } finally {
+                req.transcribing = false; // reset transcription flag
             }
-            transcriptionResults.push(...data.Transcript.Results.map(result => result.Alternatives[0].Transcript));
-        });
+        }
     });
 
-    micInputStream.on('end', () => {
-        res.json({ transcription: transcriptionResults.join(' ') }); // when streaming ends, send the transcriptions back
+    micInputStream.on('error', (err) => {
+        console.error('Audio stream error:', err);
+        res.status(500).json({ error: 'Audio stream error.' });
     });
 
     micInstance.start();
-    console.log('Recording and transcribing...');
+    console.log('Microphone started.');
 
-    setTimeout(() => {
+    req.on('end', () => { // stop transcription on request end
         micInstance.stop();
-        console.log('Stopped recording.');
-    }, 10000); // stop after 10 seconds
-}
-
+        console.log('Microphone recording stopped.');
+        res.end();
+    });
+};
 
 module.exports = {
     getUser,
@@ -141,5 +177,5 @@ module.exports = {
     updateUser,
     getAllPostsByUser,
     chatWithBot,
-    transcribeAudio
+    transcribeAudio,
 }
