@@ -1,7 +1,13 @@
 const User = require('../models/userModel');
+const mic = require('mic');
+// const { spawn } = require('child_process');
+// const soxPath = 'C:\Program Files (x86)\sox-14-4-2';
+// const soxProcess = spawn(soxPath, ['-b', '16', '--endian', 'little', '-c', '1', '-r', '16000', '-e', 'signed-integer', '-t', 'waveaudio', 'default', '-p']);
 const { OpenAI } = require('openai');
+const { TranscribeStreamingClient, StartStreamTranscriptionCommand } = require('@aws-sdk/client-transcribe-streaming');
 const dotenv = require('dotenv');
 
+const TranscribeStreamingClient = new TranscribeStreamingClient({ region: AWS_REGION });
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
@@ -87,11 +93,53 @@ const chatWithBot = async (req, res) => {
     }
 }
 
+const transcribeAudio = async (req, res) => {
+    const micInstance = mic({
+        rate: '16000',
+        channels: '1',
+        debug: false,
+        exitOnSilence: 6,
+    });
+
+    const micInputStream = micInstance.getAudioStream();
+
+     micInputStream.on('data', (data) => {
+        const params = {
+            LanguageCode: 'en-US',
+            MediaSampleRateHertz: 16000,
+            MediaEncoding: 'pcm', // or 'wav'
+            AudioStream: data
+        }
+
+        transcribeService.startStreamTranscription(params, (err, data) => {
+            if (err) {
+                console.error('Error during transcription:', err);
+                return res.status(500).json({error: 'Error during transcription'});
+            }
+            transcriptionResults.push(...data.Transcript.Results.map(result => result.Alternatives[0].Transcript));
+        });
+    });
+
+    micInputStream.on('end', () => {
+        res.json({ transcription: transcriptionResults.join(' ') }); // when streaming ends, send the transcriptions back
+    });
+
+    micInstance.start();
+    console.log('Recording and transcribing...');
+
+    setTimeout(() => {
+        micInstance.stop();
+        console.log('Stopped recording.');
+    }, 10000); // stop after 10 seconds
+}
+
+
 module.exports = {
     getUser,
     createNewUser,
     deleteUser,
     updateUser,
     getAllPostsByUser,
-    chatWithBot
+    chatWithBot,
+    transcribeAudio
 }

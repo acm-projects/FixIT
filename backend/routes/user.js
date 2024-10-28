@@ -6,7 +6,8 @@ const {
     deleteUser,
     updateUser,
     getAllPostsByUser,
-    chatWithBot
+    chatWithBot,
+    transcribeAudio
 } = require('../controllers/userController');
 
 router.post('/', createNewUser);
@@ -20,5 +21,7 @@ router.delete('/:username', deleteUser);
 router.patch('/:username', updateUser);
 
 router.post('/chat', chatWithBot);
+
+router.post('/speechToText', transcribeAudio)
 
 module.exports = router;

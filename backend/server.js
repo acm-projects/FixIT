@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const { auth } = require('express-openid-connect') //imports authentication middleware and helps create functions to handle user tasks like logins, etc
+process.env.PATH += ';C:\\Program Files (x86)\\sox-14-4-2'; // Adjust this to the actual SoX path
 
 const app = express();
 
@@ -55,6 +56,7 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`Connected to database and server running on port ${process.env.PORT}.`);
+            console.log(process.env.PATH);
         });
     })
     .catch((error) => {
