@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Home = () => {
+const home = () => {
   return (
     <View>
       <Text>Home</Text>
@@ -9,6 +9,6 @@ const Home = () => {
   )
 }
 
-export default Home
+export default home
 
 const styles = StyleSheet.create({})

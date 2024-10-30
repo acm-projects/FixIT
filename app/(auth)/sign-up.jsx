@@ -25,7 +25,7 @@ const SignUp = () => {
     
 
     try {
-      const resp = await axios.post("http://localhost:3000/api/users", {
+      const resp = await axios.post("http:// 10.178.162.63:3000/api/users", {
         username: username,
         email: email,
         password: password,
@@ -33,7 +33,7 @@ const SignUp = () => {
         lastName: lastName,
         yearClassification: yearClassification,
         major: major,
-      });
+      }, {});
     
       // Handle success
       console.log(resp);       // Full response object

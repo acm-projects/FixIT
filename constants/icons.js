@@ -17,8 +17,24 @@ import phone from "../assets/icons/phone.png";
 import google_g_logo from "../assets/icons/google_g_logo.png";
 import outlook_logo from "../assets/icons/outlook_logo.png";
 import sort from "../assets/icons/sort.png";
+import cancel from "../assets/icons/cancel.png";
+import x_button from "../assets/icons/x-button.png";
+import filter from "../assets/icons/filter.png";
+import profile1 from "../assets/icons/profile1.png";
+import profile2 from "../assets/icons/profile2.png";
+import arrow_up from "../assets/icons/arrow-up.png";
+import arrow_down from "../assets/icons/arrow-down.png";
+import comment from "../assets/icons/comment.png";
 
 export default {
+  comment,
+  arrow_up,
+  arrow_down,
+  profile1,
+  profile2,
+  filter,
+  x_button,
+  cancel,
   sort,
   outlook_logo,
   google_g_logo,

@@ -27,27 +27,31 @@ const AttachFile = () => {
     
   }
 
-  return (
-    <>
-    <Pressable 
-    className="w-4/6 border-2 rounded-lg flex justify-center flex-row space-x-2 items-center border-slate-400"
-    onPressOut={pickImage} 
-    >
-        <Image
-        source={icons.upload}
-        className="h-5 w-5 text-blue-600"
-        />
-        
-        <Text className="text-xl">
-            Upload Files
-        </Text>
-    </Pressable>
 
+  const deleteImage = () => {
+    setImage("")
+  }
+
+  return (
     
-    <View className="flex justify-center items-center border-dashed h-1/6 w-4/6 border-2">
-    {image && <Image source={{uri:image}} className="scale-50 h-full w-full"></Image>}
-    </View>
-    </>
+      <View className="flex rounded-xl justify-center items-center border-dashed h-full w-1/2 border-2">
+        {!image ? <Pressable className="h-5 w-5" onPressOut={pickImage}>
+            <Image
+            className="h-7 w-7"
+            source={icons.plus}/>
+        </Pressable>: 
+        <>
+          <Image source={{ uri: image }} className="h-full w-full rounded-xl" />
+            <Pressable onPressOut={deleteImage} className="absolute top-2 opacity-80 right-2 bg-gray-600  rounded-full">
+              <Image
+                source={icons.cancel}
+                className="w-6 h-6"
+                style={{ tintColor: 'white' }}
+              />
+            </Pressable>
+        </>}
+        
+        </View>
   )
 }
 

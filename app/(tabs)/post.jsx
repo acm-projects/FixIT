@@ -5,8 +5,12 @@ import PostInput from "../../components/PostInput"
 import {useState} from 'react'
 import {icons} from "../../constants"
 import AttachFile from '../../components/AttachFile'
+import TagsInput from '../../components/TagsInput'
+import ThreeDButton from '../../components/ThreeDButton'
+import RippleButton from '../../components/RippleButton'
+import ExpandingSearchBar from '../../components/ExpandingSearchBar'
 
-const Post = () => {
+const post = () => {
     const [isPressed, setIsPressed] = useState("")
     const [postData, setPostData] = useState({
       title: "",
@@ -24,13 +28,14 @@ const Post = () => {
     }
   return (
 
-    <SafeAreaView className="h-full pb-0 mb-0">
+    // <SafeAreaView className="h-full pb-0 mb-0">
       
 
-      <View className="bg-slate-500 h-14 w-full"></View>
-
-      <View className="flex items-center justify-center border-b-2">
-        <Text className="pt-10 text-5xl ">Post an Issue</Text>
+      
+    <>
+      <View className="flex bg-secondary-200 rounded-b-3xl pt-24 pb-2 pl-4 items-start justify-center">
+        <Text className="text-5xl ">Post an Issue</Text>
+        <Text className="text-xl ">Facing an Issue? Let others know. </Text>
       </View>
 
       <ScrollView 
@@ -67,49 +72,42 @@ const Post = () => {
           valueProp={postData.solution}
           onChange={(e) => setPostData({...postData, solution:e})}
 
-          inputStyles={"h-4/6 pb-10"}
+          inputStyles={"h-4/6 mb-10 pb-10"}
           multi={true}
         />
 
-        <AttachFile/>
-
+     
+        <View className="flex flex-col justify-center p-0 m-0 items-start h-1/4 w-full">
+        <Text className="text-4xl mb-3">Upload Images</Text>
+          <View className="flex flex-row justify-start items-center space-x-14 w-full h-5/6">
+            <AttachFile/>
+            <AttachFile/>
+          </View>
+        </View>
         
         
-        <PostInput
-          title={"Tags"}
-          description={"Add upto 5 tags to describe your issue."}
+        <View className="w-full flex justify-center items-center">
+        <TagsInput/>
+        </View>
 
-          inputStyles={"h-2/6 pb-10"}
-        />
 
-        
 
-        <Pressable 
-          className={`rounded-lg h-fit mb-20 duration-100 p-5 bg-slate-200 ${isPressed ? "bg-slate-400": "bg-inherit"}`}
+        <RippleButton title="Submit"></RippleButton>
+        {/* <ThreeDButton title="Submit"></ThreeDButton> */}
+        {/* <Pressable 
+          className={`rounded-lg h-fit mb-20 duration-100 p-5 bg-slate-200 ${isPressed ? "bg-secondary": "bg-secondary-200"}`}
           onPressIn={handlePress}
           onPressOut={handlePress}
           onPress={submitForm}
           >
           <Text className="text-2xl">PRESS ME TO SUBMIT</Text>
-        </Pressable>
+        </Pressable> */}
 
       </ScrollView>
-
-      
-      
-        
-
-    {/* View for all the input */}
-
-  
-      
-    
-
-
-    </SafeAreaView>
+    </>
   )
 }
 
-export default Post
+export default post
 
 const styles = StyleSheet.create({})
