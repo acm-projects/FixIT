@@ -5,7 +5,7 @@ import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
 import { Link } from 'expo-router'
 import ThirdPartyButton from '../../components/ThirdPartyButton'
-import {icons} from "../../constants"
+import { icons } from "../../constants"
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -13,69 +13,61 @@ const SignIn = () => {
     password: ''
   })
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView style={styles.safeArea}>
       <ScrollView>
-        <View className="w-full justify-center mt-5 h-full px-4">
-          <Text className="text-gray-100 text-5xl mt-5 ">FIXIT</Text>
-          <Text className="text-gray-100 text-semibold font-psemibold text-xl mt-5">Log in to Fixit</Text>
-          
+        <View style={styles.container}>
+          <Text style={styles.title}>FIXIT</Text>
+          <Text style={styles.subTitle}>Log in to Fixit</Text>
+
           <FormField
             title="Username"
             value={form.username}
             placeholder="johndoe85"
-            handleChangeText={(e) => setForm({...form,username:e})}
-            otherStyles="mt-7"
-            
+            handleChangeText={(e) => setForm({ ...form, username: e })}
+            otherStyles={styles.formFieldMargin}   // Updated here to pass React Native style object
           />
+          
           <FormField
             title="Password"
             value={form.password}
-            handleChangeText={(e) => setForm({...form,password:e})}
-            otherStyles="mt-7"
-
+            handleChangeText={(e) => setForm({ ...form, password: e })}
+            otherStyles={styles.formFieldMargin}   // Updated here as well
           />
 
-
-          <View className="flex justify-center w-full flex-col items-center">
-            
-            <Text className="mt-5 text-center font-psemibold text-gray-100">
-              Don't have an Account? <Link className="text-amber-800" href="/sign-up">Sign up</Link>
+          <View style={styles.centerContent}>
+            <Text style={styles.signUpText}>
+              Don't have an Account? <Link style={styles.link} href="/sign-up">Sign up</Link>
             </Text>
-            
+
             <CustomButton
               name="Sign In"
-
               handlePress={() => {
                 console.log(form)
-                setForm({username:'', password:''})
+                setForm({ username: '', password: '' })
               }}
-              ContainerStyles={"border-2 border-red-400 mt-8 mb-6 h-12 bg-amber-800 rounded-2xl text-white"}
-              textStyles={"text-gray-300"}
-              >
-            </CustomButton>
-            
+              ContainerStyles={styles.signInButton}
+              textStyles={styles.signInButtonText}
+            />
+
             <ThirdPartyButton
               name="Sign In with Google"
               handlePress={() => {
                 console.log("Sign In with Google")
               }}
               iconSource={icons.google_g_logo}
-              ContainerStyles={"mt-12"}
-              textStyles={"text-gray-300"}
-              >
-            </ThirdPartyButton>
-            
+              ContainerStyles={styles.thirdPartyButton}
+              textStyles={styles.thirdPartyButtonText}
+            />
+
             <ThirdPartyButton
               name="Sign In with Outlook"
               handlePress={() => {
                 console.log("Sign In with Outlook")
               }}
               iconSource={icons.outlook_logo}
-              ContainerStyles={"mt-5"}
-              textStyles={"text-gray-300"}
-              >
-            </ThirdPartyButton>
-
+              ContainerStyles={styles.thirdPartyButtonMargin}
+              textStyles={styles.thirdPartyButtonText}
+            />
           </View>
         </View>
       </ScrollView>
@@ -85,4 +77,72 @@ const SignIn = () => {
 
 export default SignIn
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: '#007BFF',
+    height: '100%',
+  },
+  container: {
+    width: '100%',
+    justifyContent: 'center',
+    marginTop: 20,
+    height: '100%',
+    paddingHorizontal: 16,
+  },
+  title: {
+    color: '#F3F4F6',
+    fontSize: 40,
+    marginTop: 20,
+  },
+  subTitle: {
+    color: '#F3F4F6',
+    fontWeight: '600',
+    fontSize: 20,
+    marginTop: 20,
+  },
+  formFieldMargin: {
+    marginTop: 28,  // Equivalent to Tailwind "mt-7"
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    flexDirection: 'column',
+  },
+  signUpText: {
+    marginTop: 20,
+    textAlign: 'center',
+    fontWeight: '600',
+    color: '#F3F4F6',
+  },
+  link: {
+    color: '#D97706',
+  },
+  signInButton: {
+    borderWidth: 2,
+    borderColor: '#F87171',
+    marginTop: 32,
+    marginBottom: 24,
+    height: 48,
+    backgroundColor: '#D97706',
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  signInButtonText: {
+    color: '#F3F4F6',
+  },
+  thirdPartyButton: {
+    marginTop: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  thirdPartyButtonMargin: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  thirdPartyButtonText: {
+    color: '#F3F4F6',
+  },
+});
