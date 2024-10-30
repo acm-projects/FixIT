@@ -1,0 +1,48 @@
+{
+  "article title": "Install and Connect to GlobalProtect VPN (Windows)",
+  "tags": [
+    "vpn",
+    "windows",
+    "GlobalProtect",
+    "GlobalProtect-vpn"
+  ],
+  "sections": [
+    {
+      "section title": "Table of Contents",
+      "section text": "Installing GlobalProtect \nConnecting to GlobalProtect\n\nFirefox\nFirefox\n",
+      "images": []
+    },
+    {
+      "section title": "Installing GlobalProtect",
+      "section text": "Open your preferred web browser.\nNavigate to utdvpn.utdallas.edu and enter your UT Dallas credentials to sign in.\n\t\nIf you are not already authenticated through Duo, you will be asked to do so via a push notification, text message, or phone call.\nVisit Knowledge Base - Duo for more information on how to enroll in Duo.\nIf you are not already authenticated through Duo, you will be asked to do so via a push notification, text message, or phone call.\nVisit Knowledge Base - Duo for more information on how to enroll in Duo.\n\nOnce logged in, you will see multiple download options. If you do not know which version is correct for your device, follow the instructions below.\n\n\t\nSelect the Start button > Settings > System > About. Under Device specifications > System type, you will see whether your device is 32 or 64 bit.\nSelect the Start button > Settings > System > About. Under Device specifications > System type, you will see whether your device is 32 or 64 bit.\nSelect Download Windows 64-bit GlobalProtect agent or Download Windows 32 bit GlobalProtect agent, depending on your Windows version.\n\nAfter downloading the GlobalProtect Portal installer, you can save it to your Downloads folder or another preferred location.\nOpen the GlobalProtect Portal MSI file and select Next.\n\nSelect the folder you want GlobalProtect installed in (or use the default) and select Next as shown below.\n\nYou will see the latest version of GlobalProtect installed on your system, as shown below.\n\nChoose Close once the installation is complete.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=7580515f-85f3-4082-8148-d7e7dbf204ce.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=0f4511b2-1f5d-469b-b094-daba96b5f6de.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=b9f271f4-b051-4acf-ab48-ce4e994cc8ec.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=65a4ccd5-f749-4957-9a4a-e433d1773cfb.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=e6ae3f90-00f8-4879-99e2-671f9a0d398d.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=fc430113-7b3e-450a-befd-6d14eae9b7a5.png"
+      ]
+    },
+    {
+      "section title": "Connecting to GlobalProtect",
+      "section text": "Open the GlobalProtect VPN client on your machine, enter the Portal Address as utdvpn.utdallas.edu, and select Connect.\n\n\t\nThe GlobalProtect VPN client icon can be populated on the bottom right side of your taskbar.\nIf not located there, search for \"GlobalProtect VPN\" on your device.\nThe GlobalProtect VPN client icon can be populated on the bottom right side of your taskbar.\nIf not located there, search for \"GlobalProtect VPN\" on your device.\n\nIt will automatically open a web browser for you to sign in with your UTD NetID and password.\n\nAuthenticate using Duo via a push notification, text message, or phone call.\n\nPlease check the \"Always allow utdvpn.utdallas.edu\" to open links of this type in the associated app and click Open GlobalProtect.\n\n\t\nGlobalProtect may take a few seconds to reach the connection.\nGlobalProtect may take a few seconds to reach the connection.\n\nOpen the GlobalProtect VPN app; it will display a “Connected” message informing that you are actively connected to the UT Dallas VPN, as shown below.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=61b87457-04b8-432e-a90d-1ce66ce12ba3.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=04d890e9-7f40-4aca-acf1-4fd0773d3823.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=4f55e2fc-98ff-4e03-9cb7-1c3ea532a5a4.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=65b94f62-9ee8-40ab-87be-aed3fccd0153.png"
+      ]
+    },
+    {
+      "section title": "Firefox",
+      "section text": "If you have Firefox as your default browser, you must log in using your UTD credentials and authenticate via DUO.\n\nCheck the \"Always allow utdvpn.utdallas.edu\" to open this type of links in the associated app.\n\nAlso, check the box for \"Always use this application to open globalprotectcallback links.\" Select Open Link. \n\nNow you will be connected to the VPN.\nNow you will be connected to the VPN.\n\nOpen the GlobalProtect VPN app; it will display a “Connected” message informing that you are actively connected to the UT Dallas VPN, as shown below.\n\n",
+      "images": [
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=cbc72449-e009-41ba-aa93-ed265361566f.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=006a0b8c-270f-4a5a-ad5c-385cf1098ab1.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=d00dc8f5-64d9-4835-8804-8982fccd948c.png",
+        "https://atlas.utdallas.edu/TDPortal/Images/Viewer?fileName=65b94f62-9ee8-40ab-87be-aed3fccd0153.png"
+      ]
+    }
+  ]
+}
