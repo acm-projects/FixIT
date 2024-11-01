@@ -1,53 +1,44 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from 'expo-router';
+import React, { useContext } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { ProfileContext } from './ProfileContext';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
-  
-  // Default profile data (no useEffect, static state)
-  const [profile] = useState({
-    name: 'Nykaela Burks',
-    email: 'nykaela.burks@example.com',
-    major: 'Computer Science',
-    classYear: 'Senior',
-    profilePicture: 'https://via.placeholder.com/150',
-    backgroundImage: 'https://via.placeholder.com/600x200',
-  });
+  const { profile, savedPosts } = useContext(ProfileContext);
 
   return (
-    <View style={styles.container}>
-      {/* Background Image */}
-      <Image source={{ uri: profile.backgroundImage }} style={styles.backgroundImage} />
+    <ScrollView style={styles.container}>
+      {/* Profile Info Section */}
+      <View style={styles.profileContainer}>
+        <Image source={{ uri: profile.backgroundImage }} style={styles.backgroundImage} />
+        <View style={styles.profileImageWrapper}>
+          <Image source={{ uri: profile.profilePicture }} style={styles.profileImage} />
+        </View>
+        <Text style={styles.name}>{profile.name}</Text>
+        <Text style={styles.email}>{profile.email}</Text>
+        <Text style={styles.info}>Major: {profile.major}</Text>
+        <Text style={styles.info}>Class Year: {profile.classYear}</Text>
 
-      {/* Profile Image */}
-      <View style={styles.profileImageWrapper}>
-        <Image source={{ uri: profile.profilePicture }} style={styles.profileImage} />
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => navigation.navigate('editProfile')}
+        >
+          <Text style={styles.editButtonText}>Edit Profile</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* User Info */}
-      <Text style={styles.name}>{profile.name}</Text>
-      <Text style={styles.email}>{profile.email}</Text>
-      <Text style={styles.info}>Major: {profile.major}</Text>
-      <Text style={styles.info}>Class Year: {profile.classYear}</Text>
-
-      {/* Edit Profile Button */}
-      <TouchableOpacity
-        style={styles.editButton}
-        onPress={() =>
-          navigation.navigate('editProfile', {
-            name: profile.name,
-            email: profile.email,
-            major: profile.major,
-            classYear: profile.classYear,
-            profilePicture: profile.profilePicture,
-            backgroundImage: profile.backgroundImage,
-          })
-        }
-      >
-        <Text style={styles.editButtonText}>Edit Profile</Text>
-      </TouchableOpacity>
-    </View>
+      {/* Saved Posts Section */}
+      <View style={styles.savedPostsContainer}>
+        <Text style={styles.savedPostsTitle}>Saved Posts</Text>
+        {savedPosts.map((post, index) => (
+          <View key={index} style={styles.postItem}>
+            <Text style={styles.postTitle}>{post.title}</Text>
+            <Text style={styles.postTags}>Tags: {post.tags.join(', ')}</Text>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -55,9 +46,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E4D3BA',
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 20,
+  },
+  profileContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
   },
   backgroundImage: {
     width: '100%',
@@ -102,6 +95,30 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  savedPostsContainer: {
+    marginTop: 20,
+  },
+  savedPostsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#23603F',
+    marginBottom: 10,
+  },
+  postItem: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  postTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  postTags: {
+    fontSize: 14,
+    color: '#888',
   },
 });
 

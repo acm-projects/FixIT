@@ -138,6 +138,13 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarButton: () => null,  // Hide this tab
           }} />
+          <Tabs.Screen
+          name="ProfileContext"
+          options={{
+            title: "ProfileContext",
+            headerShown: false,
+            tabBarButton: () => null,  // Hide this tab
+          }} />
         <Tabs.Screen
           name="search"  // Add search screen
           options={{

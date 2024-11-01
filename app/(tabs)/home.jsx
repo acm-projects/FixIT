@@ -1,12 +1,17 @@
 import {  Text, View, StyleSheet, Image, ScrollView, Button} from 'react-native'
-import React from 'react'
+import  { useContext } from 'react';
+import { ProfileContext } from './ProfileContext'; // Import ProfileContext
 import {icons,images} from "../../constants"
-import trending_today from "../../constants/trending_today.js"
 import FeedOITComponent from '../../components/feedOITComponent.jsx'
 {/* Home page going to take the posts from create page and render them on the home screen
     
   */}
 const Home = () => {
+
+  const { savedPosts, setSavedPosts } = useContext(ProfileContext);
+  const savePost = (post) => {
+    setSavedPosts([...savedPosts, post]);
+  };
   console.log(images.placeholderImage)
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>

@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Button, Image } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Button, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useNavigation, useLocalSearchParams } from 'expo-router';  // Import useLocalSearchParams to retrieve initial data
+import { useNavigation } from 'expo-router';
+import { ProfileContext } from './ProfileContext'; // Import ProfileContext
 
 const EditProfilePage = () => {
   const navigation = useNavigation();
+  const { profile, setProfile } = useContext(ProfileContext); // Access profile data from context
 
-  // Retrieve initial data passed from ProfilePage
-  const { name: initialName, email: initialEmail, major: initialMajor, classYear: initialClassYear, profilePicture: initialProfilePicture, backgroundImage: initialBackgroundImage } = useLocalSearchParams();
-
-  // State variables for profile fields
-  const [name, setName] = useState(initialName || '');
-  const [email, setEmail] = useState(initialEmail || '');
-  const [major, setMajor] = useState(initialMajor || '');
-  const [classYear, setClassYear] = useState(initialClassYear || '');
-  const [profileImg, setProfileImg] = useState(initialProfilePicture || '');
-  const [bgImg, setBgImg] = useState(initialBackgroundImage || '');
+  // State variables for profile fields, initialized from context
+  const [name, setName] = useState(profile.name || '');
+  const [email, setEmail] = useState(profile.email || '');
+  const [major, setMajor] = useState(profile.major || '');
+  const [classYear, setClassYear] = useState(profile.classYear || '');
+  const [profileImg, setProfileImg] = useState(profile.profilePicture || '');
+  const [bgImg, setBgImg] = useState(profile.backgroundImage || '');
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditingProfileImage, setIsEditingProfileImage] = useState(false); // To know which image is being edited (profile or background)
 
-  // Function to save changes and navigate back to ProfilePage
+  // Function to save changes and update profile in context
   const handleSave = () => {
     const updatedProfile = {
       name,
@@ -31,8 +30,8 @@ const EditProfilePage = () => {
       backgroundImage: bgImg,
     };
 
-    // Navigate back to the Profile page with the updated profile data
-    navigation.navigate('profile', updatedProfile);
+    setProfile(updatedProfile); // Update profile data in context
+    navigation.goBack(); // Navigate back to ProfilePage
   };
 
   // Request permission to access the device's media library
@@ -72,7 +71,7 @@ const EditProfilePage = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <Text style={styles.title}>Edit Profile</Text>
 
       {/* Show current background image */}
@@ -140,7 +139,7 @@ const EditProfilePage = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -148,6 +147,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E4D3BA',
+  },
+  contentContainer: {
     padding: 20,
     justifyContent: 'center',
   },
