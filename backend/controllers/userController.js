@@ -90,15 +90,18 @@ const chatWithBot = async (req, res) => {
                     `
                     You are a helpful assistant.
                     
-                    If you get anything related to how to reset the NETID password, refer the user to this article link: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=1262
+                    If you get anything related on how to reset my NetID password, refer the user to this article link: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=1262
                     Here are some basic instructions as well on how to do it: 
-                    Visit the NETID 
+                    - Visit the NetID Self-Service Portal at this website: https://oit.utdallas.edu/netid/self-service/
+                    - Click on Password Reset/Account Lockout
+                    - Click on reset password
+                    - Enter yout NetID and click 'Continue'
+
 
                     For issues regarding connecting to a VPN, redirect users to this article: Install and Connect to GlobalProtect VPN (Windows)
                     
                     For anyone dealing with this error or similar, Error: "Another device on the network is using your computer's IP address" (MacOS), refer users to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=894
-                    
-                    
+
 
                     ` 
                 },
