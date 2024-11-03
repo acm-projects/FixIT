@@ -1,14 +1,13 @@
 import React, { useState, useContext } from 'react';
-import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Button, Image } from 'react-native';
+import { ScrollView, YStack, Text, Input, Button, Image, Modal, Pressable } from 'tamagui';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from 'expo-router';
 import { ProfileContext } from './ProfileContext'; // Import ProfileContext
 
 const EditProfilePage = () => {
   const navigation = useNavigation();
-  const { profile, setProfile } = useContext(ProfileContext); // Access profile data from context
+  const { profile, setProfile } = useContext(ProfileContext);
 
-  // State variables for profile fields, initialized from context
   const [name, setName] = useState(profile.name || '');
   const [email, setEmail] = useState(profile.email || '');
   const [major, setMajor] = useState(profile.major || '');
@@ -17,9 +16,8 @@ const EditProfilePage = () => {
   const [bgImg, setBgImg] = useState(profile.backgroundImage || '');
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isEditingProfileImage, setIsEditingProfileImage] = useState(false); // To know which image is being edited (profile or background)
+  const [isEditingProfileImage, setIsEditingProfileImage] = useState(false);
 
-  // Function to save changes and update profile in context
   const handleSave = () => {
     const updatedProfile = {
       name,
@@ -30,11 +28,10 @@ const EditProfilePage = () => {
       backgroundImage: bgImg,
     };
 
-    setProfile(updatedProfile); // Update profile data in context
-    navigation.goBack(); // Navigate back to ProfilePage
+    setProfile(updatedProfile);
+    navigation.goBack();
   };
 
-  // Request permission to access the device's media library
   const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -42,9 +39,8 @@ const EditProfilePage = () => {
     }
   };
 
-  // Function to open the image picker for selecting images
   const chooseFromDevice = async () => {
-    await requestPermission(); // Ensure permission is granted
+    await requestPermission();
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -55,167 +51,56 @@ const EditProfilePage = () => {
 
     if (!result.canceled) {
       if (isEditingProfileImage) {
-        setProfileImg(result.uri);  // Set selected profile image
+        setProfileImg(result.uri);
       } else {
-        setBgImg(result.uri);  // Set selected background image
+        setBgImg(result.uri);
       }
     }
 
-    setIsModalVisible(false); // Close the modal after selection
+    setIsModalVisible(false);
   };
 
-  // Function to handle which image is being edited
   const handleEditImage = (isProfileImage) => {
     setIsEditingProfileImage(isProfileImage);
-    setIsModalVisible(true); // Show the modal
+    setIsModalVisible(true);
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <Text style={styles.title}>Edit Profile</Text>
+    <ScrollView flex={1} backgroundColor="#E4D3BA" padding={20} justifyContent="center">
+      <Text fontSize={24} fontWeight="bold" marginBottom={20} textAlign="center" color="#23603F">
+        Edit Profile
+      </Text>
 
-      {/* Show current background image */}
-      <Image source={{ uri: bgImg }} style={styles.imagePreview} />
-      <TouchableOpacity style={styles.imageEditButton} onPress={() => handleEditImage(false)}>
-        <Text style={styles.imageEditButtonText}>Edit Background Image</Text>
-      </TouchableOpacity>
+      <Image source={{ uri: bgImg }} width={150} height={150} borderRadius={75} marginBottom={20} />
+      <Button backgroundColor="#B1A180" paddingVertical={10} paddingHorizontal={20} borderRadius={10} marginBottom={20} onPress={() => handleEditImage(false)}>
+        <Text color="#fff" fontSize={16} fontWeight="bold">Edit Background Image</Text>
+      </Button>
 
-      {/* Show current profile image */}
-      <Image source={{ uri: profileImg }} style={styles.imagePreview} />
-      <TouchableOpacity style={styles.imageEditButton} onPress={() => handleEditImage(true)}>
-        <Text style={styles.imageEditButtonText}>Edit Profile Image</Text>
-      </TouchableOpacity>
+      <Image source={{ uri: profileImg }} width={150} height={150} borderRadius={75} marginBottom={20} />
+      <Button backgroundColor="#B1A180" paddingVertical={10} paddingHorizontal={20} borderRadius={10} marginBottom={20} onPress={() => handleEditImage(true)}>
+        <Text color="#fff" fontSize={16} fontWeight="bold">Edit Profile Image</Text>
+      </Button>
 
-      {/* Edit Name */}
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-        placeholder="Name"
-      />
-      
-      {/* Edit Email */}
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        keyboardType="email-address"
-      />
-      
-      {/* Edit Major */}
-      <TextInput
-        style={styles.input}
-        value={major}
-        onChangeText={setMajor}
-        placeholder="Major"
-      />
-      
-      {/* Edit Class Year */}
-      <TextInput
-        style={styles.input}
-        value={classYear}
-        onChangeText={setClassYear}
-        placeholder="Class Year"
-      />
+      <Input value={name} onChangeText={setName} placeholder="Name" height={50} borderColor="#ccc" borderWidth={1} borderRadius={10} paddingHorizontal={15} marginBottom={20} backgroundColor="#fff" />
+      <Input value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" height={50} borderColor="#ccc" borderWidth={1} borderRadius={10} paddingHorizontal={15} marginBottom={20} backgroundColor="#fff" />
+      <Input value={major} onChangeText={setMajor} placeholder="Major" height={50} borderColor="#ccc" borderWidth={1} borderRadius={10} paddingHorizontal={15} marginBottom={20} backgroundColor="#fff" />
+      <Input value={classYear} onChangeText={setClassYear} placeholder="Class Year" height={50} borderColor="#ccc" borderWidth={1} borderRadius={10} paddingHorizontal={15} marginBottom={20} backgroundColor="#fff" />
 
-      {/* Save Changes Button */}
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Save Changes</Text>
-      </TouchableOpacity>
+      <Button backgroundColor="#23603F" paddingVertical={15} borderRadius={10} alignItems="center" onPress={handleSave}>
+        <Text color="#fff" fontSize={16} fontWeight="bold">Save Changes</Text>
+      </Button>
 
-      {/* Modal for choosing image source */}
-      <Modal
-        transparent={true}
-        animationType="slide"
-        visible={isModalVisible}
-        onRequestClose={() => setIsModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Choose image source:</Text>
-            <Button title="Choose from Device" onPress={chooseFromDevice} />
-            <Button title="Cancel" onPress={() => setIsModalVisible(false)} />
-          </View>
-        </View>
+      <Modal transparent animationType="slide" visible={isModalVisible} onRequestClose={() => setIsModalVisible(false)}>
+        <YStack flex={1} justifyContent="center" alignItems="center" backgroundColor="rgba(0, 0, 0, 0.5)">
+          <YStack width={300} backgroundColor="#fff" padding={20} borderRadius={10} alignItems="center">
+            <Text fontSize={18} marginBottom={20}>Choose image source:</Text>
+            <Button onPress={chooseFromDevice}>Choose from Device</Button>
+            <Button onPress={() => setIsModalVisible(false)}>Cancel</Button>
+          </YStack>
+        </YStack>
       </Modal>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E4D3BA',
-  },
-  contentContainer: {
-    padding: 20,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#23603F',
-  },
-  input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 20,
-    backgroundColor: '#fff',
-  },
-  imageEditButton: {
-    backgroundColor: '#B1A180',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  imageEditButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  saveButton: {
-    backgroundColor: '#23603F',
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: 300,
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 20,
-  },
-  imagePreview: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginBottom: 20,
-    backgroundColor: '#f0f0f0',
-  },
-});
 
 export default EditProfilePage;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { YStack, XStack, Input, Button, Text } from 'tamagui';
 
-const typeBox = ({ onSend }) => {
+const TypeBox = ({ onSend }) => {
   const [message, setMessage] = useState('');
 
   const handleSend = () => {
@@ -12,48 +12,30 @@ const typeBox = ({ onSend }) => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.textInput}
+    <XStack padding={10} alignItems="center" borderTopWidth={1} borderTopColor="#ccc" backgroundColor="#fff">
+      <Input
+        flex={1}
+        borderWidth={1}
+        borderColor="#ccc"
+        borderRadius={20}
+        paddingHorizontal={15}
+        height={40}
         value={message}
         placeholder="Type a message..."
         onChangeText={setMessage}
       />
-      <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-        <Text style={styles.sendButtonText}>Send</Text>
-      </TouchableOpacity>
-    </View>
+      <Button
+        marginLeft={10}
+        backgroundColor="#23603F"
+        paddingHorizontal={20}
+        paddingVertical={10}
+        borderRadius={20}
+        onPress={handleSend}
+      >
+        <Text color="#fff" fontWeight="bold">Send</Text>
+      </Button>
+    </XStack>
   );
 };
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: 'row',
-    padding: 10,
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    backgroundColor: '#fff',
-  },
-  textInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    height: 40,
-  },
-  sendButton: {
-    marginLeft: 10,
-    backgroundColor: '#23603F', // Button color
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
-  },
-  sendButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-});
-
-export default typeBox;
+export default TypeBox;

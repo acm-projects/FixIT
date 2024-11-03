@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { YStack, ScrollView } from 'tamagui';
 import MsgBubble from '../../components/msgBubble.jsx';
 import TypeBox from '../../components/typeBox.jsx';
 
@@ -44,27 +44,15 @@ const Chat = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.chatContainer}>
+    <YStack flex={1} justifyContent="space-between" backgroundColor="$lightBeige">
+      <ScrollView flex={1} padding="$2">
         {messages.map((msg, index) => (
           <MsgBubble key={index} message={msg.text} isSender={msg.sender} />
         ))}
       </ScrollView>
       <TypeBox onSend={handleSend} />
-    </View>
+    </YStack>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    backgroundColor: '#E4D3BA',
-  },
-  chatContainer: {
-    flex: 1,
-    padding: 10,
-  },
-});
 
 export default Chat;

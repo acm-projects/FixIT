@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, View, Text } from 'react-native';
+import { YStack, SafeAreaView, ScrollView, Text } from 'tamagui';
 import ThirdPartyButton from '../../components/ThirdPartyButton';
 import { icons } from "../../constants";
 
@@ -13,8 +13,10 @@ const SignUp = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View>
-          <Text>Sign Up</Text>
+        <YStack padding="$4" space="$4" alignItems="center">
+          <Text fontSize={24} fontWeight="bold">
+            Sign Up
+          </Text>
 
           {/* Use ThirdPartyButton without passing any custom styles */}
           <ThirdPartyButton
@@ -28,7 +30,7 @@ const SignUp = () => {
             handlePress={() => console.log("Sign Up with Outlook")}
             iconSource={icons.outlook_logo}
           />
-        </View>
+        </YStack>
       </ScrollView>
     </SafeAreaView>
   );

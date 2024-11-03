@@ -1,4 +1,3 @@
-// ProfileContext.js
 import React, { createContext, useState } from 'react';
 
 export const ProfileContext = createContext();

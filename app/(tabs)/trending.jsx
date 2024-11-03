@@ -1,85 +1,44 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView} from 'react-native'
-import React from 'react'
-import {icons,images} from "../../constants"
-import trending_today from "../../constants/trending_today.js"
+import React from 'react';
+import { SafeAreaView, ScrollView, YStack, XStack, Text, Image } from 'tamagui';
+import { icons, images } from "../../constants";
+import trending_today from "../../constants/trending_today.js";
 
 const Trending = () => {
-  console.log(images.placeholderImage)
+  console.log(images.placeholderImage);
+  
   return (
     <SafeAreaView>
-      <View className="bg-slate-500 h-14 w-full"></View>
+      <YStack backgroundColor="#64748b" height={56} width="100%" />
 
-      <View className="flex flex-col space-y-2">
-      <Text className="text-3xl pl-3 mt-5 font-pmedium">Most Upvoted</Text>
-      
-        <ScrollView className="h-40 w-full" contentContainerStyle={
-          {display:"flex", 
-          justifyContent: "center", 
-          alignItems:"center",
-          paddingLeft: 10,
-          gap:10}} 
-          horizontal>
+      <YStack space={2} paddingX={3} marginTop={5}>
+        <Text fontSize={24} fontWeight="500">Most Upvoted</Text>
 
-          
-          
-          <View >
-              <Image 
-              source={images.placeholderImage}
-              className="h-20 w-20"
-              ></Image>
-
-              <Text>
-                Office Chairs
-              </Text>
-           </View> 
-           
-           <View >
-              <Image 
-              source={images.placeholderImage}
-              className="h-20 w-20"
-              ></Image>
-
-              <Text>
-                Office Chairs
-              </Text>
-           </View> 
-
-           <View >
-              <Image 
-              source={images.placeholderImage}
-              className="h-20 w-20"
-              ></Image>
-
-              <Text>
-                Office Chairs
-              </Text>
-           </View> 
-
-           <View >
-              <Image 
-              source={images.placeholderImage}
-              className="h-20 w-20"
-              ></Image>
-
-              <Text>
-                Office Chairs
-              </Text>
-           </View> 
-
-           <View >
-              <Image 
-              source={images.placeholderImage}
-              className="h-20 w-20"
-              ></Image>
-
-              <Text>
-                Office Chairs
-              </Text>
-           </View> 
+        <ScrollView
+          horizontal
+          height={160}
+          width="100%"
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingLeft: 10,
+            gap: 10,
+          }}
+        >
+          {[...Array(5)].map((_, index) => (
+            <YStack key={index} alignItems="center" marginRight={10}>
+              <Image
+                source={images.placeholderImage}
+                height={80}
+                width={80}
+                resizeMode="contain"
+              />
+              <Text>Office Chairs</Text>
+            </YStack>
+          ))}
         </ScrollView>
-      </View>
+      </YStack>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default Trending
+export default Trending;

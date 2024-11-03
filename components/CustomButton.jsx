@@ -1,14 +1,25 @@
-import { View, Text, Pressable } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { YStack, Pressable, Text } from 'tamagui';
 
-const CustomButton = ({textStyles, ContainerStyles, name, handlePress}) => {
+const CustomButton = ({ textStyles, ContainerStyles, name, handlePress }) => {
   return (
-    <Pressable className={`w-1/2 h-10 border-2 border-black bg-amber-500 rounded-lg ${ContainerStyles}`} onPressOut={handlePress}>
-        <View className="flex justify-center items-center h-full">
-            <Text className={`text-lg ${textStyles}`}>{name}</Text>
-        </View>
+    <Pressable
+      width="50%" 
+      height={40}
+      borderWidth={2}
+      borderColor="black"
+      backgroundColor="#f59e0b" // Equivalent to Tailwind's "bg-amber-500"
+      borderRadius={10}
+      onPressOut={handlePress}
+      {...ContainerStyles} // Apply custom container styles if provided
+    >
+      <YStack justifyContent="center" alignItems="center" height="100%">
+        <Text fontSize={18} {...textStyles}>
+          {name}
+        </Text>
+      </YStack>
     </Pressable>
-  )
-}
+  );
+};
 
-export default CustomButton
+export default CustomButton;
