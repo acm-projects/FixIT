@@ -1,15 +1,16 @@
 const User = require('../models/userModel');
-const mic = require('mic');
+const recorder = require('node-record-lpcm16');
+
 const { OpenAI } = require('openai');
 const { TranscribeStreamingClient, StartStreamTranscriptionCommand } = require('@aws-sdk/client-transcribe-streaming');
 
-const transcribeStreamingClient = new TranscribeStreamingClient({ 
-    region: process.env.AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-});
+const LanguageCode = "en-US";
+const MediaEncoding = "pcm";
+const MediaSampleRateHertz = "16000";
+const credentials = {
+  "accessKeyId": process.env.AWS_ACCESS_KEY_ID,
+  "secretAccessKey": process.env.AWS_SECRET_ACCESS_KEY,
+};
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
@@ -83,7 +84,24 @@ const chatWithBot = async (req, res) => {
     try {
         const completion = await openai.chat.completions.create({
             messages: [
-                { role: "system", content: "You are a helpful assistant." }, // helps establish the role or behavior that the model should adopt during the conversation
+                { // helps establish the role or behavior that the model should adopt during the conversation
+                    role: "system", 
+                    content: 
+                    `
+                    You are a helpful assistant.
+                    
+                    If you get anything related to how to reset the NETID password, refer the user to this article link: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=1262
+                    Here are some basic instructions as well on how to do it: 
+                    Visit the NETID 
+
+                    For issues regarding connecting to a VPN, redirect users to this article: Install and Connect to GlobalProtect VPN (Windows)
+                    
+                    For anyone dealing with this error or similar, Error: "Another device on the network is using your computer's IP address" (MacOS), refer users to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=894
+                    
+                    
+
+                    ` 
+                },
                 { role: "user", content: userMessage }
             ],
         });
@@ -97,77 +115,56 @@ const chatWithBot = async (req, res) => {
 }
 
 const transcribeAudio = async (req, res) => {
-    const micInstance = mic({
-        rate: '16000',
-        channels: '1',
-        debug: false,
-        exitOnSilence: 6,
+    recording = recorder.record({
+        silence: 3, // duration to wait before stopping due to silence
+        threshold: 0.07 // example threshold value (can be adjusted)
     });
 
-    const micInputStream = micInstance.getAudioStream();
+    console.log("Recording was started. Press Ctrl+C to stop.")
 
-    micInputStream.on('data', async (data) => {
-        console.log('Received audio data of length:', data.length);
+    recording.stream().on('stop', () => {
+        console.log("Recording stopped due to silence.");
+    });
+    
+    recording.stream().on('data', (data) => {
+        console.log(`Received audio chunk of size: ${data.length}`);
+    });
+    const client = new TranscribeStreamingClient({
+        region: "us-west-2",
+        credentials
+    });
 
-        if (data.length === 0) {
-            console.error('Received empty audio data.'); // Log if no data is received
-            return;
-        }
+    const params = {
+        LanguageCode,
+        MediaEncoding,
+        MediaSampleRateHertz,
+        AudioStream: (async function* () {
+            for await (const chunk of recording.stream()) {
+                yield {AudioEvent: {AudioChunk: chunk}};
+            }
+        })(),
+    };
 
-        if (!req.transcribing) { // Only create a new transcription session if the previous one is not done
-            req.transcribing = true; // transcription has started
+    const command = new StartStreamTranscriptionCommand(params);
+    const response = await client.send(command);
 
-            const params = {
-                LanguageCode: 'en-US',
-                MediaSampleRateHertz: 16000,
-                MediaEncoding: 'pcm',
-                AudioStream: micInputStream,
-            };
+    try {
+        for await (const event of response.TranscriptResultStream) {
+            if (event.TranscriptEvent) {
+                const transcripts = event.TranscriptEvent.Transcript.Results;
 
-            try {
-                const response = await transcribeStreamingClient.send(new StartStreamTranscriptionCommand(params));
-                console.log('Transcription Response:', response);
-
-                const transcriptionStream = response.TranscriptResultStream;
-
-                for await (const transcriptionData of transcriptionStream) {
-                    if (transcriptionData.Transcript && transcriptionData.Transcript.Results.length > 0) {
-                        const results = transcriptionData.Transcript.Results.map(result => {
-                            if (result.Alternatives && result.Alternatives.length > 0) {
-                                return {
-                                    transcript: result.Alternatives[0].Transcript,
-                                    isPartial: result.IsPartial,
-                                };
-                            } else {
-                                console.warn('No alternatives found in result');
-                                return { transcript: '', isPartial: result.IsPartial };
-                            }
-                        });
-                        res.write(JSON.stringify(results));
+                transcripts.forEach(result => {
+                    if (result.IsPartial === false) {
+                        const transcription = result.Alternatives[0].Transcript; // takes the most accurate transcribed text
+                        console.log(`Transcription: ${transcription}`);
                     }
-                }
-            } catch (error) {
-                console.error('Error during transcription:', error);
-                res.status(500).json({ error: 'Error during transcription' });
-            } finally {
-                req.transcribing = false; // reset transcription flag
+                });
             }
         }
-    });
-
-    micInputStream.on('error', (err) => {
-        console.error('Audio stream error:', err);
-        res.status(500).json({ error: 'Audio stream error.' });
-    });
-
-    micInstance.start();
-    console.log('Microphone started.');
-
-    req.on('end', () => { // stop transcription on request end
-        micInstance.stop();
-        console.log('Microphone recording stopped.');
-        res.end();
-    });
+    } catch(err) {
+        console.log("error")
+        console.log(err)
+    }
 };
 
 module.exports = {
