@@ -12,12 +12,16 @@ import { SearchBar } from '@rneui/themed';
 import { Icon } from '@rneui/themed'
 import { Divider } from '@rneui/base'
 import ReanimatedCarousel from '../../components/ReanimatedCarousel'
+import { Link } from 'expo-router'
+
+
 
 
 const trending = () => {
   const [searchQuerry, setSearchQuerry] = useState("")
   const [image, setImage] = useState("")
 
+   
 
   const DATA = [
     {
@@ -37,7 +41,7 @@ const trending = () => {
       profileImage:icons.profile1,
       votes: 2,
       comments:4,
-      img: [{id: 1, uri:images.placeholderImage}, {id:2, uri:images.cards}],
+      img: [{id:1, uri:images.placeholderImage},{id:2, uri:images.cards},{id:3, uri:images.cards},{id:4, uri:images.cards}],
     },
     {
       id: '3',
@@ -47,7 +51,7 @@ const trending = () => {
       profileImage:icons.profile2,
       votes: 6,
       comments:9,
-      img: images.placeholderImage,
+      img: [{id:1, uri:images.placeholderImage}],
     },
     {
       id: '4',
@@ -57,7 +61,7 @@ const trending = () => {
       profileImage:icons.profile,
       votes: 10,
       comments: 0,
-      img: images.placeholderImage,
+      img: [{id:1, uri:images.cards}],
     },
     {
       id: '5',
@@ -76,7 +80,7 @@ const trending = () => {
       profileImage:icons.profile2,
       votes: 12,
       comments: 4,
-      img: images.placeholderImage,
+      img: [{id:1, uri:images.cards}],
     },
     {
       id: '7',
@@ -95,7 +99,7 @@ const trending = () => {
       profileImage:icons.profile2,
       votes: 20,
       comments: 10,
-      img:[images.placeholderImage, images.placeholderImage],
+      img:[{id:1, uri:images.placeholderImage},{id:2, uri:images.cards}],
     },
     {
       id: '9',
@@ -105,7 +109,7 @@ const trending = () => {
       profileImage:icons.profile2,
       votes: 3,
       comments: 11,
-      img: images.placeholderImage,
+      img:[{id:1, uri:images.placeholderImage}],
     },
     {
       id: '10',
@@ -115,10 +119,11 @@ const trending = () => {
       profileImage:icons.profile,
       votes: 1,
       comments: 12,
-      img: images.placeholderImage,
+      img: [{id:1, uri:images.placeholderImage}],
     },
   ];
  
+  console.log(DATA.img)
 
   return (
     <>
@@ -212,15 +217,29 @@ const trending = () => {
                   className="h-5 w-5"></Image>
 
                   <Text className="text-md">{item.username}</Text>
+             
                 </View>
 
-              <Pressable onPressIn={console.log("pressed")} className="w-full">
-                <View className={`w-full flex ${item.img ? "flex-col space-y-2" : "flex-col"}`}>
-                  <Text className="text-3xl text-wrap my-1">{item.title}</Text>
+              
+                <Link href={{pathname:"./postDetailsnpx "}}>
+                <Pressable 
+                className="w-full">
+                  <View className={`w-full flex flex-col space-y-2`}>
+                    <Text className="text-3xl text-wrap my-1">{item.title}</Text>
 
-                  {item.img ? <ReanimatedCarousel data={item.img}/> : <Text className="">{item.description}</Text> }
-                </View>
-              </Pressable>
+                    {item.img ? 
+                    <View
+                    className="w-5/6 border-2">
+                      <Image
+                      className="h-40 w-5/6"
+                      source={item.img[0].uri}
+                      resizeMode='contained'/>
+                      </View>
+                    : <Text className="">{item.description}</Text> }
+                  </View>
+                </Pressable>
+                </Link>
+              
 
               <View className="flex flex-row my-1 items-center space-x-5">
                 <View className="flex flex-row border border-gray-400 rounded-3xl p-1 space-x-3 items-center">

@@ -16,7 +16,9 @@
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to take pictures.",
         "NSPhotoLibraryUsageDescription": "We need access to your photo library to upload images.",
-        "NSPhotoLibraryAddUsageDescription": "We need permission to save images to your photo library."
+        "NSPhotoLibraryAddUsageDescription": "We need permission to save images to your photo library.",
+        "NSExceptionAllowsInsecureHTTPLoads":true,
+        "NSAllowsArbitraryLoads":true
       },
       "supportsTablet": true
     },

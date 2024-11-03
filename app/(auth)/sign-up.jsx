@@ -25,41 +25,29 @@ const SignUp = () => {
     
 
     try {
-      const resp = await axios.post("http:// 10.178.162.63:3000/api/users", {
-        username: username,
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        yearClassification: yearClassification,
-        major: major,
-      }, {});
-    
-      // Handle success
-      console.log(resp);       // Full response object
-      console.log(resp.data);  // Data from the response
-    } catch (err) {
-      // Handle error
-      console.error(err);      // Full error object
-      if (err.response) {
-        // The server responded with a status code outside the 2xx range
-        console.log("Error response data:", err.response.data);
-        console.log("Error response status:", err.response.status);
-        console.log("Error response headers:", err.response.headers);
-      } else if (err.request) {
-        // No response was received (e.g., server is unreachable)
-        console.log("Error request:", err.request);
-      } else {
-        // Something else triggered the error
-        console.log("Error message:", err.message);
-      }
+      const response = await fetch('https://0feb-24-32-7-71.ngrok-free.app/api/users', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          username: username,
+          email: email, 
+          password: password, 
+          firstName: firstName, 
+          lastName: lastName, 
+          yearClassification: yearClassification, 
+          major: major, }),
+      });
+      const json = await response.json();
+      console.log(json)
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    
-  
-  
 
-}
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
