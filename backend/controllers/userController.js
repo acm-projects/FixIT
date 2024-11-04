@@ -76,16 +76,15 @@ const getAllPostsByUser = async (req, res) => {
     res.status(200).json(posts);
 }
 
-const chatWithBot = async (req, res) => {
-    const userMessage = req.body.message;
+const chatWithBot = async (userMessage) => {
     if (!userMessage)
-        return res.status(400).json({error: 'You must send a message!'})
+        throw new Error('You must send a message!');
 
     try {
         const completion = await openai.chat.completions.create({
             messages: [
-                { // helps establish the role or behavior that the model should adopt during the conversation
-                    role: "system", 
+                {
+                    role: "system", // helps establish the role or behavior that the model should adopt during the conversation
                     content: 
                     `
                     You are a helpful assistant.
@@ -107,10 +106,10 @@ const chatWithBot = async (req, res) => {
                 },
                 { role: "user", content: userMessage }
             ],
+            model: "gpt-4o",
         });
 
-        const botMessage = completion.choices[0].message.content;
-        res.status(200).json({ reply: botMessage });
+        return completion.choices[0].message.content;
     
     } catch (error) {
         res.status(500).json({error: 'Internal Server Error'});
@@ -129,9 +128,10 @@ const transcribeAudio = async (req, res) => {
         console.log("Recording stopped due to silence.");
     });
     
-    recording.stream().on('data', (data) => {
-        console.log(`Received audio chunk of size: ${data.length}`);
-    });
+    // recording.stream().on('data', (data) => { // debugging to check if mic is receiving any input
+    //     console.log(`Received audio chunk of size: ${data.length}`);
+    // });
+
     const client = new TranscribeStreamingClient({
         region: "us-west-2",
         credentials
@@ -156,17 +156,24 @@ const transcribeAudio = async (req, res) => {
             if (event.TranscriptEvent) {
                 const transcripts = event.TranscriptEvent.Transcript.Results;
 
-                transcripts.forEach(result => {
-                    if (result.IsPartial === false) {
-                        const transcription = result.Alternatives[0].Transcript; // takes the most accurate transcribed text
+                for (const result of transcripts) {
+                    if (!result.IsPartial) {
+                        const transcription = result.Alternatives[0].Transcript; // Most accurate transcribed text
                         console.log(`Transcription: ${transcription}`);
+
+                        // Send the transcription to the chatbot
+                        try {
+                            const botResponse = await chatWithBot(transcription); // Use await here
+                            console.log("Chatbot Response:", botResponse);
+                        } catch (error) {
+                            console.error("Error communicating with chatbot:", error);
+                        }
                     }
-                });
+                }
             }
         }
-    } catch(err) {
-        console.log("error")
-        console.log(err)
+    } catch (err) {
+        console.error("Error in transcription stream:", err);
     }
 };
 

@@ -44,10 +44,9 @@ const requestLimiter = (limitInMs) => {
 
 // route handling
 app.use('/api/users', requestLimiter(5000), userRoutes);
-app.use('/api/posts', postRoutes);
+app.use('/api/posts', postRoutes); 
 
 app.get('/', (req, res) => {
-    res.json({mssg: "What's up"})
     console.log(req.oidc.isAuthenticated()) // checks if user is authenticated
 });
 
