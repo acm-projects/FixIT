@@ -2,14 +2,14 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/user');
-const postRoutes = require('./routes/post');
-const { auth } = require('express-openid-connect') //imports authentication middleware and helps create functions to handle user tasks like logins, etc
-process.env.PATH += ';C:\\Program Files (x86)\\sox-14-4-2'; // Adjust this to the actual SoX path
+const userRoutes = require('./routes/users');
+const postRoutes = require('./routes/posts');
+const chatBotRoutes = require('./routes/chatBot');
+const { auth } = require('express-openid-connect') // imports authentication middleware and helps create functions to handle user tasks like logins, etc
+process.env.PATH += ';C:\\Program Files (x86)\\sox-14-4-2'; // DELETE?
 
 const app = express();
 
-//how the app works with auth0 (clientID's, etc)
 const config = {
     authRequired: false,
     auth0Logout: true,
@@ -19,16 +19,16 @@ const config = {
     issuerBaseURL: process.env.ISSUER
   };
 
-  app.use((req, res, next) => {
-    console.log(req.path, req.method);
-    next();
-});
-
 // middleware
 app.use(express.json());
 app.use(auth(config)); // this middleware will handle things like login, logout, and managing user sessions for the routes.
 
-const requestLimiter = (limitInMs) => {
+app.use((req, res, next) => {
+    console.log(req.path, req.method);
+    next();
+});
+
+const requestLimiter = (limitInMs) => { // delete maybe?
     let lastRequestTime = null;
 
     return (req, res, next) => {
@@ -42,15 +42,14 @@ const requestLimiter = (limitInMs) => {
     }
 }
 
-// route handling
-app.use('/api/users', requestLimiter(5000), userRoutes);
+app.use('/api/users', requestLimiter(5000), userRoutes); 
 app.use('/api/posts', postRoutes); 
-
+app.use('/api/chatBot', chatBotRoutes);
 app.get('/', (req, res) => {
     console.log(req.oidc.isAuthenticated()) // checks if user is authenticated
 });
 
-// connect to DB
+// connect to the database
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         app.listen(process.env.PORT, () => {
