@@ -1,6 +1,8 @@
 {
   "expo": {
     "name": "FixIT",
+    "scheme": "FixIT",
+    "slug": "FixIT",
     "slug": "fixit",
     "scheme": "FixIT",
     "version": "1.0.0",
@@ -28,7 +30,14 @@
         "backgroundColor": "#ffffff"
       }
     },
+    
     "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ]
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
