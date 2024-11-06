@@ -25,7 +25,7 @@ const SignUp = () => {
     
 
     try {
-      const response = await fetch('https://0feb-24-32-7-71.ngrok-free.app/api/users', {
+      const response = await fetch('https://13f7-24-32-7-71.ngrok-free.app/api/users', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
