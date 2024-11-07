@@ -13,13 +13,15 @@ import { Icon } from '@rneui/themed'
 import { Divider } from '@rneui/base'
 import ReanimatedCarousel from '../../components/ReanimatedCarousel'
 import { Link } from 'expo-router'
-
-
+import { router } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router'
 
 
 const trending = () => {
   const [searchQuerry, setSearchQuerry] = useState("")
   const [image, setImage] = useState("")
+
+  const params = useLocalSearchParams();
 
    
 
@@ -221,8 +223,14 @@ const trending = () => {
                 </View>
 
               
-                <Link href={{pathname:"./postDetailsnpx "}}>
+                
                 <Pressable 
+                onPress={() => router.push({
+                  pathname: "/postDetail",
+                  params: {
+                    data: JSON.stringify(item)
+                  }
+                })}
                 className="w-full">
                   <View className={`w-full flex flex-col space-y-2`}>
                     <Text className="text-3xl text-wrap my-1">{item.title}</Text>
@@ -238,7 +246,7 @@ const trending = () => {
                     : <Text className="">{item.description}</Text> }
                   </View>
                 </Pressable>
-                </Link>
+                
               
 
               <View className="flex flex-row my-1 items-center space-x-5">
