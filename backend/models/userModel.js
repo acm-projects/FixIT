@@ -25,13 +25,15 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    yearClassification: {
+    userType: {
         type: String,
         required: true
     },
-    major: {
+    profileImage: {
         type: String,
-        required: true
+    },
+    major: {
+        type: String
     },
     posts: [{ // array of post documents by post IDs set up in userSchema
         type: mongoose.Schema.Types.ObjectId,

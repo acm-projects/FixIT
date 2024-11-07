@@ -15,6 +15,8 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+let conversationHistory = [];
+
 const chatWithBotViaTextInput = async (req, res) => {
     const userMessage = req.body.message;
     
@@ -45,6 +47,24 @@ const chatWithBotViaAudioInput = async (req, res) => {
     //     console.log(`Received audio chunk of size: ${data.length}`);
     // });
 
+    const isSilent = (audioBuffer) => {
+    let sum = 0;
+    for (let i = 0; i < audioBuffer.length; i++) {
+        sum += Math.abs(audioBuffer[i]);
+    }
+    const averageAmplitude = sum / audioBuffer.length;
+    return averageAmplitude < 1; // You can adjust this threshold based on your needs
+};
+
+recording.stream().on('data', (data) => {
+    if (isSilent(data)) {
+        console.log("Detected silence (low amplitude). Skipping...");
+        return; // Skip this chunk, it's silent or nearly silent
+    }
+
+    console.log(`Received audio chunk of size: ${data.length}`);
+});
+
     const client = new TranscribeStreamingClient({
         region: "us-west-2",
         credentials
@@ -72,13 +92,16 @@ const chatWithBotViaAudioInput = async (req, res) => {
                 for (const result of transcripts) {
                     if (!result.IsPartial) {
                         const transcription = result.Alternatives[0].Transcript; // most accurate transcribed text
-                        console.log(`Transcription: ${transcription}`);
                         recording.stop();
+                        console.log(`Transcription: ${transcription}`);
 
                         try { // send the transcription to the chatbot
                             const botResponse = await chatWithBot(transcription);
                             console.log("Chatbot Response:", botResponse);
-                            res.status(200).json({ reply: botResponse });
+                            res.status(200).json({ 
+                                transcription: transcription,
+                                response: botResponse
+                            });
                         } catch (error) {
                             console.error("Error communicating with chatbot: ", error);
                         }
@@ -95,6 +118,8 @@ const chatWithBot = async (userMessage) => {
     if (!userMessage)
         throw new Error('You must send a message!');
 
+    conversationHistory.push({ role: "user", content: userMessage });
+
     try {
         const completion = await openai.chat.completions.create({
             messages: [
@@ -110,14 +135,113 @@ const chatWithBot = async (userMessage) => {
                     - Click on Password Reset/Account Lockout
                     - Click on reset password
                     - Enter yout NetID and click 'Continue'
+                    
+                    For anyone dealing with this error or similar, Error: "Another device on the network is using your computer's IP address" (MacOS), refer users to this article: 
+                        https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=894
+                    
+                    For issues regarding connecting to a GlobalProtect VPN for Windows, redirect users to this article: 
+                        https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=152
+                    Here are some instructions as well on how to do it:
+                        Installing GlobalProtect on Windows
+                            1. Open Web Browser:
+                                Go to utdvpn.utdallas.edu.
 
-                    For issues regarding connecting to a VPN, redirect users to this article: Install and Connect to GlobalProtect VPN (Windows)
-                    
-                    For anyone dealing with this error or similar, Error: "Another device on the network is using your computer's IP address" (MacOS), refer users to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=894
-                    
+                            2. Log In:
+                                Enter your UT Dallas credentials and authenticate via Duo (push, text, or phone call).
+
+                            3. Download Installer:
+                                Select the appropriate version of the GlobalProtect installer:
+                                Windows 64-bit or Windows 32-bit (check your system type in Settings > System > About).
+                                
+                            4. Run Installer:
+                                Open the downloaded GlobalProtect Portal MSI file.
+                                Click Next and choose the installation folder.
+                            
+                            5. Complete Installation:
+                                Wait for the installation to finish.
+                                Click Close once the installation is complete.
+
+                        Connecting to GlobalProtect
+                            1. Launch GlobalProtect VPN:
+                                Open the GlobalProtect VPN client (icon in the bottom right taskbar or search for "GlobalProtect VPN").
+                            
+                            2. Enter Portal Address:
+                                Type utdvpn.utdallas.edu in the Portal Address field and click Connect.
+                            
+                            3. Sign In:
+                                A browser will open asking for your UTD NetID and password.
+                                Authenticate via Duo (push, text, or phone call).
+                            
+                            4. Allow GlobalProtect to Open Links:
+                                Check Always allow utdvpn.utdallas.edu to open GlobalProtect links.
+                                Click Open GlobalProtect when prompted.
+                            
+                            5. Connection Confirmation:
+                                Wait for GlobalProtect to connect, and it will display a “Connected” message.
+
+                            Special Notes for Firefox Users (only display or the chat conversation goes toward this direction)
+                                1. Firefox Configuration:
+                                    When prompted to log in, authenticate via Duo.
+                                    Check Always allow utdvpn.utdallas.edu to open GlobalProtect links.
+                                    Select Open Link after logging in.
+                                
+                                2. Connection Confirmation:
+                                    GlobalProtect will show “Connected” once the VPN is active.
+
+                     
+                    For issues regarding connecting to a GlobalProtect VPN for iOS, redirect users to this article: 
+                        https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=277
+                    Here are some instructions on how to do it as well:
+                        Installing and Connecting to GlobalProtect VPN on iOS
+                            1. Install GlobalProtect:
+                                Search for GlobalProtect in the App Store and install it.
+                            
+                            2. Launch GlobalProtect:
+                                Open the app and enter the portal address: utdvpn.utdallas.edu, then click Connect.
+                            
+                            3. Sign In:
+                                Enter your NetID and password to log in.
+
+                            4. Authenticate with Duo (if required):
+                                If you're not already authenticated via Duo, complete the authentication through a push notification, text message, or phone call.
+                            
+                            5. Connection Confirmation:
+                                The app will show “Connected” once the VPN is active.
+                            
+                            6. Verify Connection:
+                                Go to Settings > General > VPN & Device Management to confirm the VPN connection status.
+
+                        For issues regarding connecting to a GlobalProtect VPN for Android, redirect users to this article: 
+                            https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=278
+                        Here are some instructions on how to do it as well:            
+                            Installing and Connecting to GlobalProtect VPN on Android
+                                1. Install GlobalProtect:
+                                    Download GlobalProtect from the Google Play Store.
+                                    
+                                2. Agree to Data Permissions:
+                                    Select OK when prompted about data permissions to continue with the download.
+
+                                3. Launch the App:
+                                    Open the app and enter the portal address: utdvpn.utdallas.edu.
+
+                                4. Sign In:
+                                    On the SSO page, enter your UTD NetID and password to log in.
+
+                                5. Authenticate with Duo:
+                                    Complete Duo authentication (push notification, text message, or phone call).
+                                
+                                6. Connect to VPN:
+                                    If the connection doesn't start automatically, click Connect.
+
+                                7. Allow VPN Connection:
+                                    Select OK in the pop-up to allow the VPN connection.
+
+                                8. Confirmation:
+                                    Once connected, the app will show a “Connected” message indicating the VPN is active.
+
                     ` 
                 },
-                { role: "user", content: userMessage }
+                ...conversationHistory
             ],
             model: "gpt-4o",
         });

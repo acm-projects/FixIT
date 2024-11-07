@@ -28,9 +28,9 @@ const getUser = async (req, res) => {
 }
 
 const createNewUser = async (req, res) => {
-    const {username, password, email, firstName, lastName, yearClassification, major, posts} = req.body;
+    const {username, password, email, firstName, lastName, userType, major, profileImage, posts} = req.body;
     try {
-        const newUser = await User.create({username, password, email, firstName, lastName, yearClassification, major, posts});
+        const newUser = await User.create({username, password, email, firstName, lastName, userType, major, profileImage, posts});
         res.status(200).json({mssg: 'User created', user: newUser});
         console.log(`User ${newUser.username} was created.`);
     } catch (error) {

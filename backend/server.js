@@ -6,7 +6,6 @@ const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
 const chatBotRoutes = require('./routes/chatBot');
 const { auth } = require('express-openid-connect') // imports authentication middleware and helps create functions to handle user tasks like logins, etc
-process.env.PATH += ';C:\\Program Files (x86)\\sox-14-4-2'; // DELETE?
 
 const app = express();
 

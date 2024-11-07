@@ -23,6 +23,16 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
+    images: {
+        type: [String],
+        default: [],
+        validate: { // limits number of image string links in the array length to 3
+            validator: function (value) {
+                return value.length <= 3; 
+            },
+            message: 'Posts cannot contain more than 3 images.'
+        }
+    },
     upvotes: {
         type: Number,
         required: true
