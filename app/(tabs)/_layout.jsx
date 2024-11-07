@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { Text, Button } from '@rneui/themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Tabs, useNavigation } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { icons } from '../../constants';
 import tw from 'twrnc';
 
@@ -30,49 +30,48 @@ function TabIcon({ color, name, focused, icon, imgStyle, viewStyle }) {
 }
 
 const TabsLayout = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
-    
-      <>
+    <>
       <SafeAreaView>
-      {/* Custom Navigation Bar */}
-      <View style={tw`h-15 bg-[#B1A180] flex-row justify-between items-center px-2.5`}>
-        {/* Left side: Logo and app name */}
-        <View style={tw`flex-row items-center`}>
-          <Image 
-            source={icons.placeholder} 
-            style={tw`w-10 h-10 mr-2.5`}
-          />
-          <Text style={tw`text-xl font-bold text-[#23603F]`}>
-            FixIT
-          </Text>
-        </View>
+        {/* Custom Navigation Bar */}
+        <View style={tw`h-15 bg-[#B1A180] flex-row justify-between items-center px-2.5`}>
+          {/* Left side: Logo and app name */}
+          <View style={tw`flex-row items-center`}>
+            <Image 
+              source={icons.placeholder} 
+              style={tw`w-10 h-10 mr-2.5`}
+            />
+            <Text style={tw`text-xl font-bold text-[#23603F]`}>
+              FixIT
+            </Text>
+          </View>
 
-        {/* Right side: Search icon and Profile button */}
-        <View style={tw`flex-row items-center`}>
-          <Button
-            type="clear"
-            onPress={() => navigation.navigate('search')}
-            icon={
-              <Image 
-                source={icons.search} 
-                style={[tw`w-6 h-6 mr-4`, { tintColor: '#23603F' }]}
-              />
-            }
-          />
-          <Button
-            type="clear"
-            onPress={() => navigation.navigate('profile')}
-            icon={
-              <Image 
-                source={icons.profile} 
-                style={[tw`w-7.5 h-7.5`, { tintColor: '#23603F' }]}
-              />
-            }
-          />
+          {/* Right side: Search icon and Profile button */}
+          <View style={tw`flex-row items-center`}>
+            <Button
+              type="clear"
+              onPress={() => router.push('/search')}
+              icon={
+                <Image 
+                  source={icons.search} 
+                  style={[tw`w-6 h-6 mr-4`, { tintColor: '#23603F' }]}
+                />
+              }
+            />
+            <Button
+              type="clear"
+              onPress={() => router.push('/profile')}
+              icon={
+                <Image 
+                  source={icons.profile} 
+                  style={[tw`w-7.5 h-7.5`, { tintColor: '#23603F' }]}
+                />
+              }
+            />
+          </View>
         </View>
-      </View>
       </SafeAreaView>
 
       {/* Tab Navigation */}
@@ -166,23 +165,8 @@ const TabsLayout = () => {
             )
           }}
         />
-
-        {/* Hidden Screens */}
-        {['profile', 'editProfile', 'savePosts', 'ProfileContext', 'search'].map(screen => (
-          <Tabs.Screen
-            key={screen}
-            name={screen}
-            options={{
-              title: screen.charAt(0).toUpperCase() + screen.slice(1),
-              headerShown: false,
-              tabBarButton: () => null,
-            }}
-          />
-        ))}
       </Tabs>
     </>
-    
-    
   );
 };
 

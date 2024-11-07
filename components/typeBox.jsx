@@ -15,7 +15,7 @@ const TypeBox = ({ onSend }) => {
   };
 
   return (
-    <View style={tw`flex-row items-center p-2.5 border-t border-gray-300 bg-white`}>
+    <View style={tw`flex-row items-center p-2 border-t border-[#E4D3BA]-300 bg-[#E4D3BA]`}>
       <Input
         value={message}
         onChangeText={setMessage}
@@ -25,29 +25,23 @@ const TypeBox = ({ onSend }) => {
         inputStyle={tw`text-base m-0 p-0`}
         rightIcon={
           message.trim() ? (
-            <Button
+            <Ionicons
+              name="send"
+              size={24}
+              color="#23603F"
               onPress={handleSend}
-              type="clear"
-              icon={
-                <Ionicons
-                  name="send"
-                  size={24}
-                  color="#23603F"
-                />
-              }
-              buttonStyle={tw`p-0 m-0`}
             />
           ) : null
         }
         onSubmitEditing={handleSend}
       />
-      
+
       {!message.trim() && (
         <Button
           onPress={handleSend}
           containerStyle={tw`ml-2`}
           buttonStyle={tw`bg-[#23603F] px-5 py-2.5 rounded-full`}
-          titleStyle={tw`font-bold`}
+          titleStyle={tw`font-bold text-white`}
           title="Send"
           disabled={!message.trim()}
         />

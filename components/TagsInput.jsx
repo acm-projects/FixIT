@@ -1,48 +1,62 @@
-import React, { useState } from 'react'
-import { View, TextInput, Text, Pressable, FlatList } from 'react-native'
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { Input, Button } from '@rneui/themed';
+import { Ionicons } from '@expo/vector-icons';
+import tw from 'twrnc';
 
-const TagsInput = () => {
-  const [tags, setTags] = useState([])
-  const [input, setInput] = useState("")
+const TypeBox = ({ onSend }) => {
+  const [message, setMessage] = useState('');
 
-  const addTag = () => {
-    if (input.trim()) {
-      setTags([...tags, { id: Date.now().toString(), text: input.trim() }])
-      setInput("")
+  const handleSend = () => {
+    if (message.trim()) {
+      onSend(message);
+      setMessage('');
     }
-  }
-
-  const removeTag = (id) => {
-    setTags(tags.filter(tag => tag.id !== id))
-  }
+  };
 
   return (
-    <View className="flex flex-start w-full h-svh gap-2 p-2">
-      <Text className="text-4xl">Add Tags</Text>
-
-      <TextInput
-        value={input}
-        onChangeText={setInput}
-        onSubmitEditing={addTag} 
-        placeholder="Type a tag and press enter"
-        className="border border-gray-300 shadow-lg bg-white text-xl rounded-md w-full p-2 mb-2"
+    <View style={tw`flex-row items-center p-2 border-t  bg-[#E4D3BA]`}>
+      <Ionicons
+        name="mic-outline"
+        size={24}
+        color="#23603F"
+        style={tw`mr-2`}
+        onPress={() => console.log('Microphone pressed')}
       />
 
-    <FlatList
-        data={tags}
-        horizontal
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View className="flex-row items-center bg-gray-200 rounded-full px-3 py-1 mr-2 mb-2">
-            <Text className="text-xl text-gray-700">{item.text}</Text>
-            <Pressable onPress={() => removeTag(item.id)}>
-              <Text className="text-xl text-gray-500 ml-2">✕</Text>
-            </Pressable>
-          </View>
-        )}
+      <Input
+        value={message}
+        onChangeText={setMessage}
+        placeholder="Type a message..."
+        containerStyle={tw`flex-1 m-0 p-0`}
+        inputContainerStyle={tw`border border-gray-300 rounded-full px-4 h-10 bg-white m-0`}
+        inputStyle={tw`text-base m-0 p-0`}
+        leftIconContainerStyle={tw`mr-2`}
+        rightIcon={
+          message.trim() ? (
+            <Ionicons
+              name="send"
+              size={24}
+              color="#23603F"
+              onPress={handleSend}
+            />
+          ) : null
+        }
+        onSubmitEditing={handleSend}
       />
+
+      {!message.trim() && (
+        <Button
+          onPress={handleSend}
+          containerStyle={tw`ml-2`}
+          buttonStyle={tw`bg-[#23603F] px-5 py-2.5 rounded-full`}
+          titleStyle={tw`font-bold text-white`}
+          title="Send"
+          disabled={!message.trim()}
+        />
+      )}
     </View>
-  )
-}
+  );
+};
 
-export default TagsInput
+export default TypeBox;

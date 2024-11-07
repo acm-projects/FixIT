@@ -39,17 +39,8 @@
         {
           "photosPermission": "The app accesses your photos to describe your issue better."
         }
-      ],
-      [
-        "react-native-reanimated",
-        {
-          "relativeSourceLocation": true,
-          "disablePreserveAnimation": false,
-          "enableReducedMotion": {
-            "default": false
-          }
-        }
       ]
+
     ]
   }
 }

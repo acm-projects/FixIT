@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { View, ScrollView, Image } from 'react-native';
 import { Text, Button, Card } from '@rneui/themed';
-import { useNavigation } from '@react-navigation/native';
-import { ProfileContext } from './ProfileContext';
+import { useProfile } from './ProfileContext';
+import { useRouter } from 'expo-router';
 import tw from 'twrnc';
 
 const ProfilePage = () => {
-  const navigation = useNavigation();
-  const { profile, savedPosts } = useContext(ProfileContext);
+  const router = useRouter();
+  const { profile, savedPosts } = useProfile();
 
   return (
     <ScrollView style={tw`flex-1 bg-[#E4D3BA] p-5`}>
@@ -45,7 +45,7 @@ const ProfilePage = () => {
 
           <Button
             title="Edit Profile"
-            onPress={() => navigation.navigate('editProfile')}
+            onPress={() => router.push('/editProfile')}
             buttonStyle={tw`bg-[#23603F] py-2.5 px-5 rounded-full mt-5`}
             titleStyle={tw`text-base font-bold`}
           />
