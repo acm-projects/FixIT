@@ -99,7 +99,7 @@ const SignUp = () => {
             <ThirdPartyButton
               name="Sign Up with Google"
               handlePress={() => {
-                console.log("Sign Up with Google")
+                router.push("/backend/server")
               }}
               iconSource={icons.google_g_logo}
               ContainerStyles={"mt-4"}

@@ -140,7 +140,7 @@ const Contact = () => {
       {/* Title */}
       <Text 
         h1 
-        style={tw`text-2xl font-bold text-[#23603F] text-center mb-8`}
+        style={tw`text-l font-bold text-[#23603F] text-center mb-8`}
       >
         Contact Us
       </Text>
@@ -158,12 +158,12 @@ const Contact = () => {
       {/* Departments Section */}
       <Text 
         h2 
-        style={tw`text-xl font-bold text-[#23603F] mb-5`}
+        style={tw`text-l font-bold text-[#23603F] mb-5`}
       >
         Departments
       </Text>
 
-      <View style={tw`space-y-2`}>
+      <View>
         {sortedDepartments.map((department, index) => (
           <React.Fragment key={department.name}>
             <ContactComp

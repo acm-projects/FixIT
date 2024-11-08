@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, ScrollView, Image } from 'react-native';
-import { Text, Button, Card } from '@rneui/themed';
+import { Text, Button, Card, Icon } from '@rneui/themed';
 import { useProfile } from './ProfileContext';
 import { useRouter } from 'expo-router';
 import tw from 'twrnc';
@@ -8,6 +8,9 @@ import tw from 'twrnc';
 const ProfilePage = () => {
   const router = useRouter();
   const { profile, savedPosts } = useProfile();
+  const handleRemoveSavedPost = (postTitle) => {
+    setSavedPosts(prevPosts => prevPosts.filter(post => post.title !== postTitle));
+  };
 
   return (
     <ScrollView style={tw`flex-1 bg-[#E4D3BA] p-5`}>
@@ -52,25 +55,49 @@ const ProfilePage = () => {
         </View>
       </Card>
 
-      {/* Saved Posts Section */}
       <View style={tw`mt-5`}>
         <Text style={tw`text-lg font-bold text-[#23603F] mb-2.5`}>
-          Saved Posts
+          Saved Posts ({savedPosts.length})
         </Text>
         
-        {savedPosts.map((post, index) => (
-          <Card
-            key={index}
-            containerStyle={tw`bg-white rounded-lg mb-2.5 p-2.5`}
-          >
-            <Text style={tw`text-base font-bold text-gray-800`}>
-              {post.title}
-            </Text>
-            <Text style={tw`text-sm text-gray-500`}>
-              Tags: {post.tags.join(', ')}
-            </Text>
-          </Card>
-        ))}
+        {savedPosts.length === 0 ? (
+          <Text style={tw`text-gray-500 text-center mt-2.5`}>
+            No saved posts yet
+          </Text>
+        ) : (
+          savedPosts.map((post, index) => (
+            <Card
+              key={index}
+              containerStyle={tw`bg-white rounded-lg mb-2.5 p-2.5`}
+            >
+              <View style={tw`flex-row justify-between items-start`}>
+                <View style={tw`flex-1 mr-2.5`}>
+                  <Text style={tw`text-base font-bold text-gray-800`}>
+                    {post.title}
+                  </Text>
+                  <Text style={tw`text-sm text-gray-500 mt-1`}>
+                    Tags: {post.tags.join(', ')}
+                  </Text>
+                  <Text style={tw`text-xs text-gray-400 mt-1`}>
+                    Saved on: {new Date(post.savedAt).toLocaleDateString()}
+                  </Text>
+                </View>
+                <Button
+                  type="clear"
+                  onPress={() => handleRemoveSavedPost(post.title)}
+                  icon={
+                    <Icon
+                      name="trash-outline"
+                      type="ionicon"
+                      size={20}
+                      color="#FF0000"
+                    />
+                  }
+                />
+              </View>
+            </Card>
+          ))
+        )}
       </View>
     </ScrollView>
   );

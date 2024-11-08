@@ -11,7 +11,7 @@ function TabIcon({ color, name, focused, icon, imgStyle, viewStyle }) {
     <View style={[
       tw`items-center justify-center`,
       focused ? tw`pt-0` : tw`pt-5`,
-      focused ? tw`scale-100` : tw`scale-90`,
+      
     ]}>
       <Image
         source={icon}
@@ -34,13 +34,13 @@ const TabsLayout = () => {
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView edges={['right', 'left', 'top']} style={tw`bg-[#B1A180]`}>
         {/* Custom Navigation Bar */}
         <View style={tw`h-15 bg-[#B1A180] flex-row justify-between items-center px-2.5`}>
           {/* Left side: Logo and app name */}
           <View style={tw`flex-row items-center`}>
             <Image 
-              source={icons.placeholder} 
+              source={require('../../assets/images/logoIT-.png')} 
               style={tw`w-10 h-10 mr-2.5`}
             />
             <Text style={tw`text-xl font-bold text-[#23603F]`}>
@@ -66,7 +66,7 @@ const TabsLayout = () => {
               icon={
                 <Image 
                   source={icons.profile} 
-                  style={[tw`w-7.5 h-7.5`, { tintColor: '#23603F' }]}
+                  style={[tw`w-7.5 h-8`, { tintColor: '#23603F' }]}
                 />
               }
             />

@@ -7,21 +7,26 @@ import { router } from 'expo-router';
 import CustomButton from "../components/CustomButton";
 import { useState, useRef } from 'react';
 
+// Import images
+const OIT1 = require('../assets/images/OIT1.jpg');
+const OIT2 = require('../assets/images/OIT2.jpg');
+const OIT3 = require('../assets/images/OIT3.jpg');
+
 const ONBOARDING_DATA = [
   {
     title: "Welcome to Fixit",
     description: "Your one-stop solution for home repairs and maintenance",
-    image: "/api/placeholder/300/300" // Replace with your actual image
+    image: OIT1
   },
   {
     title: "Find Trusted Professionals",
     description: "Connect with verified experts in your area",
-    image: "/api/placeholder/300/300" // Replace with your actual image
+    image: OIT2
   },
   {
     title: "Book and Track Services",
     description: "Schedule appointments and track progress in real-time",
-    image: "/api/placeholder/300/300" // Replace with your actual image
+    image: OIT3
   }
 ];
 
@@ -34,21 +39,6 @@ export default function App() {
     const contentOffset = event.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffset / screenWidth);
     setCurrentSlide(currentIndex);
-  };
-
-  const renderDots = () => {
-    return (
-      <View className="flex-row justify-center items-center mt-8">
-        {ONBOARDING_DATA.map((_, index) => (
-          <View
-            key={index}
-            className={`h-2 w-2 rounded-full mx-1 ${
-              currentSlide === index ? 'bg-purple-600 w-4' : 'bg-purple-300'
-            }`}
-          />
-        ))}
-      </View>
-    );
   };
 
   const handleSkip = () => {
@@ -68,12 +58,24 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <StatusBar style="dark" />
       
       {/* Logo Header */}
-      <View className="w-full justify-center items-center h-20 bg-purple-400">
-        <Text className="font-bold text-4xl text-white">Fixit</Text>
+      <View style={{ 
+        width: '100%', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: 80, 
+        backgroundColor: '#C084FC'
+      }}>
+        <Text style={{ 
+          fontWeight: 'bold', 
+          fontSize: 32, 
+          color: 'white' 
+        }}>
+          Fixit
+        </Text>
       </View>
 
       {/* Onboarding Slides */}
@@ -88,18 +90,38 @@ export default function App() {
         {ONBOARDING_DATA.map((slide, index) => (
           <View
             key={index}
-            style={{ width: screenWidth }}
-            className="justify-center items-center px-6"
+            style={{
+              width: screenWidth,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingHorizontal: 24
+            }}
           >
             <Image
-              source={{ uri: slide.image }}
-              className="w-72 h-72 mb-8"
-              resizeMode="contain"
+              source={slide.image}  // Changed to use local image
+              style={{
+                width: 288,
+                height: 288,
+                marginBottom: 32,
+                borderRadius: 10  // Added border radius for better appearance
+              }}
+              resizeMode="cover"  // Changed to cover for better image display
             />
-            <Text className="text-2xl font-bold text-purple-800 mb-4 text-center">
+            <Text style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              color: '#7C3AED',
+              marginBottom: 16,
+              textAlign: 'center'
+            }}>
               {slide.title}
             </Text>
-            <Text className="text-lg text-gray-600 text-center mb-6">
+            <Text style={{
+              fontSize: 18,
+              color: '#4B5563',
+              textAlign: 'center',
+              marginBottom: 24
+            }}>
               {slide.description}
             </Text>
           </View>
@@ -107,23 +129,65 @@ export default function App() {
       </ScrollView>
 
       {/* Navigation Dots */}
-      {renderDots()}
+      <View style={{ 
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        marginTop: 32 
+      }}>
+        {ONBOARDING_DATA.map((_, index) => (
+          <View
+            key={index}
+            style={{
+              height: 8,
+              width: currentSlide === index ? 16 : 8,
+              borderRadius: 4,
+              backgroundColor: currentSlide === index ? '#7C3AED' : '#E9D5FF',
+              marginHorizontal: 4
+            }}
+          />
+        ))}
+      </View>
 
       {/* Bottom Buttons */}
-      <View className="px-6 pb-8 mt-auto">
-        <CustomButton
-          name={currentSlide === ONBOARDING_DATA.length - 1 ? "Get Started" : "Next"}
-          ContainerStyles="bg-purple-600 my-3"
-          TextStyles="text-white font-bold"
-          handlePress={handleNext}
-        />
-        
-        <CustomButton
-          name="Skip"
-          ContainerStyles="border-2 border-purple-600"
-          TextStyles="text-purple-600 font-bold"
-          handlePress={handleSkip}
-        />
+      <View style={{
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 32,
+        marginTop: 'auto'
+      }}>
+        <View style={{ width: 256 }}>
+          <CustomButton
+            name={currentSlide === ONBOARDING_DATA.length - 1 ? "Get Started" : "Next"}
+            ContainerStyles={{
+              backgroundColor: '#7C3AED',
+              marginVertical: 12,
+              width: '100%'
+            }}
+            TextStyles={{
+              color: 'white',
+              fontWeight: 'bold',
+              textAlign: 'center'
+            }}
+            handlePress={handleNext}
+          />
+          
+          <CustomButton
+            name="Skip"
+            ContainerStyles={{
+              borderWidth: 2,
+              borderColor: '#7C3AED',
+              width: '100%'
+            }}
+            TextStyles={{
+              color: '#7C3AED',
+              fontWeight: 'bold',
+              textAlign: 'center'
+            }}
+            handlePress={handleSkip}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

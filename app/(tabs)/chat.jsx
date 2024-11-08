@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MsgBubble from '../../components/msgBubble.jsx';
 import TypeBox from '../../components/typeBox.jsx';
@@ -9,6 +9,8 @@ const Chat = () => {
   const [messages, setMessages] = useState([
     { text: 'Hello!', sender: false },
     { text: 'Hi there!', sender: true },
+    { text: 'Executive', sender: true },
+    { text: 'Oops! Something went wrong. Please try again.', sender: false, isError: true },
   ]);
 
   const scrollViewRef = useRef();
@@ -55,27 +57,39 @@ const Chat = () => {
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-[#E4D3BA]`}>
-      <View style={tw`flex-1`}>
-        <ScrollView
-          ref={scrollViewRef}
+    <View style={tw`flex-1 bg-[#E4D3BA]`}>
+      <SafeAreaView style={tw`flex-1`}>
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={tw`flex-1`}
-          contentContainerStyle={tw`pb-4 px-2.5`}
-          onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 60} // Adjust this value based on your tab bar height
         >
-          {messages.map((msg, index) => (
-            <MsgBubble
-              key={index}
-              message={msg.text}
-              isSender={msg.sender}
-              isError={msg.isError}
-            />
-          ))}
-        </ScrollView>
-          <TypeBox onSend={handleSend} placeholder="Type your message..." />
-        
+          <View style={tw`flex-1`}>
+            <ScrollView
+              ref={scrollViewRef}
+              style={tw`flex-1`}
+              contentContainerStyle={tw`pb-4 px-2.5`}
+              onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+              keyboardShouldPersistTaps="handled"
+            >
+              {messages.map((msg, index) => (
+                <MsgBubble
+                  key={index}
+                  message={msg.text}
+                  isSender={msg.sender}
+                  isError={msg.isError}
+                />
+              ))}
+            </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+      
+      {/* Fixed TypeBox at bottom */}
+      <View style={tw`absolute bottom-0 left-0 right-0 bg-[#E4D3BA]`}>
+        <TypeBox onSend={handleSend} placeholder="Type a message..." />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

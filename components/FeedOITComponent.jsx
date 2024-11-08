@@ -2,19 +2,39 @@ import React, { useState } from 'react';
 import { ScrollView, Modal, View } from 'react-native';
 import { Card, Text, Button, Image, Icon, Overlay } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
-import tw from 'twrnc'; // Make sure you've imported your Tailwind instance
+import { useProfile } from '../app/ProfileContext';
+import tw from 'twrnc';
 
 const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
+  const { savedPosts, setSavedPosts } = useProfile();
 
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
   const handleToggleMenu = () => setMenuVisible(!menuVisible);
   
   const handleSavePost = () => {
+    const newPost = {
+      title,
+      tags,
+      preview,
+      content,
+      picture,
+      savedAt: new Date().toISOString(),
+    };
+
+    // Check if post is already saved
+    const isAlreadySaved = savedPosts.some(post => post.title === title);
+
+    if (!isAlreadySaved) {
+      setSavedPosts(prevPosts => [...prevPosts, newPost]);
+      alert('Post saved successfully!');
+    } else {
+      alert('This post is already saved!');
+    }
+    
     setMenuVisible(false);
-    alert('Post saved!');
   };
 
   return (
@@ -78,7 +98,16 @@ const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
           title="Save Post"
           type="clear"
           onPress={handleSavePost}
-          titleStyle={tw`text-blue-500`}
+          icon={
+            <Icon
+              name="bookmark-outline"
+              type="ionicon"
+              size={20}
+              color="#23603F"
+              style={tw`mr-2`}
+            />
+          }
+          titleStyle={tw`text-[#23603F]`}
         />
       </Overlay>
 
@@ -108,7 +137,7 @@ const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
             title="Close"
             onPress={handleCloseModal}
             containerStyle={tw`mt-5`}
-            buttonStyle={tw`bg-blue-500 rounded-md`}
+            buttonStyle={tw`bg-[#23603F] rounded-md`}
           />
         </ScrollView>
       </Overlay>

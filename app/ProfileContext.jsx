@@ -20,9 +20,9 @@ export const ProfileProvider = ({ children }) => {
     <ProfileContext.Provider 
       value={{ 
         profile, 
-        setProfile, 
-        savedPosts, 
-        setSavedPosts 
+        setProfile,
+        savedPosts,
+        setSavedPosts  // Make sure this is included in the value prop
       }}
     >
       {typeof children === 'string' ? <Text>{children}</Text> : children}
