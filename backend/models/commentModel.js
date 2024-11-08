@@ -7,8 +7,12 @@ const commentSchema = new Schema({
         type: Number,
         required: true
     },
-    replyID: {
+    postID: {
         type: Number,
+        required: true
+    },
+    username: {
+        type: String,
         required: true
     },
     authorFirstName: {

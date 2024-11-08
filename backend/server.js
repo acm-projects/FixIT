@@ -5,9 +5,10 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
 const chatBotRoutes = require('./routes/chatBot');
-const { auth } = require('express-openid-connect') // imports authentication middleware and helps create functions to handle user tasks like logins, etc
+const { auth } = require('express-openid-connect'); // imports authentication middleware and helps create functions to handle user tasks like logins, etc
 
 const app = express();
+
 
 const config = {
     authRequired: false,
@@ -27,21 +28,7 @@ app.use((req, res, next) => {
     next();
 });
 
-const requestLimiter = (limitInMs) => { // delete maybe?
-    let lastRequestTime = null;
-
-    return (req, res, next) => {
-        const currentTime = Date.now();
-
-        if (lastRequestTime && (currentTime - lastRequestTime < limitInMs))
-            return res.status(429).json({error: 'Multiple requests being made.'})
-
-        lastRequestTime = currentTime;
-        next();
-    }
-}
-
-app.use('/api/users', requestLimiter(5000), userRoutes); 
+app.use('/api/users', userRoutes); 
 app.use('/api/posts', postRoutes); 
 app.use('/api/chatBot', chatBotRoutes);
 app.get('/', (req, res) => {
