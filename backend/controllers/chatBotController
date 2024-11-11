@@ -1,4 +1,6 @@
 const recorder = require('node-record-lpcm16');
+const marked = require('marked');
+const he = require('he');
 
 const { OpenAI } = require('openai');
 const { TranscribeStreamingClient, StartStreamTranscriptionCommand } = require('@aws-sdk/client-transcribe-streaming');
@@ -17,6 +19,12 @@ const openai = new OpenAI({
 
 let conversationHistory = [];
 
+function markdownToPlainText(mdText) { // convert Markdown to HTML, then strip HTML tags
+  const html = marked.parse(mdText);
+  let plainText = html.replace(/<[^>]+>/g, ''); // remove HTML tags
+  return he.decode(plainText); // some characters need to be decoded back to their original chars due to using marked library
+}
+
 const chatWithBotViaTextInput = async (req, res) => {
     const userMessage = req.body.message;
     
@@ -24,10 +32,12 @@ const chatWithBotViaTextInput = async (req, res) => {
         return res.status(400).json({ error: 'You must send a message!' });
 
     try {
-        const botResponse = await chatWithBot(userMessage);
+        let botResponse = await chatWithBot(userMessage);
+        botResponse = markdownToPlainText(botResponse);
         res.status(200).json({ response: botResponse });
+        console.log(botResponse);
     } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -48,22 +58,22 @@ const chatWithBotViaAudioInput = async (req, res) => {
     // });
 
     const isSilent = (audioBuffer) => {
-    let sum = 0;
-    for (let i = 0; i < audioBuffer.length; i++) {
-        sum += Math.abs(audioBuffer[i]);
-    }
-    const averageAmplitude = sum / audioBuffer.length;
-    return averageAmplitude < 1; // You can adjust this threshold based on your needs
-};
+        let sum = 0;
+        for (let i = 0; i < audioBuffer.length; i++) {
+            sum += Math.abs(audioBuffer[i]);
+        }
+        const averageAmplitude = sum / audioBuffer.length;
+        return averageAmplitude < 1; // you can adjust this threshold based on your needs
+    };
 
-recording.stream().on('data', (data) => {
-    if (isSilent(data)) {
-        console.log("Detected silence (low amplitude). Skipping...");
-        return; // Skip this chunk, it's silent or nearly silent
-    }
+    recording.stream().on('data', (data) => {
+        if (isSilent(data)) {
+            console.log("Detected silence (low amplitude). Skipping...");
+            return; // skip this chunk, it's silent or nearly silent
+        }
 
-    console.log(`Received audio chunk of size: ${data.length}`);
-});
+        console.log(`Received audio chunk of size: ${data.length}`);
+    });
 
     const client = new TranscribeStreamingClient({
         region: "us-west-2",
@@ -129,19 +139,20 @@ const chatWithBot = async (userMessage) => {
                     `
                     You are a helpful assistant.
                     
-                    If you get anything related on how to reset my NetID password, refer the user to this article link: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=1262
-                    Here are some basic instructions as well on how to do it: 
-                    - Visit the NetID Self-Service Portal at this website: https://oit.utdallas.edu/netid/self-service/
-                    - Click on Password Reset/Account Lockout
-                    - Click on reset password
-                    - Enter yout NetID and click 'Continue'
+                    If you get anything related on how to reset my NetID password, here are some basic instructions on how to do it: 
+                        - Visit the NetID Self-Service Portal at this website: https://oit.utdallas.edu/netid/self-service/
+                        - Click on Password Reset/Account Lockout
+                        - Click on reset password
+                        - Enter yout NetID and click 'Continue'
+
+                        If users need more information, refer the user to this article link: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=1262
                     
-                    For anyone dealing with this error or similar, Error: "Another device on the network is using your computer's IP address" (MacOS), refer users to this article: 
+                    For anyone dealing with the following error on MacOS, Error: "Another device on the network is using your computer's IP address" (MacOS), refer users to this article: 
                         https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=894
                     
-                    For issues regarding connecting to a GlobalProtect VPN for Windows, redirect users to this article: 
-                        https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=152
-                    Here are some instructions as well on how to do it:
+                    For issues about installing and connecting to a GlobalProtect VPN, ask the user if the they are on Windows, MacOS, iOS, or Android in order to provide the proper solution.
+
+                    For issues about installing and connecting to a GlobalProtect VPN for Windows, here are some instructions on how to do it:
                         Installing GlobalProtect on Windows
                             1. Open Web Browser:
                                 Go to utdvpn.utdallas.edu.
@@ -160,6 +171,8 @@ const chatWithBot = async (userMessage) => {
                             5. Complete Installation:
                                 Wait for the installation to finish.
                                 Click Close once the installation is complete.
+
+                            If users need more information, redirect users to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=152
 
                         Connecting to GlobalProtect
                             1. Launch GlobalProtect VPN:
@@ -189,9 +202,7 @@ const chatWithBot = async (userMessage) => {
                                     GlobalProtect will show “Connected” once the VPN is active.
 
                      
-                    For issues regarding connecting to a GlobalProtect VPN for iOS, redirect users to this article: 
-                        https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=277
-                    Here are some instructions on how to do it as well:
+                    For issues about installing and connecting to a GlobalProtect VPN for iOS, here are some instructions on how to do it:
                         Installing and Connecting to GlobalProtect VPN on iOS
                             1. Install GlobalProtect:
                                 Search for GlobalProtect in the App Store and install it.
@@ -211,34 +222,141 @@ const chatWithBot = async (userMessage) => {
                             6. Verify Connection:
                                 Go to Settings > General > VPN & Device Management to confirm the VPN connection status.
 
-                        For issues regarding connecting to a GlobalProtect VPN for Android, redirect users to this article: 
-                            https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=278
-                        Here are some instructions on how to do it as well:            
-                            Installing and Connecting to GlobalProtect VPN on Android
-                                1. Install GlobalProtect:
-                                    Download GlobalProtect from the Google Play Store.
-                                    
-                                2. Agree to Data Permissions:
-                                    Select OK when prompted about data permissions to continue with the download.
+                            If users need more information, redirect users to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=277
 
-                                3. Launch the App:
-                                    Open the app and enter the portal address: utdvpn.utdallas.edu.
-
-                                4. Sign In:
-                                    On the SSO page, enter your UTD NetID and password to log in.
-
-                                5. Authenticate with Duo:
-                                    Complete Duo authentication (push notification, text message, or phone call).
+                    For issues about installing and connecting to a GlobalProtect VPN for Android, here are some instructions on how to do it:            
+                        Installing and Connecting to GlobalProtect VPN on Android
+                            1. Install GlobalProtect:
+                                Download GlobalProtect from the Google Play Store.
                                 
-                                6. Connect to VPN:
-                                    If the connection doesn't start automatically, click Connect.
+                            2. Agree to Data Permissions:
+                                Select OK when prompted about data permissions to continue with the download.
 
-                                7. Allow VPN Connection:
-                                    Select OK in the pop-up to allow the VPN connection.
+                            3. Launch the App:
+                                Open the app and enter the portal address: utdvpn.utdallas.edu.
 
-                                8. Confirmation:
-                                    Once connected, the app will show a “Connected” message indicating the VPN is active.
+                            4. Sign In:
+                                On the SSO page, enter your UTD NetID and password to log in.
 
+                            5. Authenticate with Duo:
+                                Complete Duo authentication (push notification, text message, or phone call).
+                            
+                            6. Connect to VPN:
+                                If the connection doesn't start automatically, click Connect.
+
+                            7. Allow VPN Connection:
+                                Select OK in the pop-up to allow the VPN connection.
+
+                            8. Confirmation:
+                                Once connected, the app will show a “Connected” message indicating the VPN is active.
+
+                            If users need more information regarding the above issue, redirect users to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=278
+                    
+                    For issues regarding connecting to a GlobalProtect VPN for MacOS, here are some instructions on how to do it:
+                        Installing and Connecting to GlobalProtect VPN on MacOS
+                            1. Download and Install GlobalProtect
+                                Ensure your macOS is 10.15 or higher.
+                                Visit the provided link to download the GlobalProtect software for Mac (32/64-bit version).
+                                Log in with your UT Dallas credentials and authenticate via DUO (push, text, or call).
+                                After downloading, open the GlobalProtect.pkg file from your Downloads folder.
+                                Follow the installation prompts, selecting "Install GlobalProtect" and authenticating with your Mac user credentials.
+                                Complete the installation and close the window.
+                            
+                                2. Enable Palo Alto Networks as a Trusted Developer
+                                Go to System Settings > General > Login Items and allow "Palo Alto Networks" to make changes.
+                                Authenticate with your Mac username and password if prompted.
+                            
+                                3. Grant Permissions (macOS Catalina and later)
+                                You may be prompted to allow GlobalProtect access to local folders like Downloads, Desktop, and Documents. Choose "OK" or "Don’t Allow" based on your preference.
+                            
+                                4. Connect to GlobalProtect VPN
+                                Open the GlobalProtect client and enter the portal address: utdvpn.utdallas.edu.
+                                Sign in with your UT Dallas credentials and authenticate via DUO.
+                                Avoid hitting Enter after entering credentials to prevent errors.
+                                If using Firefox or Chrome as your default browser, you may be redirected to the browser for authentication. Click "Allow" when prompted to open GlobalProtect.
+                                Once authenticated, the client will show "Authentication Complete," indicating you're connected to the VPN.
+
+                    For issues over how to enroll with Duo, here are some instructions the user can use to go about doing so:
+                        How to Enroll in Duo for Two-Factor Authentication
+                            If you're using a Duo-protected application (like Office 365 or Box) for the first time, you'll be prompted to enroll in Duo. Here's a simplified guide to help you through the process:
+
+                            1. Access a Duo-Protected App
+                                Open an app like Office 365 or Box in your web browser. You’ll see the Duo prompt page.
+
+                            2. Choose Your Authentication Device
+                                Select the device you want to use for two-factor authentication (e.g., your smartphone). Click Continue.
+
+                            3. Enroll Your Device
+                                Duo Mobile App (Recommended):
+                                Download the Duo Mobile app on your smartphone. Use it to scan the QR code shown or enter your phone number to receive a code and complete the enrollment.
+                                Security Key:
+                                If you select this option, follow the instructions to set up your security key.
+                                Phone Number:
+                                If you choose this, enter your phone number and follow the steps to complete the setup.
+                                Complete the Setup
+                                Once your device is registered, you can choose to add a Security Key or skip it for now.
+
+                            4. Log In
+                                After setup, click Log in with Duo to finish logging in.
+
+                            5. Confirm Your Device
+                                If it’s your own device, click Yes, this is my device. If you’re using a public/shared computer, click No, other people use this device.
+
+                            6. Finish Enrollment
+                                After successful authentication, you'll see a green check mark, confirming that you’re enrolled.
+
+                            Helpful Tips:
+                                It's a good idea to have two devices set up for Duo (e.g., your phone and your office phone), in case one isn’t available.
+                                If you need assistance, contact the OIT Service Desk at 972-883-2911 or via live chat.
+
+                            If the user still needs further information, redirect the user to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=344
+
+                    If a user wishes to submit a ticket to the Office of Information Technology (OIT), here are the following instructions the user can follow:
+                        1. Sign In
+                            On desktop: Click Sign In at the top-right of the Atlas page.
+                            On mobile: Tap the Menu icon next to "Atlas Portal" > Sign In.
+                        
+                        2. Find the Correct Service
+                            Search: Use the search bar at the top-right to type the issue or service you need (e.g., "Microsoft Word" or "CometNet Wi-Fi").
+                            Services have a Compass icon, while Knowledge Articles have a Lightbulb icon.
+                            If no results appear, press Enter to see the full list.
+                            Browse: If searching doesn’t work, go to the Services link in the gray navigation bar to browse the Service Catalog by category.
+
+                        3. Select Service Offering
+                            Choose the appropriate Service Offering (e.g., "Report an Issue" or "General Request/Help").
+                            This determines the type of request you're submitting.
+                        
+                        4. Fill Out the Ticket Form
+                            Additional Contacts: Add anyone else who should be notified (e.g., a colleague or supervisor).
+                            Subject: Provide a brief summary of your issue.
+                            Description: Be as detailed as possible to help resolve your issue faster.
+                            Attachment: Upload files, such as screenshots or documents, if needed.
+
+                        5. Submit the Ticket
+                            Click the green Submit button to send your request.
+                            You’ll receive email notifications about your ticket’s status and any follow-up questions.
+                            
+                        Your ticket is now submitted, and the appropriate team will work on resolving it.
+
+                        If the user needs more information, redirect the user to this article: https://atlas.utdallas.edu/TDClient/30/Portal/KB/ArticleDet?ID=544
+
+                    Here is some information for Box troubleshooting:
+                        User Not Able to Sign In:
+                            Ensure the user is logging in at the correct URL (utdallas.app.box.com/login) with their NetID and password.
+                            Verify the user’s account is active and they have a Standard or Basic service level.
+                            Check DUO multi-factor authentication status.
+                            Confirm the user’s account is in good standing.
+
+                        Box Drive Not Syncing:
+                            For UTD-owned devices, re-install Box Drive through Software Center.
+                            For personal devices, guide the user to re-install Box Drive per instructions in KA 824.
+                            If the issue persists, escalate to FTS for further support from Box.
+
+                        Issues Editing Office Documents in Box:
+                            Refer to KA 254 for troubleshooting related to editing documents.
+
+                        Box Known Issues:
+                            Check Box Known Issues and Community pages for additional solutions or workarounds.
                     ` 
                 },
                 ...conversationHistory

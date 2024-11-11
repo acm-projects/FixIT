@@ -1,5 +1,6 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
+const comment = require('../models/commentModel');
 const mongoose = require('mongoose');
 
 const getComment = async (req, res) => {
@@ -16,8 +17,8 @@ const getComment = async (req, res) => {
     res.status(200).json(comment);
 }
 
-const createNewPost = async (req, res) => {
-    const { username } = req.params;
+const createNewComment = async (req, res) => {
+    const { postId, username } = req.params;
     const { title, authorFirstName, authorLastName, content, upvotes = 0, images, comments } = req.body;
 
     try {
@@ -25,6 +26,10 @@ const createNewPost = async (req, res) => {
 
         if (!user)
             return res.status(404).json({ error: 'No such user' });
+
+        if (!mongoose.Types.ObjectId.isValid(postId))
+            return res.status(404).json({error: 'No such post'});
+
         
         const newPost = await Post.create({ title, username: username, authorFirstName: user.firstName , authorLastName: user.lastName, content, images, upvotes, comments });
         
