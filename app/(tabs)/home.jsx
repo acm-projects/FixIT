@@ -66,9 +66,9 @@ const Home = () => {
       style={tw`flex-1 bg-[#672557]`}
       contentContainerStyle={tw`flex justify-center items-center pl-2.5 gap-2.5`}
     >
-      <Text style={tw`h-10 w-40 text-white text-lg text-center`}>
-        Popular Topics
-      </Text>
+      <Text style={tw`h-12 text-white text-2xl font-bold text-center py-2 mb-4 w-100 bg-[#4A1B3D]`}>
+  Popular Topics
+</Text>
       
       {feedData.map((feed, index) => (
         <FeedOITComponent

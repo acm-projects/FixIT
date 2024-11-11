@@ -70,7 +70,7 @@ export default function App() {
         backgroundColor: '#C084FC'
       }}>
         <Text style={{ 
-          fontWeight: 'bold', 
+          fontWeight: '600', 
           fontSize: 32, 
           color: 'white' 
         }}>
@@ -98,19 +98,19 @@ export default function App() {
             }}
           >
             <Image
-              source={slide.image}  // Changed to use local image
+              source={slide.image}
               style={{
                 width: 288,
                 height: 288,
                 marginBottom: 32,
-                borderRadius: 10  // Added border radius for better appearance
+                borderRadius: 10
               }}
-              resizeMode="cover"  // Changed to cover for better image display
+              resizeMode="cover"
             />
             <Text style={{
               fontSize: 24,
               fontWeight: 'bold',
-              color: '#7C3AED',
+              color: '#C084FC',
               marginBottom: 16,
               textAlign: 'center'
             }}>
@@ -142,7 +142,7 @@ export default function App() {
               height: 8,
               width: currentSlide === index ? 16 : 8,
               borderRadius: 4,
-              backgroundColor: currentSlide === index ? '#7C3AED' : '#E9D5FF',
+              backgroundColor: currentSlide === index ? '#C084FC' : '#E9D5FF',
               marginHorizontal: 4
             }}
           />
@@ -154,20 +154,33 @@ export default function App() {
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 32,
-        marginTop: 'auto'
+        paddingBottom: 48,
+        paddingHorizontal: 24,
+        marginTop: 'auto',
+        gap: 16
       }}>
-        <View style={{ width: 256 }}>
+        <View style={{ 
+          width: '100%',
+          maxWidth: 320,
+          gap: 12
+        }}>
           <CustomButton
             name={currentSlide === ONBOARDING_DATA.length - 1 ? "Get Started" : "Next"}
             ContainerStyles={{
-              backgroundColor: '#7C3AED',
-              marginVertical: 12,
-              width: '100%'
+              backgroundColor: '#C084FC',
+              borderRadius: 8,
+              paddingVertical: 14,
+              width: '100%',
+              elevation: 2,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
             }}
             TextStyles={{
               color: 'white',
-              fontWeight: 'bold',
+              fontSize: 16,
+              fontWeight: '600',
               textAlign: 'center'
             }}
             handlePress={handleNext}
@@ -177,12 +190,16 @@ export default function App() {
             name="Skip"
             ContainerStyles={{
               borderWidth: 2,
-              borderColor: '#7C3AED',
-              width: '100%'
+              borderColor: '#C084FC',
+              borderRadius: 8,
+              paddingVertical: 14,
+              width: '100%',
+              backgroundColor: 'white'
             }}
             TextStyles={{
-              color: '#7C3AED',
-              fontWeight: 'bold',
+              color: '#C084FC',
+              fontSize: 16,
+              fontWeight: '600',
               textAlign: 'center'
             }}
             handlePress={handleSkip}
