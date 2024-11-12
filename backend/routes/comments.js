@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const {
     getComment,
-    getAllCommentsByPost,
     createNewComment,
     deleteComment,
     updateComment
@@ -10,9 +9,7 @@ const {
 
 router.get('/:commentId', getComment);
 
-router.get('/:postId', getAllCommentsByPost)
-
-router.post('/:postId/username', createNewComment);
+router.post('/:postId/:username', createNewComment);
 
 router.delete('/:commentId', deleteComment);
 

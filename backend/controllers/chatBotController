@@ -35,7 +35,7 @@ const chatWithBotViaTextInput = async (req, res) => {
         let botResponse = await chatWithBot(userMessage);
         botResponse = markdownToPlainText(botResponse);
         res.status(200).json({ response: botResponse });
-        console.log(botResponse);
+        console.log("Response: " + botResponse);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -56,24 +56,6 @@ const chatWithBotViaAudioInput = async (req, res) => {
     // recording.stream().on('data', (data) => { // debugging to check if mic is receiving any input
     //     console.log(`Received audio chunk of size: ${data.length}`);
     // });
-
-    const isSilent = (audioBuffer) => {
-        let sum = 0;
-        for (let i = 0; i < audioBuffer.length; i++) {
-            sum += Math.abs(audioBuffer[i]);
-        }
-        const averageAmplitude = sum / audioBuffer.length;
-        return averageAmplitude < 1; // you can adjust this threshold based on your needs
-    };
-
-    recording.stream().on('data', (data) => {
-        if (isSilent(data)) {
-            console.log("Detected silence (low amplitude). Skipping...");
-            return; // skip this chunk, it's silent or nearly silent
-        }
-
-        console.log(`Received audio chunk of size: ${data.length}`);
-    });
 
     const client = new TranscribeStreamingClient({
         region: "us-west-2",
@@ -106,12 +88,10 @@ const chatWithBotViaAudioInput = async (req, res) => {
                         console.log(`Transcription: ${transcription}`);
 
                         try { // send the transcription to the chatbot
-                            const botResponse = await chatWithBot(transcription);
-                            console.log("Chatbot Response:", botResponse);
-                            res.status(200).json({ 
-                                transcription: transcription,
-                                response: botResponse
-                            });
+                            let botResponse = await chatWithBot(transcription);
+                            botResponse = markdownToPlainText(botResponse);
+                            res.status(200).json({ response: botResponse });
+                            console.log("Response: " + botResponse);
                         } catch (error) {
                             console.error("Error communicating with chatbot: ", error);
                         }
@@ -357,6 +337,115 @@ const chatWithBot = async (userMessage) => {
 
                         Box Known Issues:
                             Check Box Known Issues and Community pages for additional solutions or workarounds.
+
+                    Here is some information for remote desktop connection troubleshooting:
+                        Common Errors:
+                            Incorrect Computer Name:
+                                Ensure the full name of the UTD computer is entered, which includes the department abbreviation and asset number (e.g., UTD81905).
+                                Use the fully-qualified domain name (FQDN), such as UTD81905.campus.ad.utdallas.edu, rather than just the computer name.
+                            
+                            Computer Unavailable:
+                                This occurs if the computer is powered off or not set up for remote access.
+                                To check, ping the computer by running the command ping UTDAssetNumber.campus.ad.utdallas.edu in a terminal.
+                                If the computer is unreachable, it may be off or disconnected from the network. Someone must power it on to resolve the issue.
+                            
+                            Access Denied:
+                                This error indicates that you do not have remote desktop authorization.
+                                Contact the OIT Service Desk for assistance.
+
+                    Here is some information about how to order transcripts (ask user if they are a current student or alumni/former student first):
+                            For Current Students:
+                                If you're a current student with access to your NetID, visit the Official Transcript - Registrar's page and follow the instructions under Current Students.
+                                Refer to the Registrar's Transcripts FAQ for common issues.
+                            
+                            For Alumni and Former Students:
+                                Reactivate Your UTD Account:
+                                    If you’re an alumnus or former student, you need to reactivate your UTD ID to request transcripts.
+                                    Complete the Former Student Reactivation Request Form on the Registrar's Official Transcripts page.
+                                    Submit the form and allow 1 business day for reactivation (it may take the same day).
+                                    Your account will be active for 90 days after reactivation; you’ll need to submit a new form if it expires.
+                                
+                                Reset Password and Duo:
+                                    If you don’t receive an activation email, reset your password via the NetIS Self-Service Portal.
+                                    For Duo enrollment, visit KA 344 for instructions on enrolling or managing devices.
+
+                                Order Your Transcript:
+                                    Once your account is reactivated, visit the Official Transcript page to follow instructions for Former Students, Alumni, and Former Employees.
+
+                                Important Information
+                                    Holds: Your transcript request won’t be processed if you have financial or other holds on your account.
+                                    Processing Time: Transcript orders are processed on an 8-hour cycle, but delays may occur during high-volume periods.
+                                    Transcript Request: Requests must be made by the student, alumni, or former student. Third-party requests are only accepted for law enforcement purposes.
+                                    Order Electronic Transcripts: Only through the Galaxy Portal after logging in.
+                                    Grades and Degree: Confirm your grades are posted or degree conferred before ordering. Ensure honors are awarded if applicable.
+                                    Address Updates: Alumni can update their address via the Address Change Request Form.
+
+                                For any issues, contact the OIT Service Desk.
+
+                    Here is some information for connecting to a remote desktop (macOS) (ask OS user is using first):
+                        Before Connecting Remotely:
+                            Off Campus: You must connect to the VPN before accessing your computer remotely. Also, ensure you are signed up for Duo.
+                            On Campus: If connected to a wired network or CometNet, VPN is not required.
+                            
+                            Connecting:
+                                Launch Microsoft Remote Desktop (free in the App Store).
+                                Add PC by selecting it from the drop-down menu.
+                            
+                            Enter the following details:
+                                PC Name: Full computer name (e.g., UTDAssetNumber.campus.ad.utdallas.edu).
+                                User Account: Set to "Ask when required" or enter your UTD credentials to avoid repeated prompts.
+                                Friendly Name: Optional, used to distinguish this computer.
+                                Group: Default to "Saved PCs" or create a new group.
+                                Gateway: Leave as "No gateway."
+                                Credentials: Optional to save your NetID credentials for automatic login.
+                            
+                            In your list of connections, select the computer and sign in using your NetID and password to connect.
+
+                            This process allows you to securely access your UTD computer via Remote Desktop on macOS.
+
+                    Here is some information for connecting to a remote desktop (Windows) (ask OS user is using first):
+                        Restrictions:
+                            Remote Desktop is available only for UTD Windows computers (not for Mac).
+                            You must be an Administrator on the device.
+                            The office computer must be left on to allow remote access.
+                            If you're not an Admin, contact the OIT Service Desk.
+
+                        Enable Remote Desktop:
+                            Open Settings from the Start menu.
+                            Go to System > Remote Desktop, and toggle Remote Desktop on.
+                            Set your computer to never sleep by adjusting power settings:
+                            Go to Settings > Power & Sleep and set "When plugged in, the PC goes to sleep after" to Never.
+                            
+                        VPN Requirements:
+                            Off-campus: Connect to the Palo Alto GlobalProtect VPN before accessing the computer remotely.
+                            On-campus: No VPN needed if connected to CometNet.
+                            
+                        Connecting to Remote Desktop:
+                            Open the Remote Desktop Connection application.
+                            Enter the full computer name (e.g., UTD123456.campus.ad.utdallas.edu) and select Connect.
+                            Enter your username 'campus\\NetIDHere' and password when prompted.
+                            This guide helps you set up and use Remote Desktop for accessing your UTD office computer remotely.
+
+                        Here is some information on managing Duo devices:
+                        Accessing Manage Devices:
+                            Go to a Duo-protected resource (e.g., Office.com or Box) and when prompted for authentication, select Other options.
+                            Click Manage Devices to begin managing your Duo authentication devices.
+                        
+                        Verifying Identity:
+                            Before making changes, you will be asked to verify your identity using your preferred authentication method.
+                        
+                        Device Management:
+                            Edit Devices: You can delete or rename existing devices by clicking Edit next to the device.
+                        
+                        Adding a New Phone:
+                            If you get a new phone with the same number, select Get started and follow the steps to set it up.
+                            For a new device with a new number, click Add a device and authenticate it using your preferred method.
+                            
+                        Authenticating with a New Device:
+                            To use a different device for authentication, select Other options on the Duo prompt.
+                            Your new device will appear in the "Other options to log in" menu, allowing you to authenticate with it.
+
+                    If user still expresses troubles in addressing issues when solutions have been exhausted, direct user to contacting the OIT Service Desk at this number: 972-883-2911
                     ` 
                 },
                 ...conversationHistory

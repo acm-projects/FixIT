@@ -11,15 +11,15 @@ const index = new Pinecone({
   export async function POST() {
     try {
       const data = fs.readFileSync("data/reviews.json", "utf-8");
-      const reviews = JSON.parse(data);
+      const reviews = JSON.parse(data); // isn't the data already parsed or s
   
-      const upserts = reviews.map((review) => ({
+      const upserts = reviews.map((review) => ({ // upserts holds all the info that will be transferred to Pinecone
         id: review.id,
         values: review.embedding,
         metadata: { review: review.text },
       }));
   
-      await index.upsert({ upserts });
+      await index.upsert({ upserts }); // transfers embeddings and associated data into Pinecone
   
       return NextResponse.json({ message: "Reviews uploaded successfully" });
     } catch (error) {

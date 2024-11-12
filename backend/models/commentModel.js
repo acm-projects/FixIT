@@ -3,13 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
-    commentID: {
-        type: Number,
-        required: true
-    },
     postID: {
-        type: Number,
-        required: true
+        type: String,
     },
     username: {
         type: String,
@@ -30,11 +25,7 @@ const commentSchema = new Schema({
     upvotes: {
         type: Number,
         required: true
-    },
-    replies: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reply'
-    }]
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Comment', commentSchema);

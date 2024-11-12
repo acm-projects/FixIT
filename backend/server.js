@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
+const commentRoutes = require('./routes/comments');
 const chatBotRoutes = require('./routes/chatBot');
 const { auth } = require('express-openid-connect'); // imports authentication middleware and helps create functions to handle user tasks like logins, etc
 
@@ -29,7 +30,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/users', userRoutes); 
-app.use('/api/posts', postRoutes); 
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
 app.use('/api/chatBot', chatBotRoutes);
 app.get('/', (req, res) => {
     console.log(req.oidc.isAuthenticated()) // checks if user is authenticated
