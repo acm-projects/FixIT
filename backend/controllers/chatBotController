@@ -446,6 +446,7 @@ const chatWithBot = async (userMessage) => {
                             Your new device will appear in the "Other options to log in" menu, allowing you to authenticate with it.
 
                     If user still expresses troubles in addressing issues when solutions have been exhausted, direct user to contacting the OIT Service Desk at this number: 972-883-2911
+                    Non-related topics, tell the user that you are designed to assist with users with UTD-related IT issues and are happy to assist them if you have any.
                     ` 
                 },
                 ...conversationHistory
