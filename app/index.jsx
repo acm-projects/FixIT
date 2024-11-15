@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, Image, Dimensions } from 'react-native';
-import { Link, SplashScreen } from 'expo-router';
+import { StyleSheet, Text, View, Pressable} from 'react-native';
+import { Link, SplashScreen, useFonts } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native';
 import { router } from 'expo-router';
@@ -31,32 +31,6 @@ const ONBOARDING_DATA = [
 ];
 
 export default function App() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const scrollViewRef = useRef(null);
-  const screenWidth = Dimensions.get('window').width;
-
-  const handleScroll = (event) => {
-    const contentOffset = event.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOffset / screenWidth);
-    setCurrentSlide(currentIndex);
-  };
-
-  const handleSkip = () => {
-    router.push('/home');
-  };
-
-  const handleNext = () => {
-    if (currentSlide < ONBOARDING_DATA.length - 1) {
-      scrollViewRef.current?.scrollTo({
-        x: screenWidth * (currentSlide + 1),
-        animated: true
-      });
-      setCurrentSlide(currentSlide + 1);
-    } else {
-      router.push('/sign-up');
-    }
-  };
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <StatusBar style="dark" />
@@ -208,5 +182,7 @@ export default function App() {
   </View>
 </View>
     </SafeAreaView>
+    </>
   );
 }
+

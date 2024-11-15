@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, FlatList, Pressable, Modal } from 'react-native'
 import React, { useState } from 'react'
-import {icons, Images, images} from "../../constants"
+import { icons, Images, images } from "../../constants"
 import { TextInput } from 'react-native'
 import { Icon } from '@rneui/themed'
 import { Divider } from '@rneui/base'
@@ -204,7 +204,7 @@ const trending = () => {
 
   const handleSort = (sortType) => {
     const sortedPosts = [...posts];
-    switch(sortType) {
+    switch (sortType) {
       case 'votes':
         sortedPosts.sort((a, b) => b.votes - a.votes);
         break;
@@ -225,8 +225,8 @@ const trending = () => {
     router.push({
       pathname: "/postDetail",
       params: {
-        data: JSON.stringify(item)
-      }
+        data: JSON.stringify(item),
+      },
     });
   };
 
@@ -307,66 +307,107 @@ const trending = () => {
               <Text className="text-md">{item.username}</Text>
             </View>
 
-            <Pressable 
-              className="w-full"
-              onPress={() => handlePostPress(item)}
-            >
-              <View className="w-full flex flex-col space-y-2">
-                <Text className="text-3xl text-wrap my-1">{item.title}</Text>
-
-                {item.img ? (
-                  <View className="w-5/6 border-2">
+      {/* Post content */}
+      <Pressable className="w-full" onPress={() => handlePostPress(item)}>
+        <View className="w-full flex flex-col space-y-2">
+          <Text className="text-3xl text-wrap my-1">{item.title}</Text>
+              
+            {item.img ? (
+                  <View
+                  className="w-5/6 border-2">
                     <Image
-                      className="h-40 w-5/6"
-                      source={item.img[0].uri}
-                      resizeMode='contained'
-                    />
-                  </View>
-                ) : (
-                  <Text className="">{item.description}</Text>
-                )}
+                    className="h-40 w-5/6"
+                    source={item.img[0].uri}
+                    resizeMode='contained'
+                  />
+                </View>
+              ) : (
+                <Text className="">{item.description}</Text>
+              )}
               </View>
             </Pressable>
 
-            <View className="flex flex-row my-1 items-center space-x-5">
-              <View className="flex flex-row border border-gray-400 rounded-3xl p-1 space-x-3 items-center">
-                <Pressable>
-                  <Image
+              <View className="flex flex-row my-1 items-center space-x-5">
+                <View className="flex flex-row border border-gray-400 rounded-3xl p-1 space-x-3 items-center">
+                  <Pressable>
+                    <Image
                     source={icons.arrow_up}
-                    className="h-5 w-5"
-                  />
-                </Pressable>
+                    className="h-5 w-5"/>
+                  </Pressable>
 
-                <Text className="text-xl text-gray-700">{item.votes}</Text>
+          <Text className="text-xl text-gray-700">{item.votes}</Text>
 
-                <Pressable>
-                  <Image
-                    source={icons.arrow_down}
-                    className="h-5 w-5"
-                  />
-                </Pressable>
-              </View>
-
-              <Pressable 
-                className="flex items-center space-x-2 px-2 py-3 rounded-2xl flex-row border-gray-400 border"
-                onPress={() => handleCommentPress(item)}
-              >
-                <Image 
-                  className="h-4 w-5"
-                  source={icons.comment}
-                />
-                <Text className="text-md">{item.comments}</Text>
-              </Pressable>
-            </View>
-
-            <Divider 
-              style={{backgroundColor: '#B1A180'}}
-              width={1}
-              className="mt-2"
+          <Pressable>
+            <Image
+              source={icons.arrow_down}
+              className="h-5 w-5"
             />
-          </View>
-        )}
-        keyExtractor={item => item.id}
+          </Pressable>
+        </View>
+
+        <Pressable 
+          className="flex items-center space-x-2 px-2 py-3 rounded-2xl flex-row border-gray-400 border"
+          onPress={() => handleCommentPress(item)}
+        >
+          <Image 
+            className="h-4 w-5"
+            source={icons.comment}
+          />
+          <Text className="text-md">{item.comments}</Text>
+        </Pressable>
+      </View>
+
+      {/* Divider */}
+      <Divider 
+        style={{ backgroundColor: '#B1A180' }}
+        width={1}
+        className="mt-2"
+      />
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#E4D3BA' }}>
+      {/* Header */}
+      <View style={{ backgroundColor: '#672557' }} className="justify-end items-start w-full rounded-b-3xl pt-24 pb-2 pl-4">
+        <Text className="text-4xl font-bold text-white">Community Forum</Text>
+      </View>
+
+      {/* Search Bar */}
+      <View className="flex flex-row space-x-36 items-center p-2 w-full">
+        <View className="w-1/2">
+          <TextInput
+            className="h-10 w-full px-7 text-black bg-slate-100 border-2 border-gray-300 rounded-2xl"
+            placeholder="Search for a post"
+            value={searchQuery}
+            onChangeText={(e) => setSearchQuery(e)}
+          />
+          <Image
+            className="absolute left-2 top-3 w-4 h-4"
+            source={icons.search}
+          />
+          {searchQuery && (
+            <Pressable
+              className="absolute left-[157px] top-[13px]"
+              onPress={() => setSearchQuery("")}
+              hitSlop={20}
+            >
+              <Image
+                className="w-4 h-4"
+                source={icons.clear}
+              />
+            </Pressable>
+          )}
+        </View>
+
+        <SortDropdown onSortChange={handleSort} />
+      </View>
+
+      {/* Post List */}
+      <FlatList
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
       />
 
       {/* Comments Modal */}
@@ -381,4 +422,4 @@ const trending = () => {
   );
 };
 
-export default trending;
+export default Trending;

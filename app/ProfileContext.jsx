@@ -1,8 +1,10 @@
-import React, { createContext, useState } from 'react';
-import { Text } from 'react-native';  // Import Text component
+import React, { createContext, useState, useContext } from 'react';
+import { Text } from 'react-native';
 
+// Create the context
 export const ProfileContext = createContext();
 
+// Rename the component to start with a capital letter
 export const ProfileProvider = ({ children }) => {
   const [profile, setProfile] = useState({
     name: 'User Name',
@@ -15,14 +17,13 @@ export const ProfileProvider = ({ children }) => {
 
   const [savedPosts, setSavedPosts] = useState([]);
 
-  // Make sure children is properly rendered
   return (
-    <ProfileContext.Provider 
-      value={{ 
-        profile, 
+    <ProfileContext.Provider
+      value={{
+        profile,
         setProfile,
         savedPosts,
-        setSavedPosts  // Make sure this is included in the value prop
+        setSavedPosts
       }}
     >
       {typeof children === 'string' ? <Text>{children}</Text> : children}
@@ -30,8 +31,18 @@ export const ProfileProvider = ({ children }) => {
   );
 };
 
+// Create a separate component for the hook usage
+export const UseProfileComponent = ({ children }) => {
+  const context = useContext(ProfileContext);
+  if (context === undefined) {
+    throw new Error('useProfile must be used within a ProfileProvider');
+  }
+  return children(context);
+};
+
+// Create the hook as a separate function
 export const useProfile = () => {
-  const context = React.useContext(ProfileContext);
+  const context = useContext(ProfileContext);
   if (context === undefined) {
     throw new Error('useProfile must be used within a ProfileProvider');
   }

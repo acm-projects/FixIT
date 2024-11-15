@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { ScrollView, Modal, View } from 'react-native';
 import { Card, Text, Button, Image, Icon, Overlay } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
-import { useProfile } from '../app/ProfileContext';
+import {useProfile} from '../app/ProfileContext';
+
 import tw from 'twrnc';
 
 const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
@@ -38,6 +39,7 @@ const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
   };
 
   return (
+    
     <Card
       containerStyle={tw`bg-[#E4D3BA] rounded-lg w-[90%] self-center p-4 my-2.5 shadow-lg`}
     >
@@ -142,6 +144,7 @@ const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
         </ScrollView>
       </Overlay>
     </Card>
+    
   );
 };
 

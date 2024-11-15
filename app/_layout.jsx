@@ -1,5 +1,6 @@
 import { React, useEffect } from 'react';
 import { useFonts } from "expo-font";
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
 import { Stack, SplashScreen } from "expo-router";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ProfileProvider } from './ProfileContext'; // Import ProfileProvider
@@ -30,7 +31,14 @@ const RootLayout = () => {
     return null;
   }
 
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+  if (!publishableKey) {
+    throw new Error('Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file')
+  }
+
   return (
+    <ClerkProvider publishableKey={publishableKey}>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ProfileProvider>
         <Stack>
@@ -55,6 +63,7 @@ const RootLayout = () => {
         </Stack>
       </ProfileProvider>
     </GestureHandlerRootView>
+    </ClerkProvider>
   );
 };
 

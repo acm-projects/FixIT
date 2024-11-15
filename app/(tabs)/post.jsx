@@ -24,21 +24,16 @@ const post = () => {
     }
 
     const submitForm = async () => {
-
       try {
-        const response = await fetch('https://13f7-24-32-7-71.ngrok-free.app/api/posts/Ffc', {
+        const response = await fetch('https://5270-129-110-241-55.ngrok-free.app/api/posts/MrSmithIsTheBest', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
+          body: JSON.stringify({ 
             title: postData.title,
-            authorFirstName: "Ugonna",
-            authorLastName: "Anyalemechi",
-            content: postData.description,
-            comments: [],
-          }),
+            authorFirstName: ""}),
         });
         const json = await response.json();
         console.log(json)
@@ -46,7 +41,6 @@ const post = () => {
         console.error(error);
       }
     }
-
   return (
 
     // <SafeAreaView className="h-full pb-0 mb-0">
@@ -113,7 +107,7 @@ const post = () => {
 
 
 
-        <RippleButton title="Submit" onPress={submitForm}></RippleButton>
+        <RippleButton onPress={submitForm} title="Submit"></RippleButton>
         {/* <ThreeDButton title="Submit"></ThreeDButton> */}
         {/* <Pressable 
           className={`rounded-lg h-fit mb-20 duration-100 p-5 bg-slate-200 ${isPressed ? "bg-secondary": "bg-secondary-200"}`}
