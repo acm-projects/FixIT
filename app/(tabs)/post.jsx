@@ -23,8 +23,23 @@ const post = () => {
       setIsPressed((isPressed) => !isPressed)
     }
 
-    const submitForm = () => {
-      console.log()
+    const submitForm = async () => {
+      try {
+        const response = await fetch('https://5270-129-110-241-55.ngrok-free.app/api/posts/MrSmithIsTheBest', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            title: postData.title,
+            authorFirstName: ""}),
+        });
+        const json = await response.json();
+        console.log(json)
+      } catch (error) {
+        console.error(error);
+      }
     }
   return (
 
@@ -92,7 +107,7 @@ const post = () => {
 
 
 
-        <RippleButton title="Submit"></RippleButton>
+        <RippleButton onPress={submitForm} title="Submit"></RippleButton>
         {/* <ThreeDButton title="Submit"></ThreeDButton> */}
         {/* <Pressable 
           className={`rounded-lg h-fit mb-20 duration-100 p-5 bg-slate-200 ${isPressed ? "bg-secondary": "bg-secondary-200"}`}

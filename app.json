@@ -1,12 +1,13 @@
 {
   "expo": {
     "name": "FixIT",
+    "scheme": "fixit",
     "slug": "fixit",
-    "scheme": "FixIT",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "platforms": ["ios", "android"],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,8 +18,8 @@
         "NSCameraUsageDescription": "We need access to your camera to take pictures.",
         "NSPhotoLibraryUsageDescription": "We need access to your photo library to upload images.",
         "NSPhotoLibraryAddUsageDescription": "We need permission to save images to your photo library.",
-        "NSExceptionAllowsInsecureHTTPLoads":true,
-        "NSAllowsArbitraryLoads":true
+        "NSExceptionAllowsInsecureHTTPLoads": true,
+        "NSAllowsArbitraryLoads": true
       },
       "supportsTablet": true
     },
@@ -29,14 +30,15 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to describe your issue better. "
+          "photosPermission": "The app accesses your photos to describe your issue better."
         }
       ]
     ]

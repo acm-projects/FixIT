@@ -7,6 +7,7 @@ import { router } from 'expo-router';
 import CustomButton from "../components/CustomButton"
 
 
+
 export default function App() {
   return (
     <>
@@ -30,11 +31,19 @@ export default function App() {
         /> 
 
         <CustomButton 
+        name="Login"  
+        ContainerStyles="my-5 border-solid border-2" 
+        handlePress={()=>{router.push('/Login')}}
+        /> 
+
+        <CustomButton 
         name="Home"  
         ContainerStyles="my-5 border-solid border-2" 
         handlePress={()=>{router.push('/home')}}
         /> 
 
+
+        
        {/* <CustomButton
           name="New Sign in"
           styles="my-5 border-solid border-2"

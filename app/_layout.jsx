@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
-import {React, useEffect} from 'react'
-import {useFonts} from "expo-font"
-import {App} from "./index"
-import {Slot, SplashScreen, Stack} from "expo-router"
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { React, useEffect } from 'react';
+import { useFonts } from "expo-font";
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
+import { Stack, SplashScreen } from "expo-router";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ProfileProvider } from './ProfileContext'; // Import ProfileProvider
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,39 +20,51 @@ const RootLayout = () => {
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
 
-  useEffect( () => {
-    if (error) throw error; 
-
-    if (fontsLoaded){
+  useEffect(() => {
+    if (error) throw error;
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, error])
+  }, [fontsLoaded, error]);
 
-  if(!fontsLoaded && !error){
-    return null
+  if (!fontsLoaded && !error) {
+    return null;
+  }
+
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+  if (!publishableKey) {
+    throw new Error('Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file')
   }
 
   return (
-    <GestureHandlerRootView>
-      <Stack>
-        <Stack.Screen name="index" options={{headerShown: false}}/>
-        <Stack.Screen name="postDetail" options={{headerShown: false}}/>
-        <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-        
-      
-      </Stack>
+    <ClerkProvider publishableKey={publishableKey}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ProfileProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(postDetail)" options={{ headerShown: false }} />
+          <Stack.Screen 
+            name="profile" 
+            options={{ 
+              headerShown: false,
+              presentation: 'modal'
+            }} 
+          />
+          <Stack.Screen 
+            name="editProfile" 
+            options={{ 
+              headerShown: false,
+              presentation: 'modal'
+            }} 
+          />
+        </Stack>
+      </ProfileProvider>
     </GestureHandlerRootView>
-  )
-}
+    </ClerkProvider>
+  );
+};
 
-export default RootLayout
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex", 
-    flex: 1,
-    justifyContent: "center", 
-    alignItems: "center"
-  }
-})
+export default RootLayout;

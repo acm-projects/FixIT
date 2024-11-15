@@ -25,7 +25,7 @@ const SignUp = () => {
     
 
     try {
-      const response = await fetch('https://0feb-24-32-7-71.ngrok-free.app/api/users', {
+      const response = await fetch('https://13f7-24-32-7-71.ngrok-free.app/api/users', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -99,7 +99,7 @@ const SignUp = () => {
             <ThirdPartyButton
               name="Sign Up with Google"
               handlePress={() => {
-                console.log("Sign Up with Google")
+                router.push("/backend/server")
               }}
               iconSource={icons.google_g_logo}
               ContainerStyles={"mt-4"}
