@@ -7,9 +7,8 @@ import tw from 'twrnc';
 
 const Chat = () => {
   const [messages, setMessages] = useState([
-    { text: 'Hello!', sender: false },
-    { text: 'Hi there!', sender: true },
-    { text: 'Executive', sender: true },
+    { text: 'Hello!', sender: true },
+    { text: 'Hi there!', sender: false },
     { text: 'Oops! Something went wrong. Please try again.', sender: false, isError: true },
   ]);
 

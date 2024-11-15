@@ -15,7 +15,7 @@ const OIT3 = require('../assets/images/OIT3.jpg');
 const ONBOARDING_DATA = [
   {
     title: "Welcome to Fixit",
-    description: "Your one-stop solution for home repairs and maintenance",
+    description: "Your one-stop solution for IT repairs and maintenance",
     image: OIT1
   },
   {
@@ -149,63 +149,64 @@ export default function App() {
         ))}
       </View>
 
-      {/* Bottom Buttons */}
-      <View style={{
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingBottom: 48,
-        paddingHorizontal: 24,
-        marginTop: 'auto',
-        gap: 16
-      }}>
-        <View style={{ 
-          width: '100%',
-          maxWidth: 320,
-          gap: 12
-        }}>
-          <CustomButton
-            name={currentSlide === ONBOARDING_DATA.length - 1 ? "Get Started" : "Next"}
-            ContainerStyles={{
-              backgroundColor: '#C084FC',
-              borderRadius: 8,
-              paddingVertical: 14,
-              width: '100%',
-              elevation: 2,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-            }}
-            TextStyles={{
-              color: 'white',
-              fontSize: 16,
-              fontWeight: '600',
-              textAlign: 'center'
-            }}
-            handlePress={handleNext}
-          />
-          
-          <CustomButton
-            name="Skip"
-            ContainerStyles={{
-              borderWidth: 2,
-              borderColor: '#C084FC',
-              borderRadius: 8,
-              paddingVertical: 14,
-              width: '100%',
-              backgroundColor: 'white'
-            }}
-            TextStyles={{
-              color: '#C084FC',
-              fontSize: 16,
-              fontWeight: '600',
-              textAlign: 'center'
-            }}
-            handlePress={handleSkip}
-          />
-        </View>
-      </View>
+{/* Bottom Buttons */}
+<View style={{
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'center',
+  paddingBottom: 48,
+  paddingHorizontal: 24,
+  marginTop: 'auto',
+  gap: 16
+}}>
+  <View style={{ 
+    width: '100%',
+    maxWidth: 320,
+    gap: 12,
+    alignItems: 'center'  // Add this line to center the buttons
+  }}>
+    <CustomButton
+      name={currentSlide === ONBOARDING_DATA.length - 1 ? "Get Started" : "Next"}
+      ContainerStyles={{
+        backgroundColor: '#C084FC',  // Change from orange to match your theme
+        borderRadius: 8,
+        paddingVertical: 14,
+        width: '80%',  // Reduce width to match the screenshot
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      }}
+      TextStyles={{
+        color: 'white',
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center'
+      }}
+      handlePress={handleNext}
+    />
+    
+    <CustomButton
+      name="Skip"
+      ContainerStyles={{
+        borderWidth: 2,
+        borderColor: '#C084FC',  // Change from orange to match your theme
+        borderRadius: 8,
+        paddingVertical: 14,
+        width: '80%',  // Reduce width to match the screenshot
+        backgroundColor: 'white'
+      }}
+      TextStyles={{
+        color: '#C084FC',  // Change from orange to match your theme
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center'
+      }}
+      handlePress={handleSkip}
+    />
+  </View>
+</View>
     </SafeAreaView>
   );
 }

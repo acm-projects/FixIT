@@ -131,4 +131,3 @@ const post = () => {
 
 export default post
 
-const styles = StyleSheet.create({})

@@ -20,10 +20,10 @@ const SortDropdown = ({ onSortChange }) => {
   const [selectedSort, setSelectedSort] = useState(SORT_OPTIONS[0]);
 
   return (
-    <View className="relative">
+    <View className="relative z-50">
       <Pressable
         onPress={() => setShowSortDropdown(!showSortDropdown)}
-        className="flex-row items-center space-x-2 py-2 px-3 bg-black bg-opacity-5 rounded-md"
+        className="flex-row items-center space-x-2 py-2 px-3 rounded-md"
         style={{backgroundColor: '#D2BE92'}}
       >
         <Text style={{color: '#23603F'}} className="text-lg font-medium">
@@ -44,7 +44,7 @@ const SortDropdown = ({ onSortChange }) => {
         >
           <View 
             style={{
-              backgroundColor: '#1c1c1c',
+              backgroundColor: '#E4D3BA',
               borderRadius: 8,
               position: 'absolute',
               top: 45,
@@ -52,9 +52,11 @@ const SortDropdown = ({ onSortChange }) => {
               right: 10,
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
+              shadowOpacity: 0.15,
               shadowRadius: 3.84,
               elevation: 5,
+              borderWidth: 1,
+              borderColor: '#B1A180',
             }}
           >
             {SORT_OPTIONS.map((option) => (
@@ -68,12 +70,12 @@ const SortDropdown = ({ onSortChange }) => {
                 }}
                 style={{
                   borderBottomWidth: 1,
-                  borderBottomColor: '#333',
+                  borderBottomColor: '#B1A180',
                 }}
               >
                 <Text 
                   style={{
-                    color: option.value === selectedSort.value ? '#ffffff' : '#cccccc',
+                    color: '#23603F',
                     fontWeight: option.value === selectedSort.value ? '600' : '400',
                   }}
                   className="text-base"
@@ -81,7 +83,7 @@ const SortDropdown = ({ onSortChange }) => {
                   {option.label}
                 </Text>
                 {option.value === selectedSort.value && (
-                  <Icon name="check" type="feather" size={18} color="#ffffff" />
+                  <Icon name="check" type="feather" size={18} color="#23603F" />
                 )}
               </Pressable>
             ))}
@@ -96,104 +98,106 @@ const trending = () => {
   const [searchQuerry, setSearchQuerry] = useState("")
   const [showComments, setShowComments] = useState(false)
   const [selectedPost, setSelectedPost] = useState(null)
-  
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   // Your original posts data
   const [posts] = useState([
     {
       id: '1',
-      title: 'Title 1 of a reddit post',
-      username: "IndianStockMarket",
-      description: "Lorem ndustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centu",
-      profileImage: icons.profile,
-      votes: 0,
-      comments: 1,
+      title: "How do I connect to UTD WiFi on my phone?",
+    username: "NetStudent22",
+    description: "I'm having trouble connecting to 'UTD WiFi' on my Android phone. Every time I try to connect, it keeps asking for authentication. I've tried my NetID and password but it's not working. Any help would be appreciated!",
+    profileImage: icons.profile1,
+    votes: 15,
+    comments: 8,
+      
     },
     {
       id: '2',
-      title: 'Title 2 of a reddit post',
-      username: "wise",
-      description: "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letter",
-      profileImage: icons.profile1,
-      votes: 2,
-      comments: 4,
+      title: "Computer lab software request",
+    username: "LabRat23",
+    description: "Does anyone know if we can request specific software to be installed in the computer labs? I need access to AutoCAD for a project but can't find it on any lab computers.",
+    profileImage: icons.profile5,
+    votes: 7,
+    comments: 4,
       img: [{id:1, uri:images.placeholderImage}, {id:2, uri:images.cards}, {id:3, uri:images.cards}, {id:4, uri:images.cards}],
     },
     {
       id: '3',
-      title: 'Title 3 of a reddit post',
-      username: "fatFire",
-      description: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source",
-      profileImage: icons.profile2,
-      votes: 6,
-      comments: 9,
+      title: 'UTGuest no longer works on Chromebook',
+      username: "IndianStockMarket",
+      description: "I’ve been using the UTDGuest wifi for a couple of years now when I’m in class bc my Chromebook refuses to connect to CometNet lol (I think it’s just a Chromebook issue, I’ve heard a few people talk about the same problem)",
+      profileImage: icons.profile,
+      votes: 0,
+      comments: 1,
       img: [{id:1, uri:images.placeholderImage}],
     },
     {
       id: '4',
-      title: 'Title 4 of a reddit post',
-      username: "aggies",
-      description: "able. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks ",
-      profileImage: icons.profile,
-      votes: 10,
-      comments: 0,
+      title: "eLearning down for maintenance?",
+      username: "ClassAccess404",
+      description: "Is eLearning supposed to be down right now? I'm trying to submit an assignment due tonight but can't access the platform. Getting a maintenance message.",
+      profileImage: icons.profile2,
+      votes: 32,
+      comments: 12,
       img: [{id:1, uri:images.cards}],
     },
     {
       id: '5',
-      title: 'Title 1 of a reddit post',
-      username: "IndianStockMarket",
-      description: "Lorem ndustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centu",
-      profileImage: icons.profile1,
-      votes: 11,
-      comments: 5,
+      title: "Password reset not working",
+    username: "TechComet",
+    description: "I've been trying to reset my password through the NetID management portal but I'm not receiving the reset email. I've checked my spam folder too. What should I do?",
+    profileImage: icons.profile3,
+    votes: 8,
+    comments: 6,
     },
     {
       id: '6',
-      title: 'Title 1 of a reddit post',
-      username: "IndianStockMarket",
-      description: "Lorem ndustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centu",
-      profileImage: icons.profile2,
-      votes: 12,
-      comments: 4,
+      title: "Microsoft Office installation issue",
+      username: "OfficeNinja",
+      description: "When trying to install Microsoft Office through the UTD software center, I keep getting an error code 30125-1711. Has anyone else encountered this issue?",
+      profileImage: icons.profile4,
+      votes: 5,
+      comments: 3,
       img: [{id:1, uri:images.cards}],
     },
     {
       id: '7',
-      title: 'Title 1 of a reddit post',
-      username: "IndianStockMarket",
-      description: "Lorem ndustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centu",
-      profileImage: icons.profile,
-      votes: 15,
-      comments: 9,
+      title: "Zoom recording not showing up",
+    username: "ZoomStudent",
+    description: "My professor said they recorded today's lecture but I can't find it in eLearning. Usually recordings show up within an hour, but it's been 3 hours now. Is there a delay in processing?",
+    profileImage: icons.profile5,
+    votes: 12,
+    comments: 7,
     },
     {
       id: '8',
-      title: 'Title 1 of a reddit post',
-      username: "IndianStockMarket",
-      description: "Lorem ndustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centu",
-      profileImage: icons.profile2,
-      votes: 20,
-      comments: 10,
+      title: "VPN connection drops frequently",
+    username: "RemoteScholar",
+    description: "I'm trying to access library resources from home using the UTD VPN, but the connection keeps dropping every 10-15 minutes. Anyone else experiencing this?",
+    profileImage: icons.profile1,
+    votes: 18,
+    comments: 9,
       img: [{id:1, uri:images.placeholderImage}, {id:2, uri:images.cards}],
     },
     {
       id: '9',
-      title: 'Title 1 of a reddit post',
-      username: "IndianStockMarket",
-      description: "Lorem ndustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centu",
-      profileImage: icons.profile2,
-      votes: 3,
-      comments: 11,
+      title: "Multi-factor authentication not accepting code",
+    username: "SecurityPro",
+    description: "The 2FA system isn't accepting my codes from the Microsoft Authenticator app. I've tried multiple times and made sure the time on my phone is correct.",
+    profileImage: icons.profile2,
+    votes: 25,
+    comments: 11,
       img: [{id:1, uri:images.placeholderImage}],
     },
     {
       id: '10',
-      title: 'Title 1 of a reddit post',
-      username: "IndianStockMarket",
-      description: "Lorem ndustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centu",
-      profileImage: icons.profile,
-      votes: 1,
-      comments: 12,
+      title: "Cannot access Galaxy email",
+    username: "EmailExplorer",
+    description: "Getting a 'Your account has been temporarily locked' message when trying to log into my Galaxy email. I haven't changed anything recently.",
+    profileImage: icons.profile3,
+    votes: 20,
+    comments: 15,
       img: [{id:1, uri:images.placeholderImage}],
     },
   ]);
@@ -230,8 +234,9 @@ const trending = () => {
     setSelectedPost(item);
     setShowComments(true);
   };
-
+  
   return (
+    
     <SafeAreaView style={{backgroundColor: '#E4D3BA'}} className="flex-1">
       {/* Header */}
       <View style={{backgroundColor: '#672557'}} className="justify-end items-start w-full rounded-b-3xl pt-24 pb-2 pl-4">
@@ -246,11 +251,15 @@ const trending = () => {
             placeholder="Search for a post"
             value={searchQuerry}
             onChangeText={(e)=> setSearchQuerry(e)}
-          />
-          <Image 
+          />{/*
+          
+                    <Image 
             className="absolute left-2 top-3 w-4 h-4"
             source={icons.search}
           />
+          
+          */}
+
           {searchQuerry && (
             <Pressable
               className="absolute left-[157px] top-[13px]"
@@ -268,52 +277,14 @@ const trending = () => {
 
       {/* Sort Dropdown */}
       <View className="px-3 mt-5">
-        <SortDropdown onSortChange={handleSort} />
+        <SortDropdown 
+          onSortChange={handleSort}
+          onDropdownToggle={(isOpen) => setDropdownOpen(isOpen)}
+        />
       </View>
 
       {/* Horizontal ScrollView for posts */}
-      <View className="flex flex-col space-y-2">
-        <ScrollView 
-          className="h-1/6 w-full" 
-          contentContainerStyle={{
-            display: "flex", 
-            justifyContent: "center", 
-            alignItems: "center",
-            paddingLeft: 10,
-            gap: 10,
-            paddingRight: 10
-          }} 
-          horizontal
-        >
-          {posts.map((element) => (
-            <Pressable 
-              key={element.id}
-              onPress={() => handlePostPress(element)}
-              className="relative h-32 w-24"
-            >
-              <View style={{backgroundColor: '#D2BE92'}} className="h-full w-full rounded-xl overflow-hidden">
-                {element.img ? (
-                  <Image 
-                    source={element.img[0].uri}
-                    className="h-full w-full"
-                    resizeMode="cover"
-                  />
-                ) : (
-                  <View className="h-full w-full items-center justify-center">
-                    <Icon name="image" type="feather" size={24} color="#23603F" />
-                  </View>
-                )}
-              </View>
-              <Text 
-                numberOfLines={2}
-                className="absolute bottom-1 right-1 left-1 text-xs text-white text-center bg-black bg-opacity-50 rounded p-1"
-              >
-                {element.title}
-              </Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-      </View>
+
 
       <Divider 
         style={{backgroundColor: '#B1A180'}}
@@ -322,6 +293,7 @@ const trending = () => {
 
       {/* Posts List */}
       <FlatList
+      
         contentContainerStyle={{display:"flex", justifyContent:"center", alignItems:"center"}}
         className="p-5 h-80"
         data={posts}
