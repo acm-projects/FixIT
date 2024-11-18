@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import {  Text, View, SafeAreaView, Image, ScrollView, Pressable } from 'react-native'
+import React from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { Divider } from '@rneui/base'
 import { Icon } from '@rneui/themed'
-import Comments from '../components/commentSection'
+import CommentSection from '../components/comSection'
+import { commentsData } from '../components/commentsData'
 
 const PostDetail = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   const params = useLocalSearchParams();
   const postData = JSON.parse(params.data);
 
@@ -69,11 +69,10 @@ const PostDetail = () => {
             </Pressable>
           </View>
 
-          {/* Comments Button */}
-          <Pressable 
+          {/* Comments Count */}
+          <View 
             style={{borderColor: '#B1A180', backgroundColor: '#D2BE92'}}
             className="flex-row items-center space-x-2 px-4 py-2 rounded-2xl border"
-            onPress={() => setModalVisible(true)}
           >
             <Icon
               name="message-circle"
@@ -81,19 +80,17 @@ const PostDetail = () => {
               size={20}
               color="#23603F"
             />
-            <Text style={{color: '#23603F'}} className="text-base">{postData.comments} Comments</Text>
-          </Pressable>
+            <Text style={{color: '#23603F'}} className="text-base">
+              {commentsData[postData.id]?.length || 0} Comments
+            </Text>
+          </View>
         </View>
 
         <Divider width={1} color="#B1A180" className="mb-4"/>
-      </ScrollView>
 
-      {/* Comments Modal */}
-      <Comments 
-        isVisible={modalVisible} 
-        onClose={() => setModalVisible(false)}
-        postId={postData.id}
-      />
+        {/* Comment Section - Notice how we pass the postData.id */}
+        <CommentSection postId={postData.id} />
+      </ScrollView>
     </SafeAreaView>
   )
 }

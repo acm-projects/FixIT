@@ -94,7 +94,7 @@ const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
       <Overlay
         isVisible={menuVisible}
         onBackdropPress={() => setMenuVisible(false)}
-        overlayStyle={tw`absolute right-5 top-10 w-auto p-2.5 rounded-lg`}
+        overlayStyle={tw`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto p-2.5 rounded-lg`}
       >
         <Button
           title="Save Post"

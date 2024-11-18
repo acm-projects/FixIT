@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { ScrollView } from 'react-native';
 import { Text } from '@rneui/themed';
+import { useRouter } from 'expo-router';
 import { ProfileContext } from '../ProfileContext';
 import { icons, images } from "../../constants";
 import FeedOITComponent from '../../components/FeedOITComponent.jsx';

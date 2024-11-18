@@ -1,10 +1,10 @@
-import { React, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useFonts } from "expo-font";
-import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
 import { Stack, SplashScreen } from "expo-router";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ProfileProvider } from './ProfileContext'; // Import ProfileProvider
-
+import ProfileProvider from './ProfileContext'; // Correct Import
+import { PostsProvider } from './PostContext';
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
@@ -31,39 +31,30 @@ const RootLayout = () => {
     return null;
   }
 
-  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   if (!publishableKey) {
-    throw new Error('Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file')
+    throw new Error('Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file');
   }
 
   return (
-    <ClerkProvider publishableKey={publishableKey}>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ProfileProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(postDetail)" options={{ headerShown: false }} />
-          <Stack.Screen 
-            name="profile" 
-            options={{ 
-              headerShown: false,
-              presentation: 'modal'
-            }} 
-          />
-          <Stack.Screen 
-            name="editProfile" 
-            options={{ 
-              headerShown: false,
-              presentation: 'modal'
-            }} 
-          />
-        </Stack>
+        <PostsProvider>
+        <ClerkProvider publishableKey={publishableKey}>
+        <Stack screenOptions={{ headerShown: false }}>
+  <Stack.Screen name="index" />
+  <Stack.Screen name="auth" />
+  <Stack.Screen name="tabs" />
+  <Stack.Screen name="postDetail" />
+  <Stack.Screen name="profile" options={{ presentation: 'modal' }} />
+  <Stack.Screen name="editProfile" options={{ presentation: 'modal' }} />
+</Stack>
+
+        </ClerkProvider>
+       </ PostsProvider>
       </ProfileProvider>
     </GestureHandlerRootView>
-    </ClerkProvider>
   );
 };
 

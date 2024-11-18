@@ -7,7 +7,7 @@ import tw from 'twrnc';
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { profile, savedPosts } = useProfile();
+  const { profile, savedPosts, setSavedPosts } = useProfile();
   const handleRemoveSavedPost = (postTitle) => {
     setSavedPosts(prevPosts => prevPosts.filter(post => post.title !== postTitle));
   };
