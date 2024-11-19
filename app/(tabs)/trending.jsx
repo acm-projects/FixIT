@@ -7,6 +7,7 @@ import { Divider } from '@rneui/base';
 import { router } from 'expo-router';
 import Comments from '../../components/commentSection';
 import { usePosts } from '../PostContext';
+import tw from 'twrnc';
 const SORT_OPTIONS = [
   { label: 'Most Votes', value: 'votes' },
   { label: 'Most Recent', value: 'recent' },
@@ -174,9 +175,11 @@ const Trending = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#E4D3BA' }}>
-      <View style={{ backgroundColor: '#672557' }} className="justify-end items-start w-full rounded-b-3xl pt-24 pb-2 pl-4">
-        <Text className="text-4xl font-bold text-white">Community Forum</Text>
-      </View>
+      <ScrollView>
+
+      <Text style={tw`h-12 text-white text-2xl font-bold text-center py-2 mb-4 w-100 bg-[#4A1B3D]`}>
+      Community Forum
+</Text>
 
       <View className="flex flex-row space-x-36 items-center p-2 w-full">
         <View className="w-1/2">
@@ -201,6 +204,7 @@ const Trending = () => {
       <SortDropdown onSortChange={handleSort} />
 
       <FlatList
+      
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
@@ -213,6 +217,8 @@ const Trending = () => {
           postId={selectedPost.id}
         />
       )}
+      </ScrollView>
+      
     </SafeAreaView>
   );
 };

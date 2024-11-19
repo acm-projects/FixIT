@@ -89,7 +89,7 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 color={focused ? '#23603F' : '#888'}
-                focused={focused}
+                imgStyle="w-5 h-5"
                 icon={icons.home}
               />
             )
@@ -105,7 +105,7 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 color={focused ? '#23603F' : '#888'}
-                focused={focused}
+                imgStyle="w-5 h-5"
                 icon={icons.chat}
               />
             )
@@ -121,9 +121,8 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 color={focused ? '#23603F' : '#888'}
-                focused={focused}
                 icon={icons.plus}
-                imgStyle="w-10 h-10"
+                imgStyle="w-5 h-5"
                 viewStyle="pt-5"
               />
             )
@@ -139,8 +138,7 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 color={focused ? '#23603F' : '#888'}
-                
-                focused={focused}
+                imgStyle="w-5 h-5"
                 icon={icons.trending}
               />
             )
@@ -156,7 +154,7 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 color={focused ? '#23603F' : '#888'}
-                focused={focused}
+                imgStyle="w-5 h-5"
                 icon={icons.phone}
               />
             )

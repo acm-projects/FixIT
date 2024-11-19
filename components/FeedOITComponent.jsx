@@ -116,7 +116,7 @@ const FeedOITComponent = ({ title, tags, preview, content, picture }) => {
       <Overlay
         isVisible={modalVisible}
         onBackdropPress={handleCloseModal}
-        overlayStyle={tw`w-[90%] max-h-[80%] rounded-lg p-5`}
+        overlayStyle={tw`w-[90%] bg-[#E4D3BA] max-h-[80%] rounded-lg p-5`}
       >
         <ScrollView>
           <Text h3 style={tw`mb-4 text-center font-bold`}>

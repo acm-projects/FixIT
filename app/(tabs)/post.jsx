@@ -9,6 +9,7 @@ import RippleButton from '../../components/RippleButton'
 import { useProfile } from '../ProfileContext'  // Adjust path as needed
 import { usePosts} from '../PostContext'      // Adjust path as needed
 import { useRouter } from 'expo-router'
+import tw from 'twrnc';
 
 const Post = () => {
   const router = useRouter();
@@ -86,17 +87,15 @@ const Post = () => {
 
   return (
     <>
-      <View className="flex bg-secondary-200 rounded-b-3xl pt-24 pb-2 pl-4 items-start justify-center">
-        <Text className="text-5xl">Post an Issue</Text>
-        <Text className="text-xl">Facing an Issue? Let others know.</Text>
-      </View>
-
       <ScrollView
         contentContainerStyle={{ flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "70" }}
         className="pb-20 px-2 pt-10"
         automaticallyAdjustKeyboardInsets={true}
         keyboardShouldPersistTaps='handled'
       >
+        <Text style={tw`h-12 text-white text-2xl font-bold text-center py-2 mb-4 w-100 bg-[#4A1B3D]`}>
+        Post an Issue
+        </Text>
         <PostInput
           title="Title"
           description={"Be specific and imagine you're asking a question to another person"}
